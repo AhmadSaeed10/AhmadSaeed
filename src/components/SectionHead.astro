@@ -1,0 +1,17 @@
+---
+interface Props { index?: string; label: string; heading: string; intro?: string; id?: string; level?: 'h1' | 'h2' }
+const { index, label, heading, intro, id, level = 'h2' } = Astro.props;
+const H = level;
+---
+<div class="head">
+  <p class="label">{index && <span class="idx">{index}</span>}{label}</p>
+  <H id={id} class="title">{heading}</H>
+  {intro && <p class="intro">{intro}</p>}
+</div>
+
+<style>
+  .head { display: grid; gap: var(--s-4); margin-bottom: var(--s-7); max-width: 48rem; }
+  .idx { color: var(--c-accent); margin-right: var(--s-3); font-variant-numeric: tabular-nums; }
+  .title { font-size: var(--fs-2xl); line-height: 1.1; }
+  .intro { font-size: var(--fs-md); color: var(--c-ink-2); max-width: var(--measure); }
+</style>

@@ -1,0 +1,203 @@
+---
+import { Picture, getImage } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Todo from '@/components/Todo.astro';
+import { getFeaturedProjects } from '@/lib/content';
+import { caseStudySchema } from '@/lib/schema';
+import { hostname, isTodo } from '@/lib/format';
+
+export async function getStaticPaths() {
+  const projects = await getFeaturedProjects();
+  return projects.map((project, i) => ({
+    params: { slug: project.id },
+    props: { project, next: projects[(i + 1) % projects.length] },
+  }));
+}
+
+const { project, next } = Astro.props;
+const d = project.data;
+const canonical = new URL(`/work/${project.id}`, Astro.site).href;
+const cover = d.cover ? await getImage({ src: d.cover, width: 1200, format: 'jpg' }) : undefined;
+const jsonLd = [caseStudySchema(Astro.site!, canonical, d, cover ? new URL(cover.src, Astro.site).href : undefined)];
+const title = `${d.client} case study: ${d.title} | Ahmad Saeed`;
+---
+<BaseLayout title={title} description={d.summary.slice(0, 160)} ogKey={`work-${project.id}`} type="article" jsonLd={jsonLd}>
+  <div class="progress" aria-hidden="true"><span data-progress></span></div>
+
+  <article class="case" data-case-study={project.id}>
+    <header class="container intro">
+      <nav aria-label="Breadcrumb" class="crumbs">
+        <ol><li><a href="/#work">Work</a></li><li aria-current="page">{d.client}</li></ol>
+      </nav>
+      <p class="label">{d.client}</p>
+      <h1>{d.title}</h1>
+      <p class="summary">{d.summary}</p>
+    </header>
+
+    <div class="container layout">
+      <aside class="meta" aria-label="Project details">
+        <dl>
+          <div><dt>Role</dt><dd>{d.role}</dd></div>
+          <div><dt>Timeline</dt><dd>{d.timeline}</dd></div>
+          <div><dt>Platform</dt><dd>{d.platform}</dd></div>
+          {d.theme && <div><dt>Theme</dt><Todo as="dd" value={d.theme} /></div>}
+          <div><dt>Scope</dt><dd>{d.scope}</dd></div>
+          {d.tools.length > 0 && <div><dt>Tools</dt><dd>{d.tools.join(', ')}</dd></div>}
+          <div>
+            <dt>Live site</dt>
+            <dd>
+              {d.url ? (
+                <a href={d.url} rel="noopener noreferrer" target="_blank" class="visit" data-track="outbound_click" data-track-label={`case_visit_${hostname(d.url)}`}>
+                  Visit site<span class="visually-hidden">: {hostname(d.url)} (opens in a new tab)</span> <span aria-hidden="true">&nearr;</span>
+                </a>
+              ) : <span class="todo">TODO: add live link</span>}
+            </dd>
+          </div>
+        </dl>
+      </aside>
+
+      <div class="content">
+        {d.cover && (
+          <figure class="cover">
+            <Picture src={d.cover} alt={d.coverAlt ?? ''} formats={['avif', 'webp']} widths={[480, 800, 1200, 1600]} sizes="(min-width: 64rem) 52rem, 100vw" loading="eager" fetchpriority="high" />
+          </figure>
+        )}
+
+        <section aria-labelledby="overview">
+          <h2 id="overview">Overview</h2>
+          <Todo as="p" value={d.overview} />
+        </section>
+
+        <section aria-labelledby="challenge">
+          <h2 id="challenge">Challenge</h2>
+          <Todo as="p" value={d.challenge} />
+        </section>
+
+        <section aria-labelledby="approach">
+          <h2 id="approach">What I did</h2>
+          <ol class="steps">
+            {d.approach.map((step, i) => (
+              <li>
+                <span class="n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <div><h3>{step.title}</h3><p>{step.text}</p></div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section aria-labelledby="outcome">
+          <h2 id="outcome">Outcome</h2>
+          {d.results.length > 0 && (
+            <dl class="results">{d.results.map((r) => <div><dt>{r.value}</dt><dd>{r.label}</dd></div>)}</dl>
+          )}
+          <Todo as="p" value={d.outcome} fallback="TODO: add result" />
+        </section>
+
+        {d.gallery.length > 0 && (
+          <section aria-labelledby="gallery">
+            <h2 id="gallery">Screens</h2>
+            <div class="gallery">
+              {d.gallery.map((g) => (
+                <figure>
+                  <Picture src={g.src} alt={g.alt} formats={['avif', 'webp']} widths={[480, 800, 1200]} sizes="(min-width: 64rem) 26rem, 100vw" loading="lazy" />
+                  {g.caption && <figcaption>{isTodo(g.caption) ? <span class="todo">{g.caption}</span> : g.caption}</figcaption>}
+                </figure>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="cta-block" aria-labelledby="cta-title">
+          <h2 id="cta-title">Planning something similar?</h2>
+          <p>Tell me about your store and what you want it to do better.</p>
+          <a href="/contact" class="btn btn-primary btn-lg" data-track="cta_click" data-track-label={`case_${project.id}_work_with_me`}>Work with me <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        </section>
+      </div>
+    </div>
+
+    {next && next.id !== project.id && (
+      <nav class="container next" aria-label="Next case study">
+        <a href={`/work/${next.id}`}>
+          <span class="label">Next case study</span>
+          <span class="next-title">{next.data.client} <span aria-hidden="true">&rarr;</span></span>
+        </a>
+      </nav>
+    )}
+  </article>
+</BaseLayout>
+
+<script>
+  const el = document.querySelector<HTMLElement>('[data-case-study]');
+  if (el) (window as any).track?.('case_study_view', { case_study: el.dataset.caseStudy, page_path: location.pathname });
+
+  // JS fallback for the progress bar where scroll-driven animations are unsupported.
+  const bar = document.querySelector<HTMLElement>('[data-progress]');
+  if (bar && !CSS.supports('animation-timeline: scroll()')) {
+    const update = () => {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+    };
+    addEventListener('scroll', update, { passive: true });
+    update();
+  }
+</script>
+
+<style>
+  .progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 60; pointer-events: none; }
+  .progress span { display: block; height: 100%; background: var(--c-accent); transform-origin: 0 50%; transform: scaleX(0); }
+  @supports (animation-timeline: scroll()) {
+    .progress span { animation: grow linear both; animation-timeline: scroll(root); }
+  }
+  @keyframes grow { to { transform: scaleX(1); } }
+
+  .intro { padding-block: var(--s-7) var(--s-8); display: grid; gap: var(--s-4); }
+  .crumbs ol { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); list-style: none; padding: 0; font-size: var(--fs-sm); color: var(--c-ink-3); }
+  .crumbs li + li::before { content: '/'; margin-right: var(--s-2); }
+  .crumbs a { display: inline-flex; min-height: var(--tap); align-items: center; }
+  h1 { font-size: var(--fs-2xl); line-height: 1.05; max-width: 20em; letter-spacing: -0.025em; }
+  .summary { font-size: var(--fs-md); color: var(--c-ink-2); max-width: var(--measure); }
+
+  .layout { display: grid; gap: var(--s-7); padding-bottom: var(--section-y); }
+  @media (min-width: 64rem) {
+    .layout { grid-template-columns: 15rem 1fr; gap: var(--s-8); }
+    .meta { position: sticky; top: calc(var(--header-h) + var(--s-5)); align-self: start; }
+  }
+  .meta dl { display: grid; gap: var(--s-4); border-top: 1px solid var(--c-ink); padding-top: var(--s-4); }
+  @media (max-width: 63.99rem) { .meta dl { grid-template-columns: 1fr 1fr; } }
+  .meta dt { font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--c-ink-3); }
+  .meta :global(dd) { font-size: var(--fs-sm); margin-top: 2px; }
+  .visit { display: inline-flex; align-items: center; gap: var(--s-1); min-height: var(--tap); color: var(--c-accent); font-weight: 600; text-decoration: none; }
+  .visit:hover { text-decoration: underline; }
+
+  .content { display: grid; gap: var(--s-8); min-width: 0; }
+  .content > section { max-width: 44rem; }
+  .content h2 { font-size: var(--fs-xl); margin-bottom: var(--s-4); }
+  .content > section > :global(p) { color: var(--c-ink-2); font-size: var(--fs-md); }
+  .cover { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--c-rule); }
+
+  .steps { list-style: none; padding: 0; border-top: 1px solid var(--c-rule); }
+  .steps li { display: grid; grid-template-columns: 2.5rem 1fr; gap: var(--s-4); padding-block: var(--s-5); border-bottom: 1px solid var(--c-rule); }
+  .n { color: var(--c-accent); font-weight: 600; font-size: var(--fs-sm); padding-top: 0.3em; }
+  .steps h3 { font-family: var(--font-text); font-size: var(--fs-base); font-weight: 600; letter-spacing: 0; }
+  .steps p { color: var(--c-ink-2); margin-top: var(--s-1); }
+
+  .results { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: var(--s-5); margin-bottom: var(--s-5); }
+  .results dt { font-family: var(--font-display); font-size: var(--fs-2xl); line-height: 1; }
+  .results dd { color: var(--c-ink-3); font-size: var(--fs-sm); margin-top: var(--s-2); }
+
+  .content > section:has(.gallery) { max-width: none; }
+  .gallery { display: grid; gap: var(--s-5); }
+  @media (min-width: 48rem) { .gallery { grid-template-columns: 1fr 1fr; } }
+  .gallery figure { display: grid; gap: var(--s-2); }
+  .gallery :global(img) { border-radius: var(--radius); border: 1px solid var(--c-rule); }
+  figcaption { font-size: var(--fs-sm); color: var(--c-ink-3); }
+
+  .cta-block { padding: var(--s-7); background: var(--c-surface-2); border-radius: var(--radius); display: grid; gap: var(--s-4); justify-items: start; }
+  .cta-block h2 { margin: 0; }
+  .cta-block p { color: var(--c-ink-2); }
+
+  .next { padding-bottom: var(--section-y); }
+  .next a { display: grid; gap: var(--s-2); padding-top: var(--s-5); border-top: 1px solid var(--c-ink); text-decoration: none; }
+  .next-title { font-family: var(--font-display); font-size: var(--fs-2xl); }
+  .next a:hover .next-title { color: var(--c-accent); }
+</style>

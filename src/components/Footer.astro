@@ -1,0 +1,47 @@
+---
+import { site, phone } from '@/config/site';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container grid">
+    <div class="intro">
+      <p class="wordmark">Ahmad Saeed</p>
+      <p class="muted">{site.title}. {site.secondaryTitle}.</p>
+      <p class="muted">{site.contact.location} ({site.contact.timezone})</p>
+    </div>
+    <nav aria-label="Footer">
+      <p class="label">Site</p>
+      <ul>
+        <li><a href="/">Home</a></li>
+        {site.nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div>
+      <p class="label">Contact</p>
+      <ul>
+        <li><a href={`mailto:${site.contact.email}`} data-track="cta_click" data-track-label="footer_email">{site.contact.email}</a></li>
+        <li><a href={site.contact.linkedin} rel="noopener noreferrer" target="_blank" data-track="linkedin_click" data-track-label="footer">LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+        {phone && <li><a href={`tel:${phone.replace(/\s/g, '')}`}>{phone}</a></li>}
+      </ul>
+    </div>
+  </div>
+  <div class="container base">
+    <p class="muted">&copy; {year} Ahmad Saeed. All rights reserved.</p>
+    <a href="#top" class="to-top">Back to top <span aria-hidden="true">&uarr;</span></a>
+  </div>
+</footer>
+
+<style>
+  .site-footer { border-top: 1px solid var(--c-rule); padding-block: var(--s-8) var(--s-6); font-size: var(--fs-sm); }
+  .grid { display: grid; gap: var(--s-6); }
+  @media (min-width: 48rem) { .grid { grid-template-columns: 2fr 1fr 1.4fr; } }
+  .wordmark { font-family: var(--font-display); font-size: var(--fs-lg); margin-bottom: var(--s-2); }
+  .muted { color: var(--c-ink-3); }
+  .label { margin-bottom: var(--s-2); }
+  ul { list-style: none; padding: 0; }
+  li a { display: inline-flex; align-items: center; min-height: var(--tap); text-decoration: none; color: var(--c-ink-2); }
+  li a:hover { color: var(--c-accent); text-decoration: underline; }
+  .base { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--s-4); margin-top: var(--s-7); padding-top: var(--s-5); border-top: 1px solid var(--c-rule); }
+  .to-top { display: inline-flex; align-items: center; gap: var(--s-2); min-height: var(--tap); text-decoration: none; font-weight: 600; }
+</style>

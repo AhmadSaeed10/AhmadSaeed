@@ -1,0 +1,5 @@
+{
+  "group": "Analytics and tracking",
+  "order": 3,
+  "items": ["GA4", "Google Tag Manager", "Meta Pixel", "Google Ads conversion tracking", "Google Merchant Center", "Hotjar", "Microsoft Clarity", "Google PageSpeed Insights", "Data attribution", "Performance reporting"]
+}

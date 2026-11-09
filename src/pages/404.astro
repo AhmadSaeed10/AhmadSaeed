@@ -1,0 +1,20 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+<BaseLayout title="Page not found | Ahmad Saeed" description="The page you were looking for does not exist." ogKey="home" noindex stickyCta={false}>
+  <section class="container wrap" aria-labelledby="nf-title">
+    <p class="label">404</p>
+    <h1 id="nf-title">This page does not exist.</h1>
+    <p class="lede">The link may be out of date, or the address may have a typo.</p>
+    <div class="ctas">
+      <a href="/" class="btn btn-primary btn-lg">Go to the home page</a>
+      <a href="/#work" class="btn btn-secondary btn-lg">View work</a>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .wrap { display: grid; gap: var(--s-5); padding-block: var(--s-10); }
+  h1 { font-size: var(--fs-2xl); line-height: 1.05; }
+  .lede { color: var(--c-ink-2); font-size: var(--fs-md); }
+  .ctas { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-4); }
+</style>

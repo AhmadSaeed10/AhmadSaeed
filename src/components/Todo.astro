@@ -1,0 +1,9 @@
+---
+/** Renders text, or a visibly marked placeholder when the value is missing or starts with TODO. */
+import { isTodo } from '@/lib/format';
+interface Props { value?: string; fallback?: string; as?: 'p' | 'span' | 'dd' }
+const { value, fallback = 'TODO: add content', as = 'span' } = Astro.props;
+const Tag = as;
+const todo = isTodo(value);
+---
+{todo ? <Tag><span class="todo">{value || fallback}</span></Tag> : <Tag>{value}</Tag>}

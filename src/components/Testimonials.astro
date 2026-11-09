@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatYearMonth } from '@/lib/format';
+interface Props { items: CollectionEntry<'testimonials'>[] }
+const { items } = Astro.props;
+---
+<div class="quotes">
+  {items.map(({ data: t }) => (
+    <figure class="quote reveal">
+      <blockquote><p>{t.quote}</p></blockquote>
+      <figcaption>
+        <span class="name">{t.name}</span>
+        <span class="role">{t.role}</span>
+        <span class="meta">{t.relationship}, <time datetime={t.date}>{formatYearMonth(t.date)}</time></span>
+      </figcaption>
+    </figure>
+  ))}
+</div>
+
+<style>
+  .quotes { display: grid; gap: var(--s-8); }
+  @media (min-width: 60rem) { .quotes { grid-template-columns: 1fr 1fr; gap: var(--s-7); } }
+  .quote { display: grid; gap: var(--s-5); align-content: start; }
+  blockquote p {
+    font-family: var(--font-display); font-size: var(--fs-lg); line-height: 1.35; letter-spacing: -0.005em;
+  }
+  blockquote p::before { content: '\201C'; color: var(--c-accent); }
+  blockquote p::after { content: '\201D'; color: var(--c-accent); }
+  figcaption { display: grid; gap: 2px; padding-top: var(--s-4); border-top: 1px solid var(--c-rule); font-size: var(--fs-sm); }
+  .name { font-weight: 600; }
+  .role, .meta { color: var(--c-ink-3); }
+</style>

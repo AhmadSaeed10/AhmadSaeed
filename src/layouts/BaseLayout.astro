@@ -1,0 +1,101 @@
+---
+import '@/styles/base.css';
+import '@/styles/print.css';
+import interUrl from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import newsreaderUrl from '@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2?url';
+
+// Self-hosted variable fonts, Latin subset only, swap to avoid invisible text.
+const fontFaces = `
+@font-face{font-family:'Inter Variable';font-style:normal;font-display:swap;font-weight:100 900;src:url(${interUrl}) format('woff2-variations');}
+@font-face{font-family:'Newsreader Variable';font-style:normal;font-display:swap;font-weight:200 800;src:url(${newsreaderUrl}) format('woff2-variations');}
+`;
+import Seo from '@/components/Seo.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import StickyCta from '@/components/StickyCta.astro';
+import { gtmId } from '@/config/site';
+
+interface Props {
+  title: string;
+  description: string;
+  ogKey?: string;
+  type?: 'website' | 'article' | 'profile';
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>[];
+  stickyCta?: string | false;
+}
+const { stickyCta = '/contact', ...seo } = Astro.props;
+---
+<!doctype html>
+<html lang="en-GB" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Theme set before first paint: stored choice, else system preference. -->
+    <script is:inline>
+      (function () {
+        var t = null;
+        try { t = localStorage.getItem('theme'); } catch (e) {}
+        if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.dataset.theme = t;
+      })();
+    </script>
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1114" media="(prefers-color-scheme: dark)" />
+    <link rel="preload" href={interUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={newsreaderUrl} as="font" type="font/woff2" crossorigin />
+    <style is:inline set:html={fontFaces}></style>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <Seo {...seo} />
+
+    <!-- Analytics: dataLayer events always queue; GTM loads after the page is idle, only when configured. -->
+    <script is:inline define:vars={{ gtmId }}>
+      window.dataLayer = window.dataLayer || [];
+      window.track = function (event, params) {
+        window.dataLayer.push(Object.assign({ event: event }, params || {}));
+      };
+      document.addEventListener('click', function (e) {
+        var el = e.target.closest && e.target.closest('[data-track]');
+        if (!el) return;
+        window.track(el.getAttribute('data-track'), {
+          label: el.getAttribute('data-track-label') || (el.textContent || '').trim().slice(0, 80),
+          link_url: el.href || undefined,
+          page_path: location.pathname,
+        });
+      });
+      if (gtmId) {
+        var load = function () {
+          window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtm.js?id=' + gtmId;
+          document.head.appendChild(s);
+        };
+        var idle = function () { ('requestIdleCallback' in window) ? requestIdleCallback(load, { timeout: 3000 }) : setTimeout(load, 1500); };
+        document.readyState === 'complete' ? idle() : addEventListener('load', idle, { once: true });
+      }
+    </script>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    {stickyCta && <StickyCta href={stickyCta} />}
+  </body>
+</html>
+
+<style>
+  .skip-link {
+    position: absolute; left: var(--s-4); top: var(--s-3); z-index: 100;
+    padding: var(--s-3) var(--s-4); border-radius: var(--radius);
+    background: var(--c-ink); color: var(--c-bg); font-weight: 600; text-decoration: none;
+    transform: translateY(-200%);
+  }
+  .skip-link:focus { transform: none; }
+  main:focus { outline: none; }
+</style>

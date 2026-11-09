@@ -1,0 +1,74 @@
+---
+import { site } from '@/config/site';
+interface Props {
+  eyebrow?: string; heading: string; lede?: string;
+  proof?: { value: string; label: string }[];
+}
+const { eyebrow, heading, lede, proof = [] } = Astro.props;
+---
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container">
+    {site.availability.show && (
+      <p class="badge"><span class="dot" aria-hidden="true"></span>{site.availability.label}</p>
+    )}
+    <h1 id="hero-title" class="name">{heading}</h1>
+    {eyebrow && <p class="role">{eyebrow}</p>}
+    {lede && <p class="lede">{lede}</p>}
+    <div class="ctas" data-hide-sticky>
+      <a href="/contact" class="btn btn-primary btn-lg" data-track="cta_click" data-track-label="hero_work_with_me">Work with me <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      <a href="#work" class="btn btn-secondary btn-lg" data-track="cta_click" data-track-label="hero_view_work">View work</a>
+    </div>
+    {proof.length > 0 && (
+      <dl class="proof">
+        {proof.map((p) => (
+          <div>
+            <dt>{p.value}</dt>
+            <dd>{p.label}</dd>
+          </div>
+        ))}
+      </dl>
+    )}
+  </div>
+</section>
+
+<style>
+  .hero { padding-block: clamp(3rem, 2rem + 6vw, 7rem) var(--s-8); }
+  .badge {
+    display: inline-flex; align-items: center; gap: var(--s-2);
+    padding: 0.35rem 0.85rem; border: 1px solid var(--c-rule-strong); border-radius: var(--radius-pill);
+    font-size: var(--fs-xs); font-weight: 600; color: var(--c-ink-2);
+    margin-bottom: var(--s-6);
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c-success); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-success) 22%, transparent); }
+  .name {
+    font-size: var(--fs-3xl); line-height: 0.95; letter-spacing: -0.035em; font-weight: 400;
+  }
+  .role {
+    margin-top: var(--s-5);
+    font-size: var(--fs-sm); font-weight: 600; letter-spacing: var(--tracking-label); text-transform: uppercase;
+    color: var(--c-ink-3); max-width: 52rem;
+  }
+  .lede {
+    margin-top: var(--s-6);
+    font-family: var(--font-display); font-size: var(--fs-xl); line-height: 1.2; letter-spacing: -0.01em;
+    max-width: 22em; color: var(--c-ink);
+  }
+  .ctas { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-7); }
+  .proof {
+    display: grid; gap: var(--s-5); margin-top: var(--s-9); padding-top: var(--s-5);
+    border-top: 1px solid var(--c-ink);
+  }
+  .proof div { display: grid; gap: var(--s-1); }
+  .proof dt { font-family: var(--font-display); font-size: var(--fs-lg); }
+  .proof dd { color: var(--c-ink-3); font-size: var(--fs-sm); max-width: 22rem; }
+  @media (min-width: 48rem) {
+    .proof { grid-template-columns: repeat(3, 1fr); gap: var(--s-6); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .name, .role, .lede, .ctas { animation: rise var(--dur-slow) var(--ease) both; }
+    .role { animation-delay: 60ms; }
+    .lede { animation-delay: 120ms; }
+    .ctas { animation-delay: 180ms; }
+  }
+  @keyframes rise { from { transform: translateY(10px); } to { transform: none; } }
+</style>

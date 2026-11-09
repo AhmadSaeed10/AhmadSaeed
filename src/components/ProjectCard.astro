@@ -1,0 +1,48 @@
+---
+import { Picture } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+interface Props { project: CollectionEntry<'projects'>; index: number; eager?: boolean }
+const { project, index, eager = false } = Astro.props;
+const d = project.data;
+const href = `/work/${project.id}`;
+---
+<article class="card reveal">
+  <div class="media">
+    {d.cover && (
+      <Picture
+        src={d.cover}
+        alt=""
+        formats={['avif', 'webp']}
+        widths={[480, 800, 1200]}
+        sizes="(min-width: 60rem) 34rem, 100vw"
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+      />
+    )}
+  </div>
+  <div class="text">
+    <p class="meta"><span class="num">{String(index + 1).padStart(2, '0')}</span>{d.client}<span aria-hidden="true">·</span>{d.theme && !d.theme.startsWith('TODO') ? `${d.theme} theme` : d.platform}<span aria-hidden="true">·</span>{d.timeline}</p>
+    <h3><a href={href} data-track="cta_click" data-track-label={`case_study_card_${project.id}`}>{d.title}</a></h3>
+    <p class="summary">{d.summary}</p>
+    <span class="link-arrow" aria-hidden="true">Read case study <span class="arrow">&rarr;</span></span>
+  </div>
+</article>
+
+<style>
+  .card { position: relative; display: grid; gap: var(--s-5); align-content: start; }
+  .media { display: block; overflow: hidden; border-radius: var(--radius); border: 1px solid var(--c-rule); background: var(--c-surface-2); aspect-ratio: 16 / 10; }
+  .media :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-slow) var(--ease); }
+  .card:hover .media :global(img) { transform: scale(1.02); }
+  .text { display: grid; gap: var(--s-3); }
+  .meta { display: flex; flex-wrap: wrap; gap: var(--s-2); font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--c-ink-3); }
+  .num { color: var(--c-accent); margin-right: var(--s-1); }
+  h3 { font-size: var(--fs-lg); line-height: 1.2; }
+  h3 a { text-decoration: none; }
+  /* Whole card is clickable via the heading link (single tab stop). */
+  h3 a::after { content: ''; position: absolute; inset: 0; }
+  .card:hover h3 a { color: var(--c-accent); }
+  .summary { color: var(--c-ink-2); }
+  .link-arrow { min-height: auto; }
+  .card:hover .arrow { transform: translateX(3px); }
+  .arrow { display: inline-block; transition: transform var(--dur-fast) var(--ease); }
+</style>

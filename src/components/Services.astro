@@ -1,0 +1,47 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { core: CollectionEntry<'services'>[]; secondary: CollectionEntry<'services'>[] }
+const { core, secondary } = Astro.props;
+---
+<ol class="services">
+  {core.map((s, i) => (
+    <li class="service reveal">
+      <span class="num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+      <h3><a href={`/services#${s.id}`}>{s.data.title}</a></h3>
+      <p>{s.data.summary}</p>
+    </li>
+  ))}
+</ol>
+<div class="also">
+  <p class="label">Also available</p>
+  <ul>
+    {secondary.map((s) => <li><a href={`/services#${s.id}`}>{s.data.title}</a></li>)}
+  </ul>
+</div>
+<div class="cta">
+  <a href="/services" class="btn btn-primary btn-lg" data-track="cta_click" data-track-label="home_services_see_services">See services and deliverables <span class="arrow" aria-hidden="true">&rarr;</span></a>
+</div>
+
+<style>
+  .services { list-style: none; padding: 0; display: grid; border-top: 1px solid var(--c-ink); }
+  @media (min-width: 48rem) { .services { grid-template-columns: 1fr 1fr; } }
+  .service {
+    position: relative; display: grid; gap: var(--s-3); align-content: start;
+    padding: var(--s-6) 0; border-bottom: 1px solid var(--c-rule);
+  }
+  @media (min-width: 48rem) {
+    .service:nth-child(odd) { padding-right: var(--s-6); border-right: 1px solid var(--c-rule); }
+    .service:nth-child(even) { padding-left: var(--s-6); }
+  }
+  .num { font-size: var(--fs-xs); font-weight: 600; color: var(--c-accent); letter-spacing: 0.04em; }
+  h3 { font-size: var(--fs-lg); line-height: 1.2; }
+  h3 a { text-decoration: none; }
+  h3 a::after { content: ''; position: absolute; inset: 0; }
+  .service:hover h3 a { color: var(--c-accent); }
+  p { color: var(--c-ink-2); }
+  .also { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-2) var(--s-5); margin-top: var(--s-6); }
+  .also ul { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-5); list-style: none; padding: 0; }
+  .also a { display: inline-flex; align-items: center; min-height: var(--tap); color: var(--c-ink-2); }
+  .also a:hover { color: var(--c-accent); }
+  .cta { margin-top: var(--s-7); }
+</style>

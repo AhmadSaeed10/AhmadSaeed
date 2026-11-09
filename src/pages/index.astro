@@ -1,0 +1,101 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '@/components/Hero.astro';
+import SectionHead from '@/components/SectionHead.astro';
+import ProjectCard from '@/components/ProjectCard.astro';
+import MoreWork from '@/components/MoreWork.astro';
+import Services from '@/components/Services.astro';
+import TrackingBand from '@/components/TrackingBand.astro';
+import Skills from '@/components/Skills.astro';
+import Timeline from '@/components/Timeline.astro';
+import Testimonials from '@/components/Testimonials.astro';
+import ContactForm from '@/components/ContactForm.astro';
+import { site } from '@/config/site';
+import { getPage, getFeaturedProjects, getMoreWork, getServices, getSkills, getExperience, getTestimonials } from '@/lib/content';
+import { personSchema, serviceSchema } from '@/lib/schema';
+
+const page = await getPage('home');
+const d = page.data;
+const s = d.sections!;
+const [featured, more, core, secondary, skills, experience, testimonials] = await Promise.all([
+  getFeaturedProjects(), getMoreWork(), getServices('core'), getServices('secondary'), getSkills(), getExperience(), getTestimonials(),
+]);
+const origin = Astro.site!;
+const jsonLd = [personSchema(origin), serviceSchema(origin, [...core, ...secondary].map((x) => x.data))];
+---
+<BaseLayout title={d.seoTitle} description={d.seoDescription} ogKey="home" type="profile" jsonLd={jsonLd} stickyCta="#contact">
+  <Hero eyebrow={d.eyebrow} heading={d.heading} lede={d.lede} proof={d.proof} />
+
+  <section id="work" class="section" aria-labelledby="work-title">
+    <div class="container">
+      <SectionHead index="01" id="work-title" {...s.work} />
+      <div class="work-grid">
+        {featured.map((p, i) => <ProjectCard project={p} index={i} />)}
+      </div>
+      <MoreWork items={more} />
+    </div>
+  </section>
+
+  <section id="services" class="section" aria-labelledby="services-title">
+    <div class="container">
+      <SectionHead index="02" id="services-title" {...s.services} />
+      <Services core={core} secondary={secondary} />
+    </div>
+  </section>
+
+  <TrackingBand {...s.tracking} />
+
+  <section id="skills" class="section" aria-labelledby="skills-title">
+    <div class="container">
+      <SectionHead index="04" id="skills-title" {...s.skills} />
+      <Skills groups={skills} />
+    </div>
+  </section>
+
+  <section id="experience" class="section" aria-labelledby="experience-title">
+    <div class="container section-grid">
+      <div class="rail">
+        <SectionHead index="05" id="experience-title" {...s.experience} />
+        <a href="/resume" class="link-arrow" data-track="cta_click" data-track-label="home_full_resume">Full resume <span aria-hidden="true">&rarr;</span></a>
+      </div>
+      <div class="body"><Timeline items={experience} /></div>
+    </div>
+  </section>
+
+  <section id="testimonials" class="section" aria-labelledby="testimonials-title">
+    <div class="container">
+      <SectionHead index="06" id="testimonials-title" {...s.testimonials} />
+      <Testimonials items={testimonials} />
+    </div>
+  </section>
+
+  <section id="contact" class="section contact" aria-labelledby="contact-title" data-hide-sticky>
+    <div class="container section-grid">
+      <div class="rail">
+        <SectionHead index="07" id="contact-title" {...s.contact} />
+        <dl class="facts">
+          <div><dt>Email</dt><dd><a href={`mailto:${site.contact.email}`} data-track="cta_click" data-track-label="home_contact_email">{site.contact.email}</a></dd></div>
+          <div><dt>LinkedIn</dt><dd><a href={site.contact.linkedin} rel="noopener noreferrer" target="_blank" data-track="linkedin_click" data-track-label="home_contact">{site.contact.linkedinLabel}<span class="visually-hidden"> (opens in a new tab)</span></a></dd></div>
+          <div><dt>Location</dt><dd>{site.contact.location}, {site.contact.timezone}</dd></div>
+        </dl>
+      </div>
+      <div class="body"><ContactForm id="home-contact-form" /></div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .work-grid { display: grid; gap: var(--s-8) var(--s-6); }
+  @media (min-width: 52rem) { .work-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 60rem) {
+    #experience .rail, #contact .rail { grid-column: 1 / span 4; }
+    #experience .body, #contact .body { grid-column: 6 / -1; }
+  }
+  .rail :global(.head) { margin-bottom: var(--s-5); }
+  .rail :global(.title) { font-size: var(--fs-xl); }
+  .contact { background: var(--c-surface-2); }
+  .facts { display: grid; gap: var(--s-4); margin-top: var(--s-5); }
+  .facts dt { font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--c-ink-3); }
+  .facts a { display: inline-flex; align-items: center; min-height: var(--tap); }
+  .facts dd:not(:has(a)) { padding-block: var(--s-2); }
+</style>
