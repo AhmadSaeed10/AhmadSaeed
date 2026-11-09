@@ -1,0 +1,45 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { hostname } from '@/lib/format';
+interface Props { items: CollectionEntry<'projects'>[] }
+const { items } = Astro.props;
+---
+<div class="more">
+  <h3 class="label">More client work</h3>
+  <ul>
+    {items.map(({ data: d }) => (
+      <li class="row">
+        <span class="client">{d.client}</span>
+        <span class="scope">{d.summary}</span>
+        <span class="when">{d.timeline}</span>
+        {d.url ? (
+          <a href={d.url} rel="noopener noreferrer" target="_blank" class="visit" data-track="outbound_click" data-track-label={`visit_${hostname(d.url)}`}>
+            Visit site<span class="visually-hidden">: {hostname(d.url)} (opens in a new tab)</span> <span aria-hidden="true">&nearr;</span>
+          </a>
+        ) : <span class="visit"><span class="todo">TODO: link</span></span>}
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .more { margin-top: var(--s-9); }
+  .label { font-family: var(--font-text); margin-bottom: var(--s-4); }
+  ul { list-style: none; padding: 0; border-top: 1px solid var(--c-ink); }
+  .row {
+    display: grid; gap: var(--s-1) var(--s-5); padding-block: var(--s-4);
+    border-bottom: 1px solid var(--c-rule); align-items: baseline;
+    grid-template-columns: 1fr auto;
+  }
+  .client { font-family: var(--font-display); font-size: var(--fs-md); }
+  .scope { grid-column: 1 / -1; color: var(--c-ink-2); font-size: var(--fs-sm); }
+  .when { grid-row: 1; grid-column: 2; color: var(--c-ink-3); font-size: var(--fs-sm); white-space: nowrap; }
+  .visit { grid-column: 1 / -1; display: inline-flex; align-items: center; gap: var(--s-1); min-height: var(--tap); font-size: var(--fs-sm); font-weight: 600; color: var(--c-accent); text-decoration: none; }
+  a.visit:hover { text-decoration: underline; }
+  @media (min-width: 52rem) {
+    .row { grid-template-columns: 13rem 1fr 9rem 7rem; }
+    .scope { grid-column: auto; }
+    .when { grid-row: auto; grid-column: auto; }
+    .visit { grid-column: auto; justify-self: end; }
+  }
+</style>

@@ -1,0 +1,6 @@
+{
+  "group": "CRO and testing",
+  "order": 4,
+  "items": ["Nielsen's heuristics", "A/B testing concepts", "Conversion-focused product, collection and cart pages", "AOV optimisation"],
+  "note": "Working familiarity with VWO, Convert and Kameleoon."
+}

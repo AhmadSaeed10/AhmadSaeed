@@ -1,0 +1,96 @@
+/* Design tokens. Every colour, size and motion value in the site comes from here. */
+:root {
+  /* Colour: light */
+  --c-bg: #fbfaf7;
+  --c-surface: #ffffff;
+  --c-surface-2: #f2f0eb;
+  --c-ink: #14161a;
+  --c-ink-2: #43474e;
+  --c-ink-3: #5c626b;
+  --c-rule: #e1ddd5;
+  --c-rule-strong: #c9c4ba;
+  --c-accent: #1a56db;
+  --c-accent-hover: #1546b8;
+  --c-on-accent: #ffffff;
+  --c-accent-soft: #e8eefc;
+  --c-band: #1a56db;
+  --c-on-band: #ffffff;
+  --c-on-band-2: #dbe5fb;
+  --c-band-rule: rgb(255 255 255 / 0.28);
+  --c-success: #146c43;
+  --c-danger: #b42318;
+  --c-focus: #1a56db;
+  --c-placeholder-bg: #f2f0eb;
+  --c-placeholder-ink: #5c626b;
+  color-scheme: light;
+
+  /* Type */
+  --font-display: 'Newsreader Variable', 'Iowan Old Style', Georgia, serif;
+  --font-text: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fs-xs: 0.8125rem;
+  --fs-sm: 0.9375rem;
+  --fs-base: 1.0625rem;
+  --fs-md: 1.25rem;
+  --fs-lg: clamp(1.375rem, 1.1rem + 1vw, 1.75rem);
+  --fs-xl: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem);
+  --fs-2xl: clamp(2.25rem, 1.5rem + 3vw, 3.75rem);
+  --fs-3xl: clamp(3rem, 1.6rem + 6vw, 7rem);
+  --lh-tight: 1.05;
+  --lh-snug: 1.25;
+  --lh-body: 1.6;
+  --tracking-label: 0.08em;
+
+  /* Space (4px base) */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+  --s-9: 6rem;
+  --s-10: 8rem;
+  --section-y: clamp(4rem, 2.5rem + 6vw, 8rem);
+
+  /* Layout */
+  --max-w: 76rem;
+  --measure: 38rem;
+  --gutter: clamp(1rem, 0.5rem + 2vw, 2rem);
+  --header-h: 4.5rem;
+
+  /* Shape and motion */
+  --radius-sm: 4px;
+  --radius: 8px;
+  --radius-pill: 999px;
+  --tap: 44px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur-fast: 150ms;
+  --dur: 300ms;
+  --dur-slow: 700ms;
+}
+
+:root[data-theme='dark'] {
+  --c-bg: #0f1114;
+  --c-surface: #16191e;
+  --c-surface-2: #1c2026;
+  --c-ink: #edebe6;
+  --c-ink-2: #c1c4ca;
+  --c-ink-3: #a1a7b0;
+  --c-rule: #2a2f37;
+  --c-rule-strong: #3a414b;
+  --c-accent: #8aaeff;
+  --c-accent-hover: #a9c3ff;
+  --c-on-accent: #0b1020;
+  --c-accent-soft: #18233d;
+  --c-band: #132554;
+  --c-on-band: #f2f5ff;
+  --c-on-band-2: #c7d4f5;
+  --c-band-rule: rgb(255 255 255 / 0.18);
+  --c-success: #5fd39a;
+  --c-danger: #ff8a80;
+  --c-focus: #8aaeff;
+  --c-placeholder-bg: #1c2026;
+  --c-placeholder-ink: #a1a7b0;
+  color-scheme: dark;
+}

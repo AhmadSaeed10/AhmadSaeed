@@ -1,0 +1,86 @@
+---
+import { Picture } from 'astro:assets';
+import { render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { site } from '@/config/site';
+import { getPage } from '@/lib/content';
+import { personSchema } from '@/lib/schema';
+
+const page = await getPage('about');
+const d = page.data;
+const { Content } = await render(page);
+---
+<BaseLayout title={d.seoTitle} description={d.seoDescription} ogKey="about" type="profile" jsonLd={[personSchema(Astro.site!)]}>
+  <section class="container intro" aria-labelledby="about-title">
+    <div class="text">
+      <p class="label">{d.eyebrow}</p>
+      <h1 id="about-title">{d.heading}</h1>
+      {d.lede && <p class="lede">{d.lede}</p>}
+      <div class="prose"><Content /></div>
+      <p class="rights">{site.contact.workRights}</p>
+    </div>
+    {d.photo && (
+      <figure class="photo">
+        <Picture src={d.photo} alt={d.photoAlt ?? ''} formats={['avif', 'webp']} widths={[400, 720, 1000]} sizes="(min-width: 60rem) 26rem, 100vw" loading="eager" />
+      </figure>
+    )}
+  </section>
+
+  {d.principles && (
+    <section class="section" aria-labelledby="how-title">
+      <div class="container section-grid">
+        <div class="rail"><p class="label">How I work</p></div>
+        <div class="body">
+          <h2 id="how-title">Four principles, borrowed from usability heuristics.</h2>
+          <ol class="principles">
+            {d.principles.map((p, i) => (
+              <li class="reveal">
+                <span class="n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <h3>{p.title}</h3>
+                <p class="heur">Heuristic: {p.heuristic}</p>
+                <p>{p.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {d.education && (
+    <section class="section" aria-labelledby="edu-title">
+      <div class="container section-grid">
+        <div class="rail"><p class="label">Education</p></div>
+        <div class="body">
+          <h2 id="edu-title">{d.education.degree}</h2>
+          <p class="edu">{d.education.school}, {d.education.location}. {d.education.dates}.</p>
+          <div class="ctas" data-hide-sticky>
+            <a href="/contact" class="btn btn-primary btn-lg" data-track="cta_click" data-track-label="about_work_with_me">Work with me <span class="arrow" aria-hidden="true">&rarr;</span></a>
+            <a href="/resume" class="btn btn-secondary btn-lg" data-track="cta_click" data-track-label="about_resume">View resume</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .intro { display: grid; gap: var(--s-7); padding-block: var(--s-8) var(--section-y); }
+  @media (min-width: 60rem) { .intro { grid-template-columns: 1fr 26rem; gap: var(--s-9); align-items: start; } }
+  .text { display: grid; gap: var(--s-5); }
+  h1 { font-size: var(--fs-2xl); line-height: 1.05; letter-spacing: -0.025em; }
+  .lede { font-family: var(--font-display); font-size: var(--fs-lg); line-height: 1.35; max-width: 30em; }
+  .prose :global(p) { font-size: var(--fs-md); }
+  .rights { font-size: var(--fs-sm); color: var(--c-ink-3); padding-top: var(--s-4); border-top: 1px solid var(--c-rule); max-width: var(--measure); }
+  .photo { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--c-rule); }
+  h2 { font-size: var(--fs-xl); line-height: 1.15; }
+  .principles { list-style: none; padding: 0; margin-top: var(--s-7); display: grid; gap: var(--s-7) var(--s-6); }
+  @media (min-width: 48rem) { .principles { grid-template-columns: 1fr 1fr; } }
+  .principles li { display: grid; gap: var(--s-2); padding-top: var(--s-4); border-top: 1px solid var(--c-ink); align-content: start; }
+  .n { color: var(--c-accent); font-weight: 600; font-size: var(--fs-sm); }
+  .principles h3 { font-size: var(--fs-lg); line-height: 1.2; }
+  .heur { font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--c-ink-3); }
+  .principles p:last-child { color: var(--c-ink-2); }
+  .edu { margin-top: var(--s-3); color: var(--c-ink-2); font-size: var(--fs-md); }
+  .ctas { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-7); }
+</style>

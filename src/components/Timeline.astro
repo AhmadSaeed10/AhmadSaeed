@@ -1,0 +1,45 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatYearMonth } from '@/lib/format';
+interface Props { items: CollectionEntry<'experience'>[]; compact?: boolean }
+const { items, compact = false } = Astro.props;
+const groups = [
+  { title: 'Now', items: items.filter((i) => i.data.end === 'present') },
+  { title: 'Before', items: items.filter((i) => i.data.end !== 'present') },
+];
+---
+<div class:list={['timeline', { compact }]}>
+  {groups.map((g) => (
+    <section class="group" aria-label={`${g.title}: ${g.title === 'Now' ? 'current roles' : 'previous roles'}`}>
+      <h3 class="label">{g.title}</h3>
+      <ol>
+        {g.items.map(({ data: d }) => (
+          <li class="item">
+            <p class="when"><time datetime={d.start}>{formatYearMonth(d.start)}</time> to {d.end === 'present' ? 'present' : <time datetime={d.end}>{formatYearMonth(d.end)}</time>}</p>
+            <div class="what">
+              <h4>{d.role}</h4>
+              <p class="org">{d.company}{d.companyNote && <span> ({d.companyNote})</span>}<span aria-hidden="true"> · </span>{d.location}{d.mode !== 'On-site' && !d.location.includes(d.mode) ? `, ${d.mode}` : ''}</p>
+              <p class="summary">{d.summary}</p>
+              {d.highlights.length > 0 && <ul>{d.highlights.map((h) => <li>{h}</li>)}</ul>}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+  ))}
+</div>
+
+<style>
+  .timeline { display: grid; gap: var(--s-7); }
+  .group > .label { margin-bottom: var(--s-3); }
+  ol { list-style: none; padding: 0; border-top: 1px solid var(--c-ink); }
+  .item { display: grid; gap: var(--s-2) var(--s-6); padding-block: var(--s-5); border-bottom: 1px solid var(--c-rule); }
+  @media (min-width: 48rem) { .item { grid-template-columns: 11rem 1fr; } }
+  .when { font-size: var(--fs-sm); color: var(--c-ink-3); font-variant-numeric: tabular-nums; }
+  h4 { font-size: var(--fs-md); line-height: 1.3; }
+  .org { font-size: var(--fs-sm); color: var(--c-ink-2); margin-top: var(--s-1); }
+  .summary { margin-top: var(--s-3); color: var(--c-ink-2); max-width: var(--measure); }
+  ul { margin-top: var(--s-3); padding-left: 1.1rem; color: var(--c-ink-2); display: grid; gap: var(--s-1); max-width: var(--measure); }
+  .compact .item { padding-block: var(--s-3); }
+  .compact .summary { margin-top: var(--s-1); }
+</style>

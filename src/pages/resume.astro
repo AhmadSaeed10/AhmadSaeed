@@ -1,0 +1,100 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Timeline from '@/components/Timeline.astro';
+import { site, phone } from '@/config/site';
+import { getPage, getExperience, getSkills, getFeaturedProjects, getMoreWork } from '@/lib/content';
+
+const page = await getPage('resume');
+const about = await getPage('about');
+const d = page.data;
+const [experience, skills, featured, more] = await Promise.all([getExperience(), getSkills(), getFeaturedProjects(), getMoreWork()]);
+const edu = about.data.education;
+---
+<BaseLayout title={d.seoTitle} description={d.seoDescription} ogKey="resume" type="profile">
+  <article class="container cv">
+    <header class="cv-head">
+      <div>
+        <h1>{d.heading}</h1>
+        <p class="lede">{d.lede}</p>
+      </div>
+      <ul class="contact">
+        <li>{site.contact.location} ({site.contact.timezone})</li>
+        <li><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></li>
+        <li><a href={site.contact.linkedin} rel="noopener noreferrer" target="_blank" data-track="linkedin_click" data-track-label="resume">{site.contact.linkedinLabel}<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+        {phone && <li>{phone}</li>}
+        <li>{site.contact.workRights}</li>
+      </ul>
+      <div class="actions no-print" data-hide-sticky>
+        <a href={site.cvFile} download="Ahmad_Saeed_CV.pdf" class="btn btn-primary" data-track="cv_download" data-track-label="resume_page">Download PDF <span aria-hidden="true">&darr;</span></a>
+        <button type="button" class="btn btn-secondary" data-print>Print</button>
+      </div>
+    </header>
+
+    <section aria-labelledby="cv-exp">
+      <h2 id="cv-exp" class="label">Experience</h2>
+      <Timeline items={experience} compact />
+    </section>
+
+    <section aria-labelledby="cv-work">
+      <h2 id="cv-work" class="label">Selected projects</h2>
+      <ul class="projects">
+        {[...featured, ...more].map(({ data: p }) => (
+          <li><strong>{p.client}</strong> <span>{p.summary} {p.timeline}.</span></li>
+        ))}
+      </ul>
+    </section>
+
+    <section aria-labelledby="cv-skills">
+      <h2 id="cv-skills" class="label">Skills</h2>
+      <dl class="skills">
+        {skills.map(({ data: g }) => (
+          <div><dt>{g.group}</dt><dd>{g.items.join(', ')}.{g.note && ` ${g.note}`}</dd></div>
+        ))}
+      </dl>
+    </section>
+
+    {edu && (
+      <section aria-labelledby="cv-edu">
+        <h2 id="cv-edu" class="label">Education</h2>
+        <p><strong>{edu.degree}</strong>, {edu.school}, {edu.location}. {edu.dates}.</p>
+      </section>
+    )}
+  </article>
+</BaseLayout>
+
+<script>
+  document.querySelector('[data-print]')?.addEventListener('click', () => window.print());
+</script>
+
+<style>
+  .cv { display: grid; gap: var(--s-7); padding-block: var(--s-8) var(--section-y); max-width: 60rem; }
+  .cv-head { display: grid; gap: var(--s-5); padding-bottom: var(--s-6); border-bottom: 1px solid var(--c-ink); }
+  h1 { font-size: var(--fs-2xl); line-height: 1; letter-spacing: -0.03em; }
+  .lede { margin-top: var(--s-3); color: var(--c-ink-2); font-size: var(--fs-md); max-width: var(--measure); }
+  .contact { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-5); font-size: var(--fs-sm); color: var(--c-ink-2); }
+  .contact a { display: inline-flex; align-items: center; min-height: var(--tap); }
+  .actions { display: flex; flex-wrap: wrap; gap: var(--s-3); }
+  section > .label { margin-bottom: var(--s-4); }
+  .projects { list-style: none; padding: 0; display: grid; gap: var(--s-3); }
+  .projects strong { font-weight: 600; }
+  .projects span { color: var(--c-ink-2); }
+  .skills { display: grid; gap: var(--s-3); }
+  .skills div { display: grid; gap: var(--s-1) var(--s-5); }
+  @media (min-width: 48rem) { .skills div { grid-template-columns: 12rem 1fr; } }
+  .skills dt { font-weight: 600; font-size: var(--fs-sm); }
+  .skills dd { color: var(--c-ink-2); font-size: var(--fs-sm); }
+  @media print {
+    .cv { gap: 1.1rem; padding: 0; }
+    .lede { font-size: 1.05rem; }
+    h1 { font-size: 2.4rem; }
+    .cv :global(.summary) { margin-top: 2px !important; }
+    .cv :global(.item ul) { margin-top: 4px; gap: 0; }
+    .cv :global(h4) { font-size: 1.05rem; }
+    .projects { gap: 0.3rem; }
+    .skills div { break-inside: avoid; }
+    section > .label { break-after: avoid; margin-bottom: 0.5rem; }
+    .cv :global(.timeline) { gap: 0.5rem; }
+    .cv :global(.item) { padding-block: 0.4rem !important; grid-template-columns: 8.5rem 1fr !important; }
+    .contact a { min-height: 0; }
+  }
+</style>

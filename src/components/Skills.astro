@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { groups: CollectionEntry<'skills'>[] }
+const { groups } = Astro.props;
+---
+<div class="groups">
+  {groups.map(({ data }) => (
+    <section class="group reveal" aria-label={data.group}>
+      <h3 class="label">{data.group}</h3>
+      <ul>
+        {data.items.map((item) => <li>{item}</li>)}
+      </ul>
+      {data.note && <p class="note">{data.note}</p>}
+    </section>
+  ))}
+</div>
+
+<style>
+  .groups { display: grid; gap: var(--s-7) var(--s-6); }
+  @media (min-width: 40rem) { .groups { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 72rem) { .groups { grid-template-columns: repeat(3, 1fr); } }
+  .group { padding-top: var(--s-4); border-top: 1px solid var(--c-ink); }
+  .label { margin-bottom: var(--s-4); color: var(--c-ink); }
+  ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-2); }
+  li {
+    padding: 0.3rem 0.7rem; border: 1px solid var(--c-rule); border-radius: var(--radius-pill);
+    font-size: var(--fs-sm); color: var(--c-ink-2); background: var(--c-surface);
+  }
+  .note { margin-top: var(--s-4); font-size: var(--fs-sm); color: var(--c-ink-3); }
+</style>

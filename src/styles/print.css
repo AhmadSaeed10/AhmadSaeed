@@ -1,0 +1,11 @@
+@media print {
+  :root { --c-bg: #fff; --c-ink: #000; --c-ink-2: #222; --c-ink-3: #444; --c-rule: #ccc; --c-accent: #1a56db; }
+  @page { margin: 14mm 14mm 16mm; size: A4; }
+  html { font-size: 10pt; }
+  body { background: #fff !important; color: #000; display: block; }
+  .no-print, .site-header, .site-footer, .sticky-cta, .skip-link { display: none !important; }
+  a { text-decoration: none; color: inherit; }
+  .section, .container { padding: 0 !important; max-width: none !important; }
+  h2, h3 { break-after: avoid; }
+  article, li { break-inside: avoid; }
+}

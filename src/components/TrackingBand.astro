@@ -1,0 +1,51 @@
+---
+import { getTrackingWork } from '@/lib/content';
+import { site } from '@/config/site';
+interface Props { label: string; heading: string; intro?: string }
+const { label, heading, intro } = Astro.props;
+const { clients, pitches } = await getTrackingWork();
+---
+<section id="tracking" class="band" aria-labelledby="tracking-title">
+  <div class="container">
+    <div>
+      <p class="label head-label"><span class="idx">03</span>{label}</p>
+      <h2 id="tracking-title" class="title">{heading}</h2>
+      {intro && <p class="intro">{intro}</p>}
+      <div class="cols">
+        <div>
+          <h3 class="label">Tracking and consultancy</h3>
+          <ul class="list">
+            {clients.map((c) => <li><strong>{c.who}</strong><span>{c.work}</span></li>)}
+          </ul>
+        </div>
+        <div>
+          <h3 class="label">Pitch contributions, Media Solutions Team</h3>
+          <ul class="list">
+            {pitches.map((c) => <li><strong>{c.who}</strong><span>{c.work}</span></li>)}
+          </ul>
+        </div>
+      </div>
+      {site.anonymiseClients && <p class="note">Client names are withheld for confidentiality.</p>}
+      <a href="/services#03-tracking" class="btn btn-band btn-lg" data-track="cta_click" data-track-label="home_tracking_service">Get your tracking checked <span class="arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .band { background: var(--c-band); color: var(--c-on-band); padding-block: var(--section-y); }
+  .label { color: var(--c-on-band-2); }
+  .idx { color: var(--c-on-band); margin-right: var(--s-3); }
+  .head-label { margin-bottom: var(--s-4); }
+  .title { font-size: var(--fs-2xl); line-height: 1.1; max-width: 16em; }
+  .intro { margin-top: var(--s-4); font-size: var(--fs-md); color: var(--c-on-band-2); max-width: var(--measure); }
+  .cols { display: grid; gap: var(--s-7); margin-top: var(--s-8); }
+  @media (min-width: 52rem) { .cols { grid-template-columns: 1fr 1fr; } }
+  .list { list-style: none; padding: 0; margin-top: var(--s-3); border-top: 1px solid var(--c-on-band); }
+  .list li { display: grid; gap: var(--s-1); padding-block: var(--s-4); border-bottom: 1px solid var(--c-band-rule); }
+  .list strong { font-family: var(--font-display); font-weight: 450; font-size: var(--fs-md); }
+  .list span { color: var(--c-on-band-2); font-size: var(--fs-sm); }
+  .note { margin-top: var(--s-5); font-size: var(--fs-sm); color: var(--c-on-band-2); }
+  .btn-band { margin-top: var(--s-7); background: var(--c-on-band); color: var(--c-band); }
+  .btn-band:hover { background: var(--c-on-band-2); color: var(--c-band); }
+  .band :global(:focus-visible) { outline-color: var(--c-on-band); }
+</style>

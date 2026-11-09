@@ -1,0 +1,196 @@
+---
+import { form, site } from '@/config/site';
+import { getServices } from '@/lib/content';
+interface Props { id?: string }
+const { id = 'contact-form' } = Astro.props;
+const services = await getServices();
+const endpoint = form.provider === 'formspree' ? `https://formspree.io/f/${form.key}` : 'https://api.web3forms.com/submit';
+const honeypot = form.provider === 'formspree' ? '_gotcha' : 'botcheck';
+---
+<form
+  id={id}
+  class="form"
+  method="POST"
+  action={endpoint}
+  novalidate
+  data-contact-form
+  data-provider={form.provider}
+  data-configured={form.key ? 'true' : 'false'}
+  data-honeypot={honeypot}
+  aria-describedby={`${id}-required`}
+>
+  {form.provider === 'web3forms' && <input type="hidden" name="access_key" value={form.key} />}
+  <input type="hidden" name="subject" value="New enquiry from ahmadsaeed portfolio" />
+  <input type="hidden" name="from_name" value="Portfolio contact form" />
+
+  <!-- Honeypot: hidden from people and assistive tech, bots tend to fill it. -->
+  <div class="hp" aria-hidden="true">
+    <label for={`${id}-hp`}>Leave this field empty</label>
+    <input id={`${id}-hp`} type="text" name={honeypot} tabindex="-1" autocomplete="off" />
+  </div>
+
+  <p id={`${id}-required`} class="req-note">All fields are required unless marked optional.</p>
+
+  <div class="row two">
+    <div class="field">
+      <label for={`${id}-name`}>Name</label>
+      <input id={`${id}-name`} name="name" type="text" autocomplete="name" required aria-describedby={`${id}-name-err`} />
+      <p class="error" id={`${id}-name-err`} data-error-for="name"></p>
+    </div>
+    <div class="field">
+      <label for={`${id}-email`}>Email</label>
+      <input id={`${id}-email`} name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby={`${id}-email-err`} />
+      <p class="error" id={`${id}-email-err`} data-error-for="email"></p>
+    </div>
+  </div>
+
+  <div class="row two">
+    <div class="field">
+      <label for={`${id}-url`}>Store URL <span class="opt">(optional)</span></label>
+      <input id={`${id}-url`} name="store_url" type="text" inputmode="url" autocomplete="url" placeholder="yourstore.com" aria-describedby={`${id}-url-err`} />
+      <p class="error" id={`${id}-url-err`} data-error-for="store_url"></p>
+    </div>
+    <div class="field">
+      <label for={`${id}-topic`}>What do you need? <span class="opt">(optional)</span></label>
+      <select id={`${id}-topic`} name="topic">
+        <option value="">Choose one</option>
+        {services.map((s) => <option value={s.data.title}>{s.data.title}</option>)}
+        <option value="Something else">Something else</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for={`${id}-msg`}>Message</label>
+    <p class="hint" id={`${id}-msg-hint`}>Include your goal and timeline. A few lines is enough.</p>
+    <textarea id={`${id}-msg`} name="message" rows="6" required minlength="20" aria-describedby={`${id}-msg-hint ${id}-msg-err`}></textarea>
+    <p class="error" id={`${id}-msg-err`} data-error-for="message"></p>
+  </div>
+
+  <div class="submit-row">
+    <button type="submit" class="btn btn-primary btn-lg" data-submit>
+      <span data-submit-label>Send message</span> <span class="arrow" aria-hidden="true">&rarr;</span>
+    </button>
+    <p class="alt">Or email <a href={`mailto:${site.contact.email}`} data-track="cta_click" data-track-label="form_direct_email">{site.contact.email}</a></p>
+  </div>
+
+  <div class="status" role="status" aria-live="polite" data-status></div>
+</form>
+
+<style>
+  .form { display: grid; gap: var(--s-5); }
+  .row { display: grid; gap: var(--s-5); }
+  @media (min-width: 40rem) { .row.two { grid-template-columns: 1fr 1fr; } }
+  .field { display: grid; gap: var(--s-2); align-content: start; }
+  label { font-size: var(--fs-sm); font-weight: 600; }
+  .opt, .hint, .req-note { font-weight: 400; color: var(--c-ink-3); font-size: var(--fs-sm); }
+  .hint { margin-top: calc(var(--s-1) * -1); }
+  input, select, textarea {
+    width: 100%; min-height: var(--tap); padding: 0.7rem 0.85rem;
+    border: 1px solid var(--c-rule-strong); border-radius: var(--radius);
+    background: var(--c-surface); color: var(--c-ink); font-size: var(--fs-base);
+    transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+  }
+  textarea { resize: vertical; min-height: 9rem; }
+  input:hover, select:hover, textarea:hover { border-color: var(--c-ink-3); }
+  input:focus-visible, select:focus-visible, textarea:focus-visible { outline: none; border-color: var(--c-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-accent) 30%, transparent); }
+  [aria-invalid='true'] { border-color: var(--c-danger); }
+  .error { color: var(--c-danger); font-size: var(--fs-sm); min-height: 0; }
+  .error:empty { display: none; }
+  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .submit-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3) var(--s-5); }
+  .alt { color: var(--c-ink-3); font-size: var(--fs-sm); }
+  .alt a { color: var(--c-ink); display: inline-flex; align-items: center; min-height: var(--tap); }
+  .status:empty { display: none; }
+  .status { padding: var(--s-4) var(--s-5); border-radius: var(--radius); border: 1px solid; font-size: var(--fs-sm); }
+  .status[data-state='success'] { border-color: var(--c-success); color: var(--c-success); }
+  .status[data-state='error'] { border-color: var(--c-danger); color: var(--c-danger); }
+  .status a { color: inherit; }
+  [data-submit][aria-disabled='true'] { opacity: 0.7; cursor: progress; }
+</style>
+
+<script>
+  type Field = HTMLInputElement | HTMLTextAreaElement;
+  const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function message(el: Field): string {
+    const v = el.value.trim();
+    if (el.required && !v) {
+      return el.name === 'email' ? 'Enter your email address.' : el.name === 'name' ? 'Enter your name.' : 'Add a short message.';
+    }
+    if (el.name === 'email' && v && !EMAIL.test(v)) return 'Enter an email address like name@example.com.';
+    if (el.name === 'message' && v && v.length < 20) return 'Add a little more detail, at least 20 characters.';
+    if (el.name === 'store_url' && v && !/^(https?:\/\/)?[\w-]+(\.[\w-]+)+(\/.*)?$/i.test(v)) return 'Enter a web address like yourstore.com.';
+    return '';
+  }
+
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const btn = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const btnLabel = form.querySelector<HTMLElement>('[data-submit-label]')!;
+    const fields = Array.from(form.querySelectorAll<Field>('input[name="name"], input[name="email"], input[name="store_url"], textarea'));
+    const email = (form.querySelector('.alt a') as HTMLAnchorElement)?.textContent || '';
+    let sending = false;
+
+    const validate = (el: Field) => {
+      const msg = message(el);
+      const err = form.querySelector<HTMLElement>(`[data-error-for="${el.name}"]`);
+      if (err) err.textContent = msg;
+      el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+      return !msg;
+    };
+
+    fields.forEach((el) => {
+      el.addEventListener('blur', () => { if (el.value.trim() || el.getAttribute('aria-invalid')) validate(el); });
+      el.addEventListener('input', () => { if (el.getAttribute('aria-invalid') === 'true') validate(el); });
+    });
+
+    const setStatus = (state: 'success' | 'error' | '', html: string) => {
+      status.dataset.state = state;
+      status.innerHTML = html;
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (sending) return;
+      const invalid = fields.filter((f) => !validate(f));
+      if (invalid.length) {
+        invalid[0].focus();
+        setStatus('error', `Please fix ${invalid.length === 1 ? 'the highlighted field' : `the ${invalid.length} highlighted fields`} and try again.`);
+        return;
+      }
+
+      const hp = form.querySelector<HTMLInputElement>(`[name="${form.dataset.honeypot}"]`);
+      if (hp && hp.value) { setStatus('success', 'Thanks, your message has been sent.'); form.reset(); return; }
+
+      if (form.dataset.configured !== 'true') {
+        setStatus('error', `The form is not connected yet. Please email <a href="mailto:${email}">${email}</a> instead.`);
+        return;
+      }
+
+      sending = true;
+      btn.setAttribute('aria-disabled', 'true');
+      btnLabel.textContent = 'Sending...';
+      setStatus('', '');
+      try {
+        const data = Object.fromEntries(new FormData(form).entries());
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        (window as any).track?.('contact_form_submit', { form_id: form.id, topic: data.topic || 'none', page_path: location.pathname });
+        form.reset();
+        fields.forEach((f) => f.removeAttribute('aria-invalid'));
+        setStatus('success', 'Thanks, your message has been sent. I will reply by email.');
+      } catch {
+        setStatus('error', `Something went wrong and your message was not sent. Please try again, or email <a href="mailto:${email}">${email}</a>.`);
+      } finally {
+        sending = false;
+        btn.removeAttribute('aria-disabled');
+        btnLabel.textContent = 'Send message';
+      }
+    });
+  });
+</script>

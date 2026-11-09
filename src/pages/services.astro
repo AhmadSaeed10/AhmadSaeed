@@ -1,0 +1,99 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getPage, getServices } from '@/lib/content';
+import { serviceSchema } from '@/lib/schema';
+
+const page = await getPage('services');
+const d = page.data;
+const core = await getServices('core');
+const secondary = await getServices('secondary');
+const jsonLd = [serviceSchema(Astro.site!, [...core, ...secondary].map((x) => x.data))];
+---
+<BaseLayout title={d.seoTitle} description={d.seoDescription} ogKey="services" jsonLd={jsonLd}>
+  <header class="container intro">
+    <p class="label">{d.eyebrow}</p>
+    <h1>{d.heading}</h1>
+    {d.lede && <p class="lede">{d.lede}</p>}
+    <nav aria-label="Services on this page" class="toc">
+      <ol>{core.map((s, i) => <li><a href={`#${s.id}`}><span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span> {s.data.shortTitle}</a></li>)}</ol>
+    </nav>
+  </header>
+
+  {core.map((s, i) => (
+    <section id={s.id} class="section service" aria-labelledby={`${s.id}-title`}>
+      <div class="container section-grid">
+        <div class="rail"><p class="label"><span class="idx">{String(i + 1).padStart(2, '0')}</span>{s.data.shortTitle}</p></div>
+        <div class="body">
+          <h2 id={`${s.id}-title`}>{s.data.title}</h2>
+          <p class="summary">{s.data.summary}</p>
+          <div class="cols">
+            <div>
+              <h3 class="label">Deliverables</h3>
+              <ul class="ticks">{s.data.deliverables.map((x) => <li>{x}</li>)}</ul>
+            </div>
+            {s.data.forWho && (
+              <div>
+                <h3 class="label">Who it is for</h3>
+                <p class="for">{s.data.forWho}</p>
+                <a href={`/contact?topic=${encodeURIComponent(s.data.title)}`} class="btn btn-primary btn-lg" data-track="cta_click" data-track-label={`services_${s.id}_quote`}>{s.data.cta} <span class="arrow" aria-hidden="true">&rarr;</span></a>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="section" aria-labelledby="also-title">
+    <div class="container section-grid">
+      <div class="rail"><p class="label">Also available</p></div>
+      <div class="body">
+        <h2 id="also-title">Smaller, focused engagements.</h2>
+        <ul class="secondary">
+          {secondary.map((s) => (
+            <li id={s.id}><h3>{s.data.title}</h3><p>{s.data.summary}</p></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section pricing" aria-labelledby="pricing-title" data-hide-sticky>
+    <div class="container section-grid">
+      <div class="rail"><p class="label">Pricing</p></div>
+      <div class="body">
+        <h2 id="pricing-title">Request a quote.</h2>
+        <p class="summary">Every store is different, so I quote after a short conversation about your store, your goal and your timeline.</p>
+        <a href="/contact" class="btn btn-primary btn-lg" data-track="cta_click" data-track-label="services_pricing_quote">Request a quote <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .intro { padding-block: var(--s-8) var(--s-7); display: grid; gap: var(--s-5); }
+  h1 { font-size: var(--fs-2xl); line-height: 1.05; max-width: 18em; letter-spacing: -0.025em; }
+  .lede { font-size: var(--fs-md); color: var(--c-ink-2); max-width: var(--measure); }
+  .toc ol { display: flex; flex-wrap: wrap; gap: var(--s-2); list-style: none; padding: 0; margin-top: var(--s-4); }
+  .toc a { display: inline-flex; align-items: center; gap: var(--s-2); min-height: var(--tap); padding: 0 var(--s-4); border: 1px solid var(--c-rule-strong); border-radius: var(--radius-pill); text-decoration: none; font-size: var(--fs-sm); font-weight: 500; }
+  .toc a span { color: var(--c-accent); font-weight: 600; }
+  .toc a:hover { border-color: var(--c-ink); color: var(--c-ink); }
+  .section:first-of-type { border-top: 1px solid var(--c-rule); }
+  .idx { color: var(--c-accent); margin-right: var(--s-3); }
+  h2 { font-size: var(--fs-xl); line-height: 1.15; }
+  .summary { margin-top: var(--s-4); font-size: var(--fs-md); color: var(--c-ink-2); max-width: var(--measure); }
+  .cols { display: grid; gap: var(--s-7); margin-top: var(--s-7); }
+  @media (min-width: 52rem) { .cols { grid-template-columns: 1.3fr 1fr; } }
+  .cols .label { margin-bottom: var(--s-3); }
+  .ticks { list-style: none; padding: 0; border-top: 1px solid var(--c-ink); }
+  .ticks li { padding: var(--s-3) 0 var(--s-3) 1.75rem; border-bottom: 1px solid var(--c-rule); position: relative; color: var(--c-ink-2); }
+  .ticks li::before { content: ''; position: absolute; left: 0.25rem; top: 1.15rem; width: 0.7rem; height: 0.35rem; border-left: 2px solid var(--c-accent); border-bottom: 2px solid var(--c-accent); transform: rotate(-45deg); }
+  .for { color: var(--c-ink-2); margin-bottom: var(--s-5); padding-top: var(--s-3); border-top: 1px solid var(--c-ink); }
+  .secondary { list-style: none; padding: 0; margin-top: var(--s-6); display: grid; gap: var(--s-5); }
+  @media (min-width: 52rem) { .secondary { grid-template-columns: repeat(3, 1fr); } }
+  .secondary li { border-top: 1px solid var(--c-ink); padding-top: var(--s-4); }
+  .secondary h3 { font-size: var(--fs-md); }
+  .secondary p { color: var(--c-ink-2); margin-top: var(--s-2); font-size: var(--fs-sm); }
+  .pricing { background: var(--c-surface-2); }
+  .pricing .btn { margin-top: var(--s-6); }
+</style>
