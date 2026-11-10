@@ -25,10 +25,12 @@ tools: [Shopify, Liquid, Prestige theme]
 cover: ../../assets/projects/cookiedrama.webp
 coverAlt: "CookieDrama storefront mockup: tablet homepage with a sitewide sale hero and the Wear the Drama product grid, alongside mobile screens for a lookbook, a jumpsuit product page with size chart, a filtered collection and the newsletter footer."
 gallery:
-  - src: ../../assets/placeholders/cookiedrama-detail-1.png
-    alt: "Placeholder for a CookieDrama blog page screenshot"
-    caption: "TODO: caption"
-  - src: ../../assets/placeholders/cookiedrama-detail-2.png
-    alt: "Placeholder for a CookieDrama mobile product page screenshot"
-    caption: "TODO: caption"
+  - src: ../../assets/screens/cookiedrama-desktop.webp
+    alt: "CookieDrama homepage on tablet: sitewide sale hero above the Wear the Drama product grid"
+    caption: "Homepage with the sitewide sale hero and the Wear the Drama product grid"
+    device: desktop
+  - src: ../../assets/screens/cookiedrama-mobile.webp
+    alt: "CookieDrama collection page on mobile with filter and sort controls and a two-column product grid"
+    caption: "Filtered collection page on mobile"
+    device: mobile
 ---

@@ -1,0 +1,38 @@
+{
+  "project": "hushpuppies",
+  "url": "https://www.hushpuppies.com.pk/",
+  "tested": "2026-11-10",
+  "lighthouse": "12.8.2",
+  "mobile": {
+    "scores": {
+      "performance": 52,
+      "accessibility": 85,
+      "bestPractices": 71,
+      "seo": 92
+    },
+    "metrics": {
+      "fcp": "2.6 s",
+      "lcp": "7.8 s",
+      "tbt": "700 ms",
+      "cls": "0",
+      "si": "4.4 s"
+    },
+    "image": "../../assets/speed/hushpuppies-mobile.webp"
+  },
+  "desktop": {
+    "scores": {
+      "performance": 91,
+      "accessibility": 85,
+      "bestPractices": 70,
+      "seo": 92
+    },
+    "metrics": {
+      "fcp": "1.1 s",
+      "lcp": "1.5 s",
+      "tbt": "60 ms",
+      "cls": "0.005",
+      "si": "1.8 s"
+    },
+    "image": "../../assets/speed/hushpuppies-desktop.webp"
+  }
+}

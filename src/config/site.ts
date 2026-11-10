@@ -35,7 +35,6 @@ export const site = {
     location: 'Lahore, Pakistan',
     timezone: 'PKT, UTC+5',
     overlap: 'Overlap available with European and Oceania working hours',
-    workRights: 'I hold New Zealand work rights.',
   },
 
   cvFile: '/Ahmad_Saeed_CV.pdf',

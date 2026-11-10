@@ -19,7 +19,6 @@ const photoUrl = photo ? new URL(photo.src, Astro.site).href : undefined;
       <h1 id="about-title">{d.heading}</h1>
       {d.lede && <p class="lede">{d.lede}</p>}
       <div class="prose"><Content /></div>
-      <p class="rights">{site.contact.workRights}</p>
     </div>
     {d.photo && (
       <figure class="photo">
@@ -73,7 +72,6 @@ const photoUrl = photo ? new URL(photo.src, Astro.site).href : undefined;
   h1 { font-size: var(--fs-2xl); line-height: 1.05; letter-spacing: -0.025em; }
   .lede { font-family: var(--font-display); font-size: var(--fs-lg); line-height: 1.35; max-width: 30em; }
   .prose :global(p) { font-size: var(--fs-md); }
-  .rights { font-size: var(--fs-sm); color: var(--c-ink-3); padding-top: var(--s-4); border-top: 1px solid var(--c-rule); max-width: var(--measure); }
   .photo { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--c-rule); }
   h2 { font-size: var(--fs-xl); line-height: 1.15; }
   .principles { list-style: none; padding: 0; margin-top: var(--s-7); display: grid; gap: var(--s-7) var(--s-6); }

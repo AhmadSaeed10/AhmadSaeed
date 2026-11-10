@@ -17,7 +17,8 @@ npm run dev            # http://localhost:4321
 | `npm run build` | Production build into `dist/` |
 | `npm run preview` | Serve the production build locally |
 | `npm run check` | Type-check Astro, TS and content schemas |
-| `npm run placeholders` | Regenerate the labelled placeholder images |
+| `npm run screens` | Re-crop the case study gallery screens from the mockups |
+| `npm run speed -- <dir>` | Turn Lighthouse reports into speed test screens and data (see below) |
 | `npm run cv` | Print `/resume` to `public/Ahmad_Saeed_CV.pdf` (see below) |
 
 ## Environment variables
@@ -90,7 +91,7 @@ For a smaller project, leave `featured` out: it appears in the "More client work
 
 Case study covers live in `src/assets/projects/` (3:2 mockups, 1536 x 1024 or larger). The site generates AVIF and WebP sizes from them at build time.
 
-Detail-screenshot placeholders live in `src/assets/placeholders/`. Either overwrite a file with the real screenshot using the same name, or add new files and update the paths in the project's frontmatter. Update `coverAlt` and gallery `alt` text to describe the real screenshot.
+Gallery screens in `src/assets/screens/` are cropped from the mockups by `scripts/crop-screens.mjs` (one desktop and one phone screen per project, laid out by the gallery's `device` field). They are limited to the mockup's resolution, so swap in full-size screenshots under the same file names when you have them.
 
 ## How to update the CV
 
@@ -112,6 +113,21 @@ Detail-screenshot placeholders live in `src/assets/placeholders/`. Either overwr
 ## Skill logos
 
 Skill chips show brand logos from Simple Icons (CC0, via `@iconify-json/simple-icons`). The mapping from skill text to logo is in `src/lib/brandIcons.ts`. Logos are monochrome and switch to the brand colour on hover. Klaviyo is not in any open icon set, so it shows as text.
+
+## Speed tests
+
+Every live site has a Lighthouse result, shown on its case study page, in compact form on `/case-studies`, and for all sites on `/work`. Data lives in `src/content/speed/<project-id>.json`, and screenshots in `src/assets/speed/`.
+
+To refresh them (for example after optimising a store), run Lighthouse for each site with both outputs, then convert:
+
+```bash
+npx lighthouse https://example.com --output=json --output=html --output-path=reports/<project-id>-mobile
+npx lighthouse https://example.com --preset=desktop --output=json --output=html --output-path=reports/<project-id>-desktop
+npm i -D playwright && npx playwright install chromium
+npm run speed -- reports
+```
+
+Lab scores vary between runs, so for a fair picture run each site two or three times and keep a typical result.
 
 ## Analytics
 

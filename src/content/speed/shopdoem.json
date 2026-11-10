@@ -1,0 +1,38 @@
+{
+  "project": "shopdoem",
+  "url": "https://shopdoem.com/",
+  "tested": "2026-11-10",
+  "lighthouse": "12.8.2",
+  "mobile": {
+    "scores": {
+      "performance": 63,
+      "accessibility": 89,
+      "bestPractices": 75,
+      "seo": 92
+    },
+    "metrics": {
+      "fcp": "2.5 s",
+      "lcp": "3.1 s",
+      "tbt": "830 ms",
+      "cls": "0",
+      "si": "9.2 s"
+    },
+    "image": "../../assets/speed/shopdoem-mobile.webp"
+  },
+  "desktop": {
+    "scores": {
+      "performance": 80,
+      "accessibility": 86,
+      "bestPractices": 74,
+      "seo": 92
+    },
+    "metrics": {
+      "fcp": "1.0 s",
+      "lcp": "1.8 s",
+      "tbt": "100 ms",
+      "cls": "0",
+      "si": "5.5 s"
+    },
+    "image": "../../assets/speed/shopdoem-desktop.webp"
+  }
+}

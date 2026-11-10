@@ -33,4 +33,13 @@ outcome: "Live at sigmaprinto.com. TODO: add results, for example PageSpeed scor
 tools: [Astro, Claude Code, GitHub, Vercel, GA4, Google Search Console]
 cover: ../../assets/projects/sigmaprinto.webp
 coverAlt: "SigmaPrinto website mockup: dark navy desktop homepage with the headline Printing that matches the proof, a print proof illustration and a client logo row, alongside mobile screens for brand printing, print formats, services and core values."
+gallery:
+  - src: ../../assets/screens/sigmaprinto-desktop.webp
+    alt: "SigmaPrinto homepage on desktop with the Printing that matches the proof headline, a print proof illustration and client logos"
+    caption: "Homepage hero and client logos"
+    device: desktop
+  - src: ../../assets/screens/sigmaprinto-mobile.webp
+    alt: "SigmaPrinto brand printing section on mobile with uniforms and branded apparel"
+    caption: "Brand printing section on mobile"
+    device: mobile
 ---

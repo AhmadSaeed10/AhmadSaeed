@@ -1,0 +1,40 @@
+{
+  "project": "cookiedrama",
+  "url": "https://cookiedrama.com/",
+  "tested": "2026-11-10",
+  "lighthouse": "12.8.2",
+  "mobile": {
+    "scores": {
+      "performance": 32,
+      "accessibility": 90,
+      "bestPractices": 75,
+      "seo": 92
+    },
+    "metrics": {
+      "fcp": "2.6 s",
+      "lcp": "11.1 s",
+      "tbt": "3,080 ms",
+      "cls": "0",
+      "si": "12.5 s"
+    },
+    "image": "../../assets/speed/cookiedrama-mobile.webp",
+    "warning": "The page loaded too slowly to finish within the time limit."
+  },
+  "desktop": {
+    "scores": {
+      "performance": 65,
+      "accessibility": 90,
+      "bestPractices": 74,
+      "seo": 92
+    },
+    "metrics": {
+      "fcp": "1.3 s",
+      "lcp": "3.4 s",
+      "tbt": "150 ms",
+      "cls": "0.005",
+      "si": "5.4 s"
+    },
+    "image": "../../assets/speed/cookiedrama-desktop.webp",
+    "warning": "The page loaded too slowly to finish within the time limit."
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "project": "eirene-studio",
+  "url": "https://eirenestudio.com/",
+  "tested": "2026-11-10",
+  "lighthouse": "12.8.2",
+  "mobile": {
+    "scores": {
+      "performance": 38,
+      "accessibility": 82,
+      "bestPractices": 75,
+      "seo": 85
+    },
+    "metrics": {
+      "fcp": "2.6 s",
+      "lcp": "11.6 s",
+      "tbt": "2,470 ms",
+      "cls": "0",
+      "si": "5.3 s"
+    },
+    "image": "../../assets/speed/eirene-studio-mobile.webp"
+  },
+  "desktop": {
+    "scores": {
+      "performance": 62,
+      "accessibility": 86,
+      "bestPractices": 74,
+      "seo": 85
+    },
+    "metrics": {
+      "fcp": "1.1 s",
+      "lcp": "2.8 s",
+      "tbt": "270 ms",
+      "cls": "0.004",
+      "si": "5.2 s"
+    },
+    "image": "../../assets/speed/eirene-studio-desktop.webp",
+    "warning": "The page loaded too slowly to finish within the time limit."
+  }
+}

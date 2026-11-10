@@ -33,4 +33,13 @@ outcome: "Live at thegrowthlab.cc. TODO: add results once GA4 and Search Console
 tools: [Astro, Claude Code, GitHub, Vercel, GA4, Google Search Console]
 cover: ../../assets/projects/the-growth-lab.webp
 coverAlt: "The Growth Lab website mockup: desktop homepage with a bold red and black Creative and Digital Growth hero, a halftone graphic, a Brands We've Grown With logo row and key figures, alongside mobile screens for the hero, services, strategy and about sections."
+gallery:
+  - src: ../../assets/screens/the-growth-lab-desktop.webp
+    alt: "The Growth Lab homepage on desktop with the Creative and Digital Growth hero, a halftone graphic, client logos and key figures"
+    caption: "Homepage hero, client logos and key figures"
+    device: desktop
+  - src: ../../assets/screens/the-growth-lab-mobile.webp
+    alt: "The Growth Lab services section on mobile: Partner Growth, performance marketing and brand web development"
+    caption: "Services section on mobile"
+    device: mobile
 ---

@@ -1,0 +1,38 @@
+{
+  "project": "vororetail",
+  "url": "https://vororetail.com/",
+  "tested": "2026-11-10",
+  "lighthouse": "12.8.2",
+  "mobile": {
+    "scores": {
+      "performance": 42,
+      "accessibility": 88,
+      "bestPractices": 75,
+      "seo": 92
+    },
+    "metrics": {
+      "fcp": "2.5 s",
+      "lcp": "6.2 s",
+      "tbt": "2,000 ms",
+      "cls": "0",
+      "si": "5.9 s"
+    },
+    "image": "../../assets/speed/vororetail-mobile.webp"
+  },
+  "desktop": {
+    "scores": {
+      "performance": 76,
+      "accessibility": 91,
+      "bestPractices": 74,
+      "seo": 92
+    },
+    "metrics": {
+      "fcp": "0.8 s",
+      "lcp": "1.3 s",
+      "tbt": "410 ms",
+      "cls": "0.014",
+      "si": "1.7 s"
+    },
+    "image": "../../assets/speed/vororetail-desktop.webp"
+  }
+}

@@ -11,7 +11,7 @@ started: 2025-06
 platform: Shopify
 theme: Atelier
 scope: Full website revamp
-# TODO: add live site URL
+url: https://wewearpk.com
 overview: A full revamp of WeWear Pakistan's Shopify storefront on the Atelier theme. I managed the project from the first client consultations through design, development and launch.
 challenge: "TODO: describe the business problem behind the revamp, in one or two sentences."
 approach:
@@ -28,10 +28,12 @@ tools: [Shopify, Liquid, Atelier theme]
 cover: ../../assets/projects/wewear.webp
 coverAlt: "WeWear storefront mockup: desktop homepage with the hero, fabric platform cards and chapter series, alongside mobile screens for a Cottonello story, a product listing, a 90's Baggy Fit product page and the WeWear Circle community section."
 gallery:
-  - src: ../../assets/placeholders/wewear-detail-1.png
-    alt: "Placeholder for a WeWear Pakistan product or collection page screenshot"
-    caption: "TODO: caption"
-  - src: ../../assets/placeholders/wewear-detail-2.png
-    alt: "Placeholder for a WeWear Pakistan mobile or feature detail screenshot"
-    caption: "TODO: caption"
+  - src: ../../assets/screens/wewear-desktop.webp
+    alt: "WeWear homepage on desktop with the One wardrobe hero, fabric platform cards and The lives we lead chapter series"
+    caption: "Homepage with the fabric platform cards and chapter series"
+    device: desktop
+  - src: ../../assets/screens/wewear-mobile.webp
+    alt: "WeWear 90's Baggy Fit product page on mobile with price, BaadMay instalments, colour and size options"
+    caption: "90's Baggy Fit product page on mobile"
+    device: mobile
 ---
