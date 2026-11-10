@@ -142,20 +142,32 @@ a:hover { color: var(--c-accent); }
   font-style: normal;
 }
 
-/* Section reveal: scroll-driven, CSS only, progressive enhancement */
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    .reveal {
-      animation: reveal linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 40%;
-    }
-  }
+/* Scroll motion (see components/Motion.astro). Only active when the script adds .motion to <html>,
+   so content is always visible without JavaScript or with reduced motion. */
+.motion .rv {
+  opacity: 0;
+  transform: translateY(1.75rem);
+  transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
+  transition-delay: var(--rv-delay, 0ms);
 }
-@keyframes reveal {
-  from { opacity: 0; transform: translateY(1.5rem); }
-  to { opacity: 1; transform: none; }
+.motion .rv.in { opacity: 1; transform: none; }
+.motion .rv.now { transition: none; }
+
+/* Divider lines draw left to right when they reach the middle of the screen. */
+.motion .ln { position: relative; border-top-color: transparent !important; }
+.motion .ln::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: -1px;
+  height: 1px;
+  background: var(--ln-color, var(--c-rule));
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 1100ms cubic-bezier(0.65, 0, 0.35, 1);
+  pointer-events: none;
 }
+.motion .ln.drawn::before { transform: scaleX(1); }
+.motion .ln.now::before { transition: none; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
