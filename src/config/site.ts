@@ -37,6 +37,15 @@ export const site = {
     overlap: 'Overlap available with European and Oceania working hours',
   },
 
+  /**
+   * Which Lighthouse runs to show per platform (data for both is kept in src/content/speed).
+   * Shopify stores show desktop only; add 'mobile' back to show mobile scores again.
+   */
+  speedModes: {
+    Shopify: ['desktop'],
+    default: ['mobile', 'desktop'],
+  } as Record<string, ('mobile' | 'desktop')[]>,
+
   cvFile: '/Ahmad_Saeed_CV.pdf',
 
   nav: [

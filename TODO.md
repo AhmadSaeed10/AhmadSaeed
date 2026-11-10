@@ -28,8 +28,8 @@ For each of WeWear, Hushpuppies, OneDegree, Eirene Studio and CookieDrama (`src/
 ## Speed tests
 
 - [x] Lighthouse mobile and desktop results for all 11 live sites (10 November 2026).
-- [ ] Review the mobile scores before launch. Several Shopify stores score under 50 on mobile, mostly from third-party apps and scripts. Consider optimising first and re-running (`npm run speed`, see README), or showing desktop results only for those stores.
-- [ ] CookieDrama (both runs) and Eirene Studio (desktop) hit Lighthouse's load time limit. Re-run them for a cleaner result.
+- [x] Shopify stores show desktop results only (`speedModes` in `src/config/site.ts`). Mobile data is kept; after optimising a store, re-run (`npm run speed`, see README) and add `'mobile'` back to show it.
+- [ ] CookieDrama and Eirene Studio desktop runs hit Lighthouse's load time limit. Re-run them for a cleaner result.
 
 ## Astro builds (The Growth Lab, SigmaPrinto)
 

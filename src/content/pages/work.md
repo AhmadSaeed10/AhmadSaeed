@@ -21,5 +21,5 @@ sections:
   speed:
     label: Speed tests
     heading: How each live site performs today.
-    intro: Lighthouse lab results for every live site, on mobile and desktop. Open a screenshot to see the full summary. Scores reflect each site as it runs now, including the client's apps, content and tracking.
+    intro: Lighthouse lab results for every live site. Open a screenshot to see the full summary. Scores reflect each site as it runs now, including the client's apps, content and tracking.
 ---

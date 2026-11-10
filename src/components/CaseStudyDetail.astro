@@ -58,7 +58,7 @@ const speed = (await getSpeedTests()).get(project.id);
     {speed && (
       <div class="block wide-block">
         <h4>Speed test, Lighthouse {formatDate(speed.data.tested)}</h4>
-        <SpeedTest entry={speed} variant="scores" label={d.client} />
+        <SpeedTest entry={speed} variant="scores" label={d.client} platform={d.platform} />
       </div>
     )}
 
