@@ -2,6 +2,7 @@
 import { Picture, getImage } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Todo from '@/components/Todo.astro';
+import AstroLogo from '@/components/AstroLogo.astro';
 import { getFeaturedProjects } from '@/lib/content';
 import { caseStudySchema } from '@/lib/schema';
 import { hostname, isTodo } from '@/lib/format';
@@ -29,7 +30,7 @@ const title = `${d.client} case study: ${d.title} | Ahmad Saeed`;
       <nav aria-label="Breadcrumb" class="crumbs">
         <ol><li><a href="/#work">Work</a></li><li aria-current="page">{d.client}</li></ol>
       </nav>
-      <p class="label">{d.client}</p>
+      <p class="label client-label">{d.platform === 'Astro' && <AstroLogo size={18} />}{d.client}</p>
       <h1>{d.title}</h1>
       <p class="summary">{d.summary}</p>
     </header>
@@ -53,13 +54,23 @@ const title = `${d.client} case study: ${d.title} | Ahmad Saeed`;
               ) : <span class="todo">TODO: add live link</span>}
             </dd>
           </div>
+          {d.writeup && (
+            <div>
+              <dt>Write-up</dt>
+              <dd>
+                <a href={d.writeup.url} rel="noopener noreferrer" target="_blank" class="visit" data-track="outbound_click" data-track-label={`case_writeup_${project.id}`}>
+                  {d.writeup.label}<span class="visually-hidden"> (opens in a new tab)</span> <span aria-hidden="true">&nearr;</span>
+                </a>
+              </dd>
+            </div>
+          )}
         </dl>
       </aside>
 
       <div class="content">
         {d.cover && (
           <figure class="cover">
-            <Picture src={d.cover} alt={d.coverAlt ?? ''} formats={['avif', 'webp']} widths={[480, 800, 1200, 1600]} sizes="(min-width: 64rem) 52rem, 100vw" loading="eager" fetchpriority="high" />
+            <Picture src={d.cover} alt={d.coverAlt ?? ''} formats={['avif', 'webp']} widths={[480, 800, 1200, 1536]} sizes="(min-width: 64rem) 52rem, 100vw" loading="eager" fetchpriority="high" />
           </figure>
         )}
 
@@ -155,6 +166,8 @@ const title = `${d.client} case study: ${d.title} | Ahmad Saeed`;
   .crumbs li + li::before { content: '/'; margin-right: var(--s-2); }
   .crumbs a { display: inline-flex; min-height: var(--tap); align-items: center; }
   h1 { font-size: var(--fs-2xl); line-height: 1.05; max-width: 20em; letter-spacing: -0.025em; }
+  .client-label { display: flex; align-items: center; gap: var(--s-2); }
+  .client-label :global(.astro-logo) { color: var(--c-ink); }
   .summary { font-size: var(--fs-md); color: var(--c-ink-2); max-width: var(--measure); }
 
   .layout { display: grid; gap: var(--s-7); padding-bottom: var(--section-y); }

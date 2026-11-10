@@ -29,6 +29,8 @@ const projects = defineCollection({
       summary: z.string(),
       /** featured projects get a full case study page; others appear in "More client work". */
       featured: z.boolean().default(false),
+      /** shopify: Selected work grid. web: the "Built with Astro" section. */
+      category: z.enum(['shopify', 'web']).default('shopify'),
       order: z.number().default(99),
       role: z.string(),
       timeline: z.string(),
@@ -37,6 +39,8 @@ const projects = defineCollection({
       theme: z.string().optional(),
       scope: z.string(),
       url: z.url().optional(),
+      /** Optional write-up elsewhere, for example a Contra post. */
+      writeup: z.object({ label: z.string(), url: z.url() }).optional(),
       overview: z.string().optional(),
       challenge: z.string().optional(),
       approach: z.array(z.object({ title: z.string(), text: z.string() })).default([]),
@@ -120,6 +124,8 @@ const pages = defineCollection({
       photo: image().optional(),
       photoAlt: z.string().optional(),
       hint: z.array(z.string()).optional(),
+      /** Numbered process steps, used by the "Built with Astro" section. */
+      workflow: z.array(z.object({ title: z.string(), text: z.string() })).optional(),
       /** Section labels and headings for the home page, keyed by section id. */
       sections: z
         .record(z.string(), z.object({ label: z.string(), heading: z.string(), intro: z.string().optional() }))

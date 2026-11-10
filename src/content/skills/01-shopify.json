@@ -1,5 +1,19 @@
 {
   "group": "Shopify and front-end",
   "order": 1,
-  "items": ["Liquid", "Online Store 2.0 themes: Dawn, Horizon, Atelier, Prestige, Symmetry, Impact, Impulse, Motion, Alchemy", "Custom theme development", "HTML5", "CSS3", "JavaScript / jQuery", "Bootstrap", "Responsive, mobile-first design", "Cross-browser compatibility", "WordPress", "Elementor", "Hostinger e-commerce"]
+  "items": [
+    "Liquid",
+    "Astro",
+    "Online Store 2.0 themes: Dawn, Horizon, Atelier, Prestige, Symmetry, Impact, Impulse, Motion, Alchemy",
+    "Custom theme development",
+    "HTML5",
+    "CSS3",
+    "JavaScript / jQuery",
+    "Bootstrap",
+    "Responsive, mobile-first design",
+    "Cross-browser compatibility",
+    "WordPress",
+    "Elementor",
+    "Hostinger e-commerce"
+  ]
 }

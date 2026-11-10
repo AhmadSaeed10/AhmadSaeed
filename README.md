@@ -64,17 +64,21 @@ scripts/                Placeholder and CV PDF generators
 ## How to add a case study
 
 1. Create `src/content/projects/<slug>.md`. The file name becomes the URL: `/work/<slug>`.
-2. Copy the frontmatter from `wewear.md` and set `featured: true` and an `order`.
-3. Put screenshots in `src/assets/` (PNG or JPG, ideally 1600 x 1000 or larger) and reference them with relative paths in `cover` and `gallery`. Astro generates AVIF and WebP sizes automatically.
+2. Copy the frontmatter from `wewear.md` and set `featured: true` and an `order`. With an odd number of case studies, the first one is shown full width on the home page.
+3. Put the cover in `src/assets/projects/` (3:2, WebP, PNG or JPG, 1536 x 1024 or larger) and screenshots in `src/assets/` and reference them with relative paths in `cover` and `gallery`. Astro generates AVIF and WebP sizes automatically.
 4. Any field that starts with `TODO` renders as a visible dashed placeholder, so gaps are obvious before launch.
 5. Add `results` as `{ value, label }` pairs when you have numbers you can share.
 6. Run `npm run check` to validate the schema.
 
+Set `category: web` for a non-Shopify website (for example an Astro build). It then appears in the "Built with Astro" section on the home page instead of Selected work, and can link a write-up with `writeup: { label, url }`. The numbered "How I build them" steps come from `workflow` in `src/content/pages/home.md`.
+
 For a smaller project, leave `featured` out: it appears in the "More client work" list without its own page.
 
-### Replacing placeholder images
+### Images
 
-Placeholders live in `src/assets/placeholders/`. Either overwrite a file with the real screenshot using the same name, or add new files and update the paths in the project's frontmatter. Update `coverAlt` and gallery `alt` text to describe the real screenshot.
+Case study covers live in `src/assets/projects/` (3:2 mockups, 1536 x 1024 or larger). The site generates AVIF and WebP sizes from them at build time.
+
+Detail-screenshot placeholders live in `src/assets/placeholders/`. Either overwrite a file with the real screenshot using the same name, or add new files and update the paths in the project's frontmatter. Update `coverAlt` and gallery `alt` text to describe the real screenshot.
 
 ## How to update the CV
 
@@ -93,7 +97,8 @@ GTM loads after the page is idle, so it never blocks rendering. Events are pushe
 | `contact_form_submit` | Successful form submission | `form_id`, `topic`, `page_path` |
 | `cv_download` | "Download PDF" on `/resume` | `label`, `link_url` |
 | `linkedin_click` | Any LinkedIn link | `label`, `link_url` |
-| `outbound_click` | "Visit site" links | `label`, `link_url` |
+| `contra_click` | Any Contra profile link | `label`, `link_url` |
+| `outbound_click` | "Visit site" links and the Contra build post | `label`, `link_url` |
 | `case_study_view` | Case study page load | `case_study`, `page_path` |
 
 In GTM, create a **Custom Event** trigger for each event name and a GA4 Event tag that forwards the parameters as data layer variables. To track a new element, add `data-track="event_name"` and optionally `data-track-label="..."` to it.

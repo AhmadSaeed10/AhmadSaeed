@@ -6,6 +6,7 @@ import ProjectCard from '@/components/ProjectCard.astro';
 import MoreWork from '@/components/MoreWork.astro';
 import Services from '@/components/Services.astro';
 import TrackingBand from '@/components/TrackingBand.astro';
+import AstroBuilds from '@/components/AstroBuilds.astro';
 import Skills from '@/components/Skills.astro';
 import Timeline from '@/components/Timeline.astro';
 import Testimonials from '@/components/Testimonials.astro';
@@ -17,8 +18,8 @@ import { personSchema, serviceSchema } from '@/lib/schema';
 const page = await getPage('home');
 const d = page.data;
 const s = d.sections!;
-const [featured, more, core, secondary, skills, experience, testimonials] = await Promise.all([
-  getFeaturedProjects(), getMoreWork(), getServices('core'), getServices('secondary'), getSkills(), getExperience(), getTestimonials(),
+const [featured, webBuilds, more, core, secondary, skills, experience, testimonials] = await Promise.all([
+  getFeaturedProjects('shopify'), getFeaturedProjects('web'), getMoreWork(), getServices('core'), getServices('secondary'), getSkills(), getExperience(), getTestimonials(),
 ]);
 const origin = Astro.site!;
 const jsonLd = [personSchema(origin), serviceSchema(origin, [...core, ...secondary].map((x) => x.data))];
@@ -30,24 +31,26 @@ const jsonLd = [personSchema(origin), serviceSchema(origin, [...core, ...seconda
     <div class="container">
       <SectionHead index="01" id="work-title" {...s.work} />
       <div class="work-grid">
-        {featured.map((p, i) => <ProjectCard project={p} index={i} />)}
+        {featured.map((p, i) => <ProjectCard project={p} index={i} wide={i === 0 && featured.length % 2 === 1} />)}
       </div>
       <MoreWork items={more} />
     </div>
   </section>
 
+  {webBuilds.length > 0 && s.astro && <AstroBuilds index="02" {...s.astro} projects={webBuilds} workflow={d.workflow} />}
+
   <section id="services" class="section" aria-labelledby="services-title">
     <div class="container">
-      <SectionHead index="02" id="services-title" {...s.services} />
+      <SectionHead index="03" id="services-title" {...s.services} />
       <Services core={core} secondary={secondary} />
     </div>
   </section>
 
-  <TrackingBand {...s.tracking} />
+  <TrackingBand index="04" {...s.tracking} />
 
   <section id="skills" class="section" aria-labelledby="skills-title">
     <div class="container">
-      <SectionHead index="04" id="skills-title" {...s.skills} />
+      <SectionHead index="05" id="skills-title" {...s.skills} />
       <Skills groups={skills} />
     </div>
   </section>
@@ -55,7 +58,7 @@ const jsonLd = [personSchema(origin), serviceSchema(origin, [...core, ...seconda
   <section id="experience" class="section" aria-labelledby="experience-title">
     <div class="container section-grid">
       <div class="rail">
-        <SectionHead index="05" id="experience-title" {...s.experience} />
+        <SectionHead index="06" id="experience-title" {...s.experience} />
         <a href="/resume" class="link-arrow" data-track="cta_click" data-track-label="home_full_resume">Full resume <span aria-hidden="true">&rarr;</span></a>
       </div>
       <div class="body"><Timeline items={experience} /></div>
@@ -64,7 +67,7 @@ const jsonLd = [personSchema(origin), serviceSchema(origin, [...core, ...seconda
 
   <section id="testimonials" class="section" aria-labelledby="testimonials-title">
     <div class="container">
-      <SectionHead index="06" id="testimonials-title" {...s.testimonials} />
+      <SectionHead index="07" id="testimonials-title" {...s.testimonials} />
       <Testimonials items={testimonials} />
     </div>
   </section>
@@ -72,10 +75,11 @@ const jsonLd = [personSchema(origin), serviceSchema(origin, [...core, ...seconda
   <section id="contact" class="section contact" aria-labelledby="contact-title" data-hide-sticky>
     <div class="container section-grid">
       <div class="rail">
-        <SectionHead index="07" id="contact-title" {...s.contact} />
+        <SectionHead index="08" id="contact-title" {...s.contact} />
         <dl class="facts">
           <div><dt>Email</dt><dd><a href={`mailto:${site.contact.email}`} data-track="cta_click" data-track-label="home_contact_email">{site.contact.email}</a></dd></div>
           <div><dt>LinkedIn</dt><dd><a href={site.contact.linkedin} rel="noopener noreferrer" target="_blank" data-track="linkedin_click" data-track-label="home_contact">{site.contact.linkedinLabel}<span class="visually-hidden"> (opens in a new tab)</span></a></dd></div>
+          <div><dt>Contra</dt><dd><a href={site.contact.contra} rel="noopener noreferrer" target="_blank" data-track="contra_click" data-track-label="home_contact">{site.contact.contraLabel}<span class="visually-hidden"> (opens in a new tab)</span></a></dd></div>
           <div><dt>Location</dt><dd>{site.contact.location}, {site.contact.timezone}</dd></div>
         </dl>
       </div>
@@ -86,7 +90,10 @@ const jsonLd = [personSchema(origin), serviceSchema(origin, [...core, ...seconda
 
 <style>
   .work-grid { display: grid; gap: var(--s-8) var(--s-6); }
-  @media (min-width: 52rem) { .work-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 52rem) {
+    .work-grid { grid-template-columns: 1fr 1fr; }
+    .work-grid > :global(.wide) { grid-column: 1 / -1; }
+  }
   @media (min-width: 60rem) {
     #experience .rail, #contact .rail { grid-column: 1 / span 4; }
     #experience .body, #contact .body { grid-column: 6 / -1; }

@@ -7,8 +7,9 @@ export async function getPage(id: string) {
   return entry;
 }
 
-export async function getFeaturedProjects() {
-  const all = await getCollection('projects', ({ data }) => data.featured);
+/** All projects with a case study page, optionally filtered by category. */
+export async function getFeaturedProjects(category?: 'shopify' | 'web') {
+  const all = await getCollection('projects', ({ data }) => data.featured && (!category || data.category === category));
   return all.sort((a, b) => a.data.order - b.data.order);
 }
 

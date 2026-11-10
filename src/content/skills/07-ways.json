@@ -1,5 +1,11 @@
 {
   "group": "Ways of working",
   "order": 7,
-  "items": ["Independent end-to-end delivery", "Stakeholder communication and reporting", "Cross-functional coordination", "AI-assisted development with Claude Code"]
+  "items": [
+    "Independent end-to-end delivery",
+    "Stakeholder communication and reporting",
+    "Cross-functional coordination",
+    "AI-assisted development with Claude Code",
+    "GitHub and Vercel deployment workflow"
+  ]
 }

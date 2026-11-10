@@ -9,10 +9,10 @@ export function personSchema(origin: URL) {
     jobTitle: [site.title, site.secondaryTitle],
     url: origin.href,
     email: `mailto:${site.contact.email}`,
-    sameAs: [site.contact.linkedin],
+    sameAs: [site.contact.linkedin, site.contact.contra],
     address: { '@type': 'PostalAddress', addressLocality: 'Lahore', addressCountry: 'PK' },
     alumniOf: { '@type': 'CollegeOrUniversity', name: 'Bahria University' },
-    knowsAbout: ['Shopify', 'Liquid', 'E-commerce', 'UX design', 'UI design', 'GA4', 'Google Tag Manager', 'Conversion rate optimisation'],
+    knowsAbout: ['Shopify', 'Liquid', 'Astro', 'E-commerce', 'UX design', 'UI design', 'GA4', 'Google Tag Manager', 'Conversion rate optimisation'],
   };
 }
 

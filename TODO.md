@@ -12,15 +12,23 @@ Everything below is visible on the site as a dashed placeholder or flagged in a 
 
 ## Case studies
 
-For each of WeWear, Hushpuppies, OneDegree and Eirene Studio (`src/content/projects/*.md`):
+For each of WeWear, Hushpuppies, OneDegree, Eirene Studio and CookieDrama (`src/content/projects/*.md`):
 
-- [ ] Cover screenshot (desktop homepage, 1600 x 1000) and 2 detail screenshots, with alt text and captions
+- [x] Cover mockups (`src/assets/projects/*.webp`), with alt text
+- [ ] 2 detail screenshots each, with alt text and captions (still placeholders)
+- [ ] CookieDrama: confirm the case study copy, which was promoted from the compact list now that it has a mockup
 - [ ] `challenge`: the business problem behind the project, in one or two sentences
 - [ ] `outcome` and `results`: measurable results you can share (conversion, speed, AOV, revenue)
 - [ ] Live site URL for WeWear, Hushpuppies and OneDegree
 - [ ] Confirm the `role` wording for WeWear, Hushpuppies and OneDegree, and whether these were delivered as part of your WPP Media role
 - [ ] Eirene Studio: confirm which theme it uses
 - [ ] Dagny.pk: add the project date
+
+## Astro builds (The Growth Lab, SigmaPrinto)
+
+- [ ] `challenge` for The Growth Lab, and results for both (for example PageSpeed before and after the WordPress move, enquiries, search impressions). The rest of the copy comes from your Contra post.
+- [ ] Confirm the role wording "Logo, brand, design and Astro build" for both.
+- [ ] Optional: add detail screenshots as a `gallery`, like the Shopify case studies.
 
 ## Confirm the drafted copy
 
