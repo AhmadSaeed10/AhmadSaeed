@@ -5,12 +5,16 @@ import ProjectCard from '@/components/ProjectCard.astro';
 import MoreWork from '@/components/MoreWork.astro';
 import TrackingBand from '@/components/TrackingBand.astro';
 import AstroLogo from '@/components/AstroLogo.astro';
-import { getPage, getFeaturedProjects, getMoreWork } from '@/lib/content';
+import SpeedTest from '@/components/SpeedTest.astro';
+import { getPage, getFeaturedProjects, getMoreWork, getSpeedTests } from '@/lib/content';
 
 const page = await getPage('work');
 const d = page.data;
 const s = d.sections!;
-const [shopify, web, more] = await Promise.all([getFeaturedProjects('shopify'), getFeaturedProjects('web'), getMoreWork()]);
+const [shopify, web, more, speedMap] = await Promise.all([getFeaturedProjects('shopify'), getFeaturedProjects('web'), getMoreWork(), getSpeedTests()]);
+const speedRows = [...shopify, ...web, ...more]
+  .map((p) => ({ project: p, speed: speedMap.get(p.id) }))
+  .filter((r): r is { project: typeof r.project; speed: NonNullable<typeof r.speed> } => Boolean(r.speed));
 
 const stats = [
   { value: String(shopify.length + web.length), label: 'full case studies' },
@@ -23,6 +27,7 @@ const jump = [
   { href: '#astro', label: s.astro.label, count: web.length },
   { href: '#more', label: s.more.label, count: more.length },
   { href: '#tracking', label: s.tracking.label },
+  ...(speedRows.length ? [{ href: '#speed', label: s.speed?.label ?? 'Speed tests', count: speedRows.length }] : []),
 ];
 ---
 <BaseLayout title={d.seoTitle} description={d.seoDescription} ogKey="work">
@@ -73,6 +78,28 @@ const jump = [
 
   <TrackingBand index="04" {...s.tracking} />
 
+  {speedRows.length > 0 && s.speed && (
+    <section id="speed" class="section" aria-labelledby="speed-title">
+      <div class="container">
+        <SectionHead index="05" id="speed-title" {...s.speed} />
+        <ol class="speed-list">
+          {speedRows.map(({ project: p, speed }) => (
+            <li class="speed-row">
+              <div class="who">
+                <h3>{p.data.featured ? <a href={`/work/${p.id}`}>{p.data.client}</a> : p.data.client}</h3>
+                <p class="platform">{p.data.platform}{p.data.theme && !p.data.theme.startsWith('TODO') ? `, ${p.data.theme} theme` : ''}</p>
+                <a class="site" href={speed.data.url} rel="noopener noreferrer" target="_blank" data-track="outbound_click" data-track-label={`speed_visit_${p.id}`}>
+                  {new URL(speed.data.url).hostname.replace(/^www\./, '')}<span class="visually-hidden"> (opens in a new tab)</span> <span aria-hidden="true">&nearr;</span>
+                </a>
+              </div>
+              <SpeedTest entry={speed} variant="thumbs" label={p.data.client} />
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )}
+
   <section class="section cta" aria-labelledby="work-cta" data-hide-sticky>
     <div class="container">
       <h2 id="work-cta">Have a store or site that should be doing more?</h2>
@@ -112,6 +139,16 @@ const jump = [
     border-radius: var(--radius); border: 1px solid var(--c-rule); background: var(--c-surface); color: var(--c-ink);
   }
   @media (max-width: 30rem) { .astro-head { flex-direction: column; gap: 0; } .mark { margin-top: 0; } }
+  .speed-list { list-style: none; padding: 0; }
+  .speed-row { display: grid; gap: var(--s-5); padding-block: var(--s-7); border-top: 1px solid var(--c-ink); }
+  @media (min-width: 64rem) { .speed-row { grid-template-columns: 16rem 1fr; gap: var(--s-7); } }
+  .who { display: grid; gap: var(--s-1); align-content: start; }
+  .who h3 { font-size: var(--fs-lg); }
+  .who h3 a { text-decoration: none; }
+  .who h3 a:hover { color: var(--c-accent); }
+  .platform { color: var(--c-ink-3); font-size: var(--fs-sm); }
+  .site { display: inline-flex; align-items: center; gap: var(--s-1); min-height: var(--tap); color: var(--c-accent); font-weight: 600; font-size: var(--fs-sm); text-decoration: none; }
+  .site:hover { text-decoration: underline; }
   .cta { background: var(--c-surface-2); }
   .cta .container { display: grid; gap: var(--s-4); justify-items: start; }
   .cta h2 { font-size: var(--fs-xl); max-width: 20em; }

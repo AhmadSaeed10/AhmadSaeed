@@ -1,0 +1,38 @@
+{
+  "project": "wewear",
+  "url": "https://wewearpk.com/",
+  "tested": "2026-11-10",
+  "lighthouse": "12.8.2",
+  "mobile": {
+    "scores": {
+      "performance": 38,
+      "accessibility": 79,
+      "bestPractices": 75,
+      "seo": 92
+    },
+    "metrics": {
+      "fcp": "3.1 s",
+      "lcp": "6.6 s",
+      "tbt": "1,760 ms",
+      "cls": "0.001",
+      "si": "6.7 s"
+    },
+    "image": "../../assets/speed/wewear-mobile.webp"
+  },
+  "desktop": {
+    "scores": {
+      "performance": 81,
+      "accessibility": 80,
+      "bestPractices": 74,
+      "seo": 92
+    },
+    "metrics": {
+      "fcp": "1.1 s",
+      "lcp": "2.0 s",
+      "tbt": "160 ms",
+      "cls": "0",
+      "si": "2.1 s"
+    },
+    "image": "../../assets/speed/wewear-desktop.webp"
+  }
+}

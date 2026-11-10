@@ -1,0 +1,38 @@
+{
+  "project": "the-growth-lab",
+  "url": "https://www.thegrowthlab.cc/",
+  "tested": "2026-11-10",
+  "lighthouse": "12.8.2",
+  "mobile": {
+    "scores": {
+      "performance": 97,
+      "accessibility": 96,
+      "bestPractices": 100,
+      "seo": 100
+    },
+    "metrics": {
+      "fcp": "1.0 s",
+      "lcp": "1.5 s",
+      "tbt": "200 ms",
+      "cls": "0",
+      "si": "2.3 s"
+    },
+    "image": "../../assets/speed/the-growth-lab-mobile.webp"
+  },
+  "desktop": {
+    "scores": {
+      "performance": 99,
+      "accessibility": 96,
+      "bestPractices": 100,
+      "seo": 100
+    },
+    "metrics": {
+      "fcp": "0.3 s",
+      "lcp": "0.4 s",
+      "tbt": "0 ms",
+      "cls": "0.062",
+      "si": "0.9 s"
+    },
+    "image": "../../assets/speed/the-growth-lab-desktop.webp"
+  }
+}

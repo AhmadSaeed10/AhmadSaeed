@@ -3,13 +3,16 @@ import { Picture } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import Todo from './Todo.astro';
 import AstroLogo from './AstroLogo.astro';
-import { hostname, isTodo } from '@/lib/format';
+import { hostname, isTodo, formatDate } from '@/lib/format';
+import SpeedTest from './SpeedTest.astro';
+import { getSpeedTests } from '@/lib/content';
 
 interface Props { project: CollectionEntry<'projects'>; index: number }
 const { project, index } = Astro.props;
 const d = project.data;
 const href = `/work/${project.id}`;
 const num = String(index + 1).padStart(2, '0');
+const speed = (await getSpeedTests()).get(project.id);
 ---
 <article id={project.id} class="cs" aria-labelledby={`${project.id}-title`}>
   <div class="media">
@@ -49,6 +52,13 @@ const num = String(index + 1).padStart(2, '0');
         <ol class="steps">
           {d.approach.map((step) => <li><strong>{step.title}.</strong> {step.text}</li>)}
         </ol>
+      </div>
+    )}
+
+    {speed && (
+      <div class="block wide-block">
+        <h4>Speed test, Lighthouse {formatDate(speed.data.tested)}</h4>
+        <SpeedTest entry={speed} variant="scores" label={d.client} />
       </div>
     )}
 
@@ -106,6 +116,7 @@ const num = String(index + 1).padStart(2, '0');
   .meta dt { font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--c-ink-3); }
   .meta :global(dd) { font-size: var(--fs-sm); margin-top: 2px; }
   .block { display: grid; gap: var(--s-2); max-width: 44rem; }
+  .wide-block { max-width: none; }
   h4 { font-family: var(--font-text); font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--c-ink); }
   .block > :global(p) { color: var(--c-ink-2); }
   .steps { padding-left: 1.25rem; display: grid; gap: var(--s-2); color: var(--c-ink-2); }

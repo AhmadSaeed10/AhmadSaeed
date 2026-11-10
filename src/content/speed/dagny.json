@@ -1,0 +1,38 @@
+{
+  "project": "dagny",
+  "url": "https://dagny.pk/",
+  "tested": "2026-11-10",
+  "lighthouse": "12.8.2",
+  "mobile": {
+    "scores": {
+      "performance": 62,
+      "accessibility": 78,
+      "bestPractices": 75,
+      "seo": 85
+    },
+    "metrics": {
+      "fcp": "2.5 s",
+      "lcp": "6.1 s",
+      "tbt": "300 ms",
+      "cls": "0",
+      "si": "6.6 s"
+    },
+    "image": "../../assets/speed/dagny-mobile.webp"
+  },
+  "desktop": {
+    "scores": {
+      "performance": 84,
+      "accessibility": 74,
+      "bestPractices": 74,
+      "seo": 85
+    },
+    "metrics": {
+      "fcp": "1.1 s",
+      "lcp": "1.9 s",
+      "tbt": "10 ms",
+      "cls": "0",
+      "si": "2.5 s"
+    },
+    "image": "../../assets/speed/dagny-desktop.webp"
+  }
+}

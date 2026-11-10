@@ -11,7 +11,8 @@ started: 2024-12
 platform: Shopify
 theme: Alchemy
 scope: New website launch
-# TODO: add live site URL
+# CONFIRM: live URL matched by page title.
+url: https://onedegree.com.pk
 overview: A new Shopify website for OneDegree Pakistan on the Alchemy theme, with dynamic content sections, app integrations and site speed improvements.
 challenge: "TODO: describe the business problem behind the new site, in one or two sentences."
 approach:
@@ -26,10 +27,12 @@ tools: [Shopify, Liquid, Alchemy theme]
 cover: ../../assets/projects/onedegree.webp
 coverAlt: "OneDegree storefront mockup in a dark theme: desktop homepage with a running hero, best sellers and trending categories, alongside mobile screens for a padel shoe product page, trending categories, shop men and women, and customer reviews."
 gallery:
-  - src: ../../assets/placeholders/onedegree-detail-1.png
-    alt: "Placeholder for a OneDegree Pakistan collection page screenshot"
-    caption: "TODO: caption"
-  - src: ../../assets/placeholders/onedegree-detail-2.png
-    alt: "Placeholder for a OneDegree Pakistan mobile screenshot"
-    caption: "TODO: caption"
+  - src: ../../assets/screens/onedegree-desktop.webp
+    alt: "OneDegree homepage on desktop in a dark theme with a running hero, best sellers and trending categories"
+    caption: "Homepage with the running hero, best sellers and trending categories"
+    device: desktop
+  - src: ../../assets/screens/onedegree-mobile.webp
+    alt: "OneDegree White and Teal Precision XT padel shoe product page on mobile with reviews, price and BaadMay instalments"
+    caption: "Padel shoe product page on mobile"
+    device: mobile
 ---

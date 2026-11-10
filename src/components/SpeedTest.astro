@@ -1,0 +1,91 @@
+---
+import { Picture, getImage } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { formatDate } from '@/lib/format';
+
+interface Props {
+  entry: CollectionEntry<'speed'>;
+  /** full: screenshots large, side by side. thumbs: small screenshots linking to full size. scores: numbers only. */
+  variant?: 'full' | 'thumbs' | 'scores';
+  label?: string;
+}
+const { entry, variant = 'full', label } = Astro.props;
+const d = entry.data;
+const runs = (['mobile', 'desktop'] as const)
+  .map((mode) => ({ mode, run: d[mode] }))
+  .filter((r): r is { mode: 'mobile' | 'desktop'; run: NonNullable<typeof d.mobile> } => Boolean(r.run));
+const cats = [
+  ['performance', 'Performance'],
+  ['accessibility', 'Accessibility'],
+  ['bestPractices', 'Best practices'],
+  ['seo', 'SEO'],
+] as const;
+const band = (n: number | null) => (n == null ? 'na' : n >= 90 ? 'good' : n >= 50 ? 'avg' : 'poor');
+const full = await Promise.all(runs.map(async (r) => (variant === 'thumbs' ? (await getImage({ src: r.run.image, format: 'webp' })).src : '')));
+const who = label ?? new URL(d.url).hostname.replace(/^www\./, '');
+---
+<div class:list={['speed', `v-${variant}`]}>
+  <div class="runs">
+    {runs.map(({ mode, run }, i) => (
+      <div class="run">
+        <p class="mode">{mode === 'mobile' ? 'Mobile' : 'Desktop'}</p>
+        <ul class="scores" aria-label={`${mode === 'mobile' ? 'Mobile' : 'Desktop'} Lighthouse scores for ${who}`}>
+          {cats.map(([key, name]) => (
+            <li class={band(run.scores[key])}>
+              <span class="num">{run.scores[key] ?? 'n/a'}</span>
+              <span class="cat">{name}</span>
+            </li>
+          ))}
+        </ul>
+        {variant !== 'scores' && (
+          <p class="metrics">
+            {run.metrics.fcp && <span>FCP {run.metrics.fcp}</span>}
+            {run.metrics.lcp && <span>LCP {run.metrics.lcp}</span>}
+            {run.metrics.tbt && <span>TBT {run.metrics.tbt}</span>}
+            {run.metrics.cls && <span>CLS {run.metrics.cls}</span>}
+          </p>
+        )}
+        {variant === 'full' && (
+          <figure class="shot">
+            <Picture src={run.image} alt={`Lighthouse ${mode} report for ${who}: performance ${run.scores.performance}, accessibility ${run.scores.accessibility}, best practices ${run.scores.bestPractices}, SEO ${run.scores.seo}.`} formats={['avif', 'webp']} widths={[480, 840, 1680]} sizes="(min-width: 64rem) 26rem, 100vw" loading="lazy" />
+          </figure>
+        )}
+        {variant === 'thumbs' && (
+          <a class="thumb" href={full[i]} target="_blank" rel="noopener" data-track="cta_click" data-track-label={`speed_${entry.id}_${mode}`}>
+            <Picture src={run.image} alt={`Lighthouse ${mode} report for ${who}`} formats={['avif', 'webp']} widths={[320, 640]} sizes="(min-width: 64rem) 16rem, 45vw" loading="lazy" />
+            <span class="visually-hidden"> (opens full-size report screenshot in a new tab)</span>
+          </a>
+        )}
+        {run.warning && variant !== 'scores' && <p class="warn">Lighthouse note: {run.warning}</p>}
+      </div>
+    ))}
+  </div>
+  {variant !== 'scores' && (
+    <p class="note">Lab test with Lighthouse {d.lighthouse} on {formatDate(d.tested)}: simulated mid-range phone on a throttled 4G connection, and desktop. Live results vary with apps, content and traffic.</p>
+  )}
+</div>
+
+<style>
+  .speed { --good: #0a7a3c; --good-bg: #e3f4ea; --avg: #9a5200; --avg-bg: #fdf0dd; --poor: #b42318; --poor-bg: #fde7e4; }
+  :global([data-theme='dark']) .speed { --good: #5fd39a; --good-bg: #12301f; --avg: #ffb35c; --avg-bg: #3a2810; --poor: #ff8a80; --poor-bg: #3c1714; }
+  .runs { display: grid; gap: var(--s-6); }
+  @media (min-width: 48rem) { .runs { grid-template-columns: 1fr 1fr; } }
+  .v-scores .runs { gap: var(--s-4); }
+  .run { display: grid; gap: var(--s-3); align-content: start; min-width: 0; }
+  .mode { font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--c-ink-3); }
+  .scores { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s-2); }
+  .scores li { display: grid; justify-items: center; gap: 2px; padding: var(--s-2) var(--s-1); border-radius: var(--radius); text-align: center; }
+  .num { font-family: var(--font-display); font-size: var(--fs-lg); line-height: 1; font-variant-numeric: tabular-nums; }
+  .cat { font-size: 0.75rem; color: var(--c-ink-2); line-height: 1.2; }
+  .good { background: var(--good-bg); } .good .num { color: var(--good); }
+  .avg { background: var(--avg-bg); } .avg .num { color: var(--avg); }
+  .poor { background: var(--poor-bg); } .poor .num { color: var(--poor); }
+  .na { background: var(--c-surface-2); }
+  .metrics { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-4); font-size: var(--fs-sm); color: var(--c-ink-2); font-variant-numeric: tabular-nums; }
+  .shot, .thumb { display: block; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--c-rule); background: #fff; }
+  .thumb { transition: border-color var(--dur-fast) var(--ease); }
+  .thumb:hover { border-color: var(--c-ink); }
+  .warn { font-size: var(--fs-xs); color: var(--c-ink-3); }
+  .note { margin-top: var(--s-4); font-size: var(--fs-xs); color: var(--c-ink-3); max-width: var(--measure); }
+  .v-scores .num { font-size: var(--fs-md); }
+</style>

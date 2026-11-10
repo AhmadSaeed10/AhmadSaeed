@@ -1,0 +1,38 @@
+{
+  "project": "pebblesome",
+  "url": "https://pebblesome.com/",
+  "tested": "2026-11-10",
+  "lighthouse": "12.8.2",
+  "mobile": {
+    "scores": {
+      "performance": 20,
+      "accessibility": 84,
+      "bestPractices": 79,
+      "seo": 92
+    },
+    "metrics": {
+      "fcp": "2.5 s",
+      "lcp": "8.5 s",
+      "tbt": "1,220 ms",
+      "cls": "0.581",
+      "si": "6.4 s"
+    },
+    "image": "../../assets/speed/pebblesome-mobile.webp"
+  },
+  "desktop": {
+    "scores": {
+      "performance": 60,
+      "accessibility": 84,
+      "bestPractices": 74,
+      "seo": 92
+    },
+    "metrics": {
+      "fcp": "1.0 s",
+      "lcp": "2.1 s",
+      "tbt": "180 ms",
+      "cls": "0.44",
+      "si": "2.2 s"
+    },
+    "image": "../../assets/speed/pebblesome-desktop.webp"
+  }
+}

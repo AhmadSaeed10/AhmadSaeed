@@ -11,7 +11,8 @@ started: 2025-01
 platform: Shopify
 theme: Prestige
 scope: Website rebuild
-# TODO: add live site URL
+# CONFIRM: live URL matched by page title.
+url: https://www.hushpuppies.com.pk
 overview: A rebuild of the Hushpuppies Pakistan website on the Prestige theme, adding social video, cross-sell and upsell, instalment payments and customer testimonials.
 challenge: "TODO: describe the business problem behind the rebuild, in one or two sentences."
 approach:
@@ -28,10 +29,12 @@ tools: [Shopify, Liquid, Prestige theme, Selleasy, BaadMay]
 cover: ../../assets/projects/hushpuppies.webp
 coverAlt: "Hushpuppies Pakistan storefront mockup: desktop homepage with a sandal hero and men, women and kids product tabs, alongside mobile screens for a collection grid, New in Women, a product page with BaadMay instalments, and category shortcuts."
 gallery:
-  - src: ../../assets/placeholders/hushpuppies-detail-1.png
-    alt: "Placeholder for a Hushpuppies Pakistan product page screenshot"
-    caption: "TODO: caption"
-  - src: ../../assets/placeholders/hushpuppies-detail-2.png
-    alt: "Placeholder for a Hushpuppies Pakistan feature detail screenshot"
-    caption: "TODO: caption"
+  - src: ../../assets/screens/hushpuppies-desktop.webp
+    alt: "Hushpuppies Pakistan homepage on desktop with a sandal hero and men, women and kids product tabs"
+    caption: "Homepage with the sandal hero and men, women and kids product tabs"
+    device: desktop
+  - src: ../../assets/screens/hushpuppies-mobile.webp
+    alt: "Hushpuppies Cross Helix product page on mobile showing price, BaadMay pay in 3 instalments and colour options"
+    caption: "Product page with BaadMay instalments on mobile"
+    device: mobile
 ---

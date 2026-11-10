@@ -15,7 +15,8 @@ Everything below is visible on the site as a dashed placeholder or flagged in a 
 For each of WeWear, Hushpuppies, OneDegree, Eirene Studio and CookieDrama (`src/content/projects/*.md`):
 
 - [x] Cover mockups (`src/assets/projects/*.webp`), with alt text
-- [ ] 2 detail screenshots each, with alt text and captions (still placeholders)
+- [x] Gallery screens cropped from the mockups (`src/assets/screens/`); swap in full-size screenshots when you have them
+- [ ] Confirm the live URLs found by page title: hushpuppies.com.pk and onedegree.com.pk
 - [ ] CookieDrama: confirm the case study copy, which was promoted from the compact list now that it has a mockup
 - [ ] `challenge`: the business problem behind the project, in one or two sentences
 - [ ] `outcome` and `results`: measurable results you can share (conversion, speed, AOV, revenue)
@@ -23,6 +24,12 @@ For each of WeWear, Hushpuppies, OneDegree, Eirene Studio and CookieDrama (`src/
 - [ ] Confirm the `role` wording for WeWear, Hushpuppies and OneDegree, and whether these were delivered as part of your WPP Media role
 - [ ] Eirene Studio: confirm which theme it uses
 - [ ] Dagny.pk: add the project date
+
+## Speed tests
+
+- [x] Lighthouse mobile and desktop results for all 11 live sites (10 November 2026).
+- [ ] Review the mobile scores before launch. Several Shopify stores score under 50 on mobile, mostly from third-party apps and scripts. Consider optimising first and re-running (`npm run speed`, see README), or showing desktop results only for those stores.
+- [ ] CookieDrama (both runs) and Eirene Studio (desktop) hit Lighthouse's load time limit. Re-run them for a cleaner result.
 
 ## Astro builds (The Growth Lab, SigmaPrinto)
 

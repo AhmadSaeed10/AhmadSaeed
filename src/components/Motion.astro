@@ -17,7 +17,7 @@
   if (!main) return;
 
   // Containers whose children should reveal one by one instead of as a single block.
-  var GROUPS = '.stats, .toc, .work-grid, .grid, .services, .groups, .quotes, .principles, .gallery, .secondary, .layout, .content, .cols, .workflow ol, .steps, .timeline ol, .list, .more ul, .proof, .facts, .feature';
+  var GROUPS = '.stats, .toc, .speed-list, .work-grid, .grid, .services, .groups, .quotes, .principles, .gallery, .secondary, .layout, .content, .cols, .workflow ol, .steps, .timeline ol, .list, .more ul, .proof, .facts, .feature';
   var targets = new Set();
   main.querySelectorAll('.container > *, article > header > *').forEach(function (el) { targets.add(el); });
   // Expand grouped containers into their children.

@@ -1,0 +1,38 @@
+{
+  "project": "onedegree",
+  "url": "https://onedegree.com.pk/",
+  "tested": "2026-11-10",
+  "lighthouse": "12.8.2",
+  "mobile": {
+    "scores": {
+      "performance": 52,
+      "accessibility": 88,
+      "bestPractices": 79,
+      "seo": 92
+    },
+    "metrics": {
+      "fcp": "2.7 s",
+      "lcp": "3.5 s",
+      "tbt": "2,750 ms",
+      "cls": "0.007",
+      "si": "6.7 s"
+    },
+    "image": "../../assets/speed/onedegree-mobile.webp"
+  },
+  "desktop": {
+    "scores": {
+      "performance": 76,
+      "accessibility": 88,
+      "bestPractices": 74,
+      "seo": 92
+    },
+    "metrics": {
+      "fcp": "1.0 s",
+      "lcp": "2.0 s",
+      "tbt": "230 ms",
+      "cls": "0.001",
+      "si": "2.5 s"
+    },
+    "image": "../../assets/speed/onedegree-desktop.webp"
+  }
+}

@@ -53,3 +53,9 @@ export async function getTrackingWork() {
 export async function getAppearances() {
   return (await getCollection('appearances')).sort((a, b) => b.data.date.localeCompare(a.data.date));
 }
+
+/** Lighthouse results keyed by project id. */
+export async function getSpeedTests() {
+  const all = await getCollection('speed');
+  return new Map(all.map((e) => [e.id, e]));
+}

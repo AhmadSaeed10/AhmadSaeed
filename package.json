@@ -9,8 +9,9 @@
     "preview": "astro preview",
     "check": "astro check",
     "astro": "astro",
-    "placeholders": "node scripts/make-placeholders.mjs",
-    "cv": "node scripts/make-cv-pdf.mjs"
+    "cv": "node scripts/make-cv-pdf.mjs",
+    "screens": "node scripts/crop-screens.mjs",
+    "speed": "node scripts/speed-screens.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^8.1.3",
