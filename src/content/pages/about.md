@@ -5,7 +5,7 @@ eyebrow: About
 heading: A Shopify specialist who started as a designer.
 lede: I build and run Shopify stores for retail and DTC brands, and I care as much about how a store works for the team behind it as how it looks to customers.
 photo: ../../assets/about/ahmad-saeed.webp
-photoAlt: "Ahmad Saeed smiling, wearing a black suede jacket over a white T-shirt"
+photoAlt: "Ahmad Saeed smiling, with a full beard, wearing a black suede jacket over a white T-shirt, with a city skyline behind"
 education:
   degree: BSc Computer Science
   school: Bahria University
