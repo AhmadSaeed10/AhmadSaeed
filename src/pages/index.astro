@@ -7,22 +7,26 @@ import MoreWork from '@/components/MoreWork.astro';
 import Services from '@/components/Services.astro';
 import TrackingBand from '@/components/TrackingBand.astro';
 import AstroBuilds from '@/components/AstroBuilds.astro';
+import Appearances from '@/components/Appearances.astro';
 import Skills from '@/components/Skills.astro';
 import Timeline from '@/components/Timeline.astro';
 import Testimonials from '@/components/Testimonials.astro';
 import ContactForm from '@/components/ContactForm.astro';
 import { site } from '@/config/site';
-import { getPage, getFeaturedProjects, getMoreWork, getServices, getSkills, getExperience, getTestimonials } from '@/lib/content';
+import { getPage, getFeaturedProjects, getMoreWork, getServices, getSkills, getExperience, getTestimonials, getAppearances } from '@/lib/content';
 import { personSchema, serviceSchema } from '@/lib/schema';
+import { getImage } from 'astro:assets';
 
 const page = await getPage('home');
 const d = page.data;
 const s = d.sections!;
-const [featured, webBuilds, more, core, secondary, skills, experience, testimonials] = await Promise.all([
-  getFeaturedProjects('shopify'), getFeaturedProjects('web'), getMoreWork(), getServices('core'), getServices('secondary'), getSkills(), getExperience(), getTestimonials(),
+const [featured, webBuilds, more, core, secondary, skills, experience, testimonials, appearances] = await Promise.all([
+  getFeaturedProjects('shopify'), getFeaturedProjects('web'), getMoreWork(), getServices('core'), getServices('secondary'), getSkills(), getExperience(), getTestimonials(), getAppearances(),
 ]);
 const origin = Astro.site!;
-const jsonLd = [personSchema(origin), serviceSchema(origin, [...core, ...secondary].map((x) => x.data))];
+const about = await getPage('about');
+const photo = about.data.photo ? await getImage({ src: about.data.photo, width: 600, format: 'jpg' }) : undefined;
+const jsonLd = [personSchema(origin, photo ? new URL(photo.src, origin).href : undefined), serviceSchema(origin, [...core, ...secondary].map((x) => x.data))];
 ---
 <BaseLayout title={d.seoTitle} description={d.seoDescription} ogKey="home" type="profile" jsonLd={jsonLd} stickyCta="#contact">
   <Hero eyebrow={d.eyebrow} heading={d.heading} lede={d.lede} proof={d.proof} />
@@ -72,10 +76,19 @@ const jsonLd = [personSchema(origin), serviceSchema(origin, [...core, ...seconda
     </div>
   </section>
 
+  {appearances.length > 0 && s.appearances && (
+    <section id="appearances" class="section" aria-labelledby="appearances-title">
+      <div class="container">
+        <SectionHead index="08" id="appearances-title" {...s.appearances} />
+        <Appearances items={appearances} />
+      </div>
+    </section>
+  )}
+
   <section id="contact" class="section contact" aria-labelledby="contact-title" data-hide-sticky>
     <div class="container section-grid">
       <div class="rail">
-        <SectionHead index="08" id="contact-title" {...s.contact} />
+        <SectionHead index="09" id="contact-title" {...s.contact} />
         <dl class="facts">
           <div><dt>Email</dt><dd><a href={`mailto:${site.contact.email}`} data-track="cta_click" data-track-label="home_contact_email">{site.contact.email}</a></dd></div>
           <div><dt>LinkedIn</dt><dd><a href={site.contact.linkedin} rel="noopener noreferrer" target="_blank" data-track="linkedin_click" data-track-label="home_contact">{site.contact.linkedinLabel}<span class="visually-hidden"> (opens in a new tab)</span></a></dd></div>

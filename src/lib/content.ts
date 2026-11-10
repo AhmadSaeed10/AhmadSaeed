@@ -49,3 +49,7 @@ export async function getTrackingWork() {
     pitches: all.filter((e) => e.data.kind === 'pitch').map((e) => resolve(e.data)),
   };
 }
+
+export async function getAppearances() {
+  return (await getCollection('appearances')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+}

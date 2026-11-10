@@ -4,8 +4,8 @@ seoDescription: Shopify specialist and senior UX/UI designer with 5+ years build
 eyebrow: About
 heading: A Shopify specialist who started as a designer.
 lede: I build and run Shopify stores for retail and DTC brands, and I care as much about how a store works for the team behind it as how it looks to customers.
-photo: ../../assets/placeholders/portrait.png
-photoAlt: "Placeholder for a professional photo of Ahmad Saeed"
+photo: ../../assets/about/ahmad-saeed.webp
+photoAlt: "Ahmad Saeed smiling, wearing a black suede jacket over a white T-shirt"
 education:
   degree: BSc Computer Science
   school: Bahria University

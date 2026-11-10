@@ -104,6 +104,25 @@ const tracking = defineCollection({
   }),
 });
 
+/** Talks, panels and guest sessions. Newest first by date. */
+const appearances = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/appearances' }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      subtitle: z.string().optional(),
+      kind: z.string().default('Guest speaker'),
+      host: z.string(),
+      date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Use YYYY-MM-DD'),
+      time: z.string().optional(),
+      location: z.string(),
+      summary: z.string().optional(),
+      url: z.url().optional(),
+      image: image(),
+      imageAlt: z.string(),
+    }),
+});
+
 /** Long-form page copy (hero, about, services intro, contact). */
 const pages = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/pages' }),
@@ -133,4 +152,4 @@ const pages = defineCollection({
     }),
 });
 
-export const collections = { experience, projects, services, testimonials, skills, tracking, pages };
+export const collections = { experience, projects, services, testimonials, skills, tracking, appearances, pages };

@@ -45,6 +45,9 @@ sections:
   testimonials:
     label: Testimonials
     heading: What people I've worked with say.
+  appearances:
+    label: Appearances
+    heading: Talks and guest sessions.
   contact:
     label: Contact
     heading: Have a store that should be doing more?

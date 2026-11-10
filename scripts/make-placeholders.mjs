@@ -49,4 +49,3 @@ for (const [slug, name] of Object.entries(projects)) {
   await make(`${slug}-detail-1.png`, name, 'TODO: product or collection page screenshot');
   await make(`${slug}-detail-2.png`, name, 'TODO: mobile or feature detail screenshot');
 }
-await make('portrait.png', 'Ahmad Saeed', 'TODO: professional photo, 4:5 portrait', 1200, 1500);

@@ -2,12 +2,13 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Timeline from '@/components/Timeline.astro';
 import { site, phone } from '@/config/site';
-import { getPage, getExperience, getSkills, getFeaturedProjects, getMoreWork } from '@/lib/content';
+import { getPage, getExperience, getSkills, getFeaturedProjects, getMoreWork, getAppearances } from '@/lib/content';
+import { formatDate } from '@/lib/format';
 
 const page = await getPage('resume');
 const about = await getPage('about');
 const d = page.data;
-const [experience, skills, featured, more] = await Promise.all([getExperience(), getSkills(), getFeaturedProjects(), getMoreWork()]);
+const [experience, skills, featured, more, appearances] = await Promise.all([getExperience(), getSkills(), getFeaturedProjects(), getMoreWork(), getAppearances()]);
 const edu = about.data.education;
 ---
 <BaseLayout title={d.seoTitle} description={d.seoDescription} ogKey="resume" type="profile">
@@ -53,6 +54,17 @@ const edu = about.data.education;
         ))}
       </dl>
     </section>
+
+    {appearances.length > 0 && (
+      <section aria-labelledby="cv-talks">
+        <h2 id="cv-talks" class="label">Appearances</h2>
+        <ul class="projects">
+          {appearances.map(({ data: a }) => (
+            <li><strong>{a.title}{a.subtitle && `: ${a.subtitle}`}</strong> <span>{a.kind}, {a.host}, {a.location}. {formatDate(a.date)}.</span></li>
+          ))}
+        </ul>
+      </section>
+    )}
 
     {edu && (
       <section aria-labelledby="cv-edu">

@@ -7,7 +7,7 @@ Everything below is visible on the site as a dashed placeholder or flagged in a 
 - [ ] **Domain**: set `SITE_URL` in Vercel. Currently defaults to `https://ahmadsaeed.com`.
 - [ ] **Contact form**: create a Web3Forms (or Formspree) key and set `PUBLIC_FORM_KEY`. Until then the form tells visitors to email you.
 - [ ] **GTM**: set `PUBLIC_GTM_ID` and set up the custom event triggers listed in the README.
-- [ ] **Professional photo**: replace `src/assets/placeholders/portrait.png` (4:5 portrait) and update `photoAlt` in `src/content/pages/about.md`.
+- [x] **Professional photo**: `src/assets/about/ahmad-saeed.webp`. To change it, overwrite that file (square works best) and update `photoAlt` in `src/content/pages/about.md`.
 - [ ] **CV PDF**: `public/Ahmad_Saeed_CV.pdf` is currently printed from `/resume`. Replace it with your designed CV if you have one.
 
 ## Case studies
@@ -29,6 +29,11 @@ For each of WeWear, Hushpuppies, OneDegree, Eirene Studio and CookieDrama (`src/
 - [ ] `challenge` for The Growth Lab, and results for both (for example PageSpeed before and after the WordPress move, enquiries, search impressions). The rest of the copy comes from your Contra post.
 - [ ] Confirm the role wording "Logo, brand, design and Astro build" for both.
 - [ ] Optional: add detail screenshots as a `gallery`, like the Shopify case studies.
+
+## Appearances
+
+- [ ] Confirm the summary for the UMT talk in `src/content/appearances/` (drafted from the session title).
+- [ ] Add more talks as new files in `src/content/appearances/`. The newest one is shown as the large feature, and older ones are listed below it.
 
 ## Confirm the drafted copy
 
