@@ -1,0 +1,75 @@
+---
+import { Picture } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { formatDate } from '@/lib/format';
+
+interface Props { items: CollectionEntry<'appearances'>[] }
+const { items } = Astro.props;
+const [top, ...rest] = items;
+---
+{top && (
+  <article class="feature reveal" aria-labelledby={`appearance-${top.id}`}>
+    <figure class="poster">
+      <Picture
+        src={top.data.image}
+        alt={top.data.imageAlt}
+        formats={['avif', 'webp']}
+        widths={[400, 640, 800]}
+        sizes="(min-width: 60rem) 24rem, 100vw"
+        loading="lazy"
+      />
+    </figure>
+    <div class="details">
+      <p class="kind">{top.data.kind}</p>
+      <h3 id={`appearance-${top.id}`}>
+        {top.data.title}
+        {top.data.subtitle && <span class="subtitle">{top.data.subtitle}</span>}
+      </h3>
+      <p class="host">{top.data.host}</p>
+      {top.data.summary && <p class="summary">{top.data.summary}</p>}
+      <dl class="meta">
+        <div><dt>Date</dt><dd><time datetime={top.data.date}>{formatDate(top.data.date)}</time></dd></div>
+        {top.data.time && <div><dt>Time</dt><dd>{top.data.time}</dd></div>}
+        <div><dt>Venue</dt><dd>{top.data.location}</dd></div>
+      </dl>
+      {top.data.url && (
+        <a href={top.data.url} rel="noopener noreferrer" target="_blank" class="link-arrow" data-track="outbound_click" data-track-label={`appearance_${top.id}`}>
+          Event details<span class="visually-hidden"> (opens in a new tab)</span> <span aria-hidden="true">&nearr;</span>
+        </a>
+      )}
+    </div>
+  </article>
+)}
+
+{rest.length > 0 && (
+  <ul class="list">
+    {rest.map(({ data: a }) => (
+      <li>
+        <time datetime={a.date}>{formatDate(a.date)}</time>
+        <span class="what"><strong>{a.title}{a.subtitle && `: ${a.subtitle}`}</strong> {a.kind}, {a.host}</span>
+      </li>
+    ))}
+  </ul>
+)}
+
+<style>
+  .feature { display: grid; gap: var(--s-6); align-items: center; }
+  @media (min-width: 52rem) { .feature { grid-template-columns: minmax(16rem, 24rem) 1fr; gap: var(--s-8); } }
+  .poster { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--c-rule); max-width: 24rem; }
+  .details { display: grid; gap: var(--s-3); align-content: start; }
+  .kind { font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--c-accent); }
+  h3 { font-size: var(--fs-xl); line-height: 1.1; }
+  .subtitle { display: block; color: var(--c-ink-2); }
+  .host { font-weight: 600; }
+  .summary { color: var(--c-ink-2); max-width: var(--measure); }
+  .meta { display: grid; gap: var(--s-4); margin-top: var(--s-4); padding-top: var(--s-4); border-top: 1px solid var(--c-ink); max-width: var(--measure); }
+  @media (min-width: 40rem) { .meta { grid-template-columns: repeat(3, auto); justify-content: start; column-gap: var(--s-7); } }
+  .meta dt { font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--c-ink-3); }
+  .meta dd { margin-top: 2px; }
+  .list { list-style: none; padding: 0; margin-top: var(--s-7); border-top: 1px solid var(--c-ink); }
+  .list li { display: grid; gap: var(--s-1) var(--s-6); padding-block: var(--s-4); border-bottom: 1px solid var(--c-rule); }
+  @media (min-width: 48rem) { .list li { grid-template-columns: 11rem 1fr; } }
+  .list time { color: var(--c-ink-3); font-size: var(--fs-sm); }
+  .list .what { color: var(--c-ink-2); }
+  .list strong { color: var(--c-ink); font-weight: 600; }
+</style>

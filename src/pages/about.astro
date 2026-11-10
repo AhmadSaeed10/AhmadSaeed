@@ -1,5 +1,5 @@
 ---
-import { Picture } from 'astro:assets';
+import { Picture, getImage } from 'astro:assets';
 import { render } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { site } from '@/config/site';
@@ -9,8 +9,10 @@ import { personSchema } from '@/lib/schema';
 const page = await getPage('about');
 const d = page.data;
 const { Content } = await render(page);
+const photo = d.photo ? await getImage({ src: d.photo, width: 600, format: 'jpg' }) : undefined;
+const photoUrl = photo ? new URL(photo.src, Astro.site).href : undefined;
 ---
-<BaseLayout title={d.seoTitle} description={d.seoDescription} ogKey="about" type="profile" jsonLd={[personSchema(Astro.site!)]}>
+<BaseLayout title={d.seoTitle} description={d.seoDescription} ogKey="about" type="profile" jsonLd={[personSchema(Astro.site!, photoUrl)]}>
   <section class="container intro" aria-labelledby="about-title">
     <div class="text">
       <p class="label">{d.eyebrow}</p>
@@ -21,7 +23,7 @@ const { Content } = await render(page);
     </div>
     {d.photo && (
       <figure class="photo">
-        <Picture src={d.photo} alt={d.photoAlt ?? ''} formats={['avif', 'webp']} widths={[400, 720, 1000]} sizes="(min-width: 60rem) 26rem, 100vw" loading="eager" />
+        <Picture src={d.photo} alt={d.photoAlt ?? ''} formats={['avif', 'webp']} widths={[400, 720, 1000, 1254]} sizes="(min-width: 60rem) 26rem, 100vw" loading="eager" fetchpriority="high" />
       </figure>
     )}
   </section>

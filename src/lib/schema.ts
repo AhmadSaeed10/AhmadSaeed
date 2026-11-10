@@ -1,7 +1,8 @@
 import { site } from '@/config/site';
 
-export function personSchema(origin: URL) {
+export function personSchema(origin: URL, image?: string) {
   return {
+    ...(image ? { image } : {}),
     '@context': 'https://schema.org',
     '@type': 'Person',
     '@id': new URL('/#person', origin).href,

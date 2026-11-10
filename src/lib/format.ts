@@ -22,3 +22,10 @@ export function hostname(url: string): string {
     return url;
   }
 }
+
+/** "2026-06-18" -> "18 June 2026" (British order). */
+export function formatDate(value: string): string {
+  const [y, m, d] = value.split('-').map(Number);
+  const full = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  return `${d} ${full[m - 1]} ${y}`;
+}
