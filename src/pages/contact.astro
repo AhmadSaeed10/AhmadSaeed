@@ -29,7 +29,6 @@ const d = page.data;
         {phone && <div><dt>Phone</dt><dd><a href={`tel:${phone.replace(/\s/g, '')}`}>{phone}</a></dd></div>}
         <div><dt>Location</dt><dd>{site.contact.location} ({site.contact.timezone})</dd></div>
         <div><dt>Hours</dt><dd>{site.contact.overlap}</dd></div>
-        <div><dt>Work rights</dt><dd>{site.contact.workRights}</dd></div>
       </dl>
     </div>
     <div class="form-wrap">
