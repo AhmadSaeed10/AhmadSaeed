@@ -116,7 +116,7 @@ Skill chips show brand logos from Simple Icons (CC0, via `@iconify-json/simple-i
 
 ## Speed tests
 
-Every live site has a Lighthouse result, shown on its case study page, in compact form on `/case-studies`, and for all sites on `/work`. Data lives in `src/content/speed/<project-id>.json`, and screenshots in `src/assets/speed/`.
+Every live site has a Lighthouse result (mobile and desktop are stored; which ones show is set per platform by `speedModes` in `src/config/site.ts`, currently desktop only for Shopify stores), shown on its case study page, in compact form on `/case-studies`, and for all sites on `/work`. Data lives in `src/content/speed/<project-id>.json`, and screenshots in `src/assets/speed/`.
 
 To refresh them (for example after optimising a store), run Lighthouse for each site with both outputs, then convert:
 

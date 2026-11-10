@@ -110,7 +110,7 @@ const speed = (await getSpeedTests()).get(project.id);
         {speed && (
           <section aria-labelledby="speed" class="speed-section">
             <h2 id="speed">Speed test</h2>
-            <SpeedTest entry={speed} label={d.client} />
+            <SpeedTest entry={speed} label={d.client} platform={d.platform} />
           </section>
         )}
 

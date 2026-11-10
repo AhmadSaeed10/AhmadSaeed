@@ -92,7 +92,7 @@ const jump = [
                   {new URL(speed.data.url).hostname.replace(/^www\./, '')}<span class="visually-hidden"> (opens in a new tab)</span> <span aria-hidden="true">&nearr;</span>
                 </a>
               </div>
-              <SpeedTest entry={speed} variant="thumbs" label={p.data.client} />
+              <SpeedTest entry={speed} variant="thumbs" label={p.data.client} platform={p.data.platform} />
             </li>
           ))}
         </ol>

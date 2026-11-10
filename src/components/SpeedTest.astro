@@ -2,16 +2,20 @@
 import { Picture, getImage } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { formatDate } from '@/lib/format';
+import { site } from '@/config/site';
 
 interface Props {
   entry: CollectionEntry<'speed'>;
   /** full: screenshots large, side by side. thumbs: small screenshots linking to full size. scores: numbers only. */
   variant?: 'full' | 'thumbs' | 'scores';
   label?: string;
+  /** Project platform; decides which runs show (see site.speedModes). */
+  platform?: string;
 }
-const { entry, variant = 'full', label } = Astro.props;
+const { entry, variant = 'full', label, platform } = Astro.props;
 const d = entry.data;
-const runs = (['mobile', 'desktop'] as const)
+const modes = (platform && site.speedModes[platform]) || site.speedModes.default;
+const runs = modes
   .map((mode) => ({ mode, run: d[mode] }))
   .filter((r): r is { mode: 'mobile' | 'desktop'; run: NonNullable<typeof d.mobile> } => Boolean(r.run));
 const cats = [
@@ -25,7 +29,7 @@ const full = await Promise.all(runs.map(async (r) => (variant === 'thumbs' ? (aw
 const who = label ?? new URL(d.url).hostname.replace(/^www\./, '');
 ---
 <div class:list={['speed', `v-${variant}`]}>
-  <div class="runs">
+  <div class:list={['runs', { single: runs.length === 1 }]}>
     {runs.map(({ mode, run }, i) => (
       <div class="run">
         <p class="mode">{mode === 'mobile' ? 'Mobile' : 'Desktop'}</p>
@@ -61,7 +65,9 @@ const who = label ?? new URL(d.url).hostname.replace(/^www\./, '');
     ))}
   </div>
   {variant !== 'scores' && (
-    <p class="note">Lab test with Lighthouse {d.lighthouse} on {formatDate(d.tested)}: simulated mid-range phone on a throttled 4G connection, and desktop. Live results vary with apps, content and traffic.</p>
+    <p class="note">{`Lab test with Lighthouse ${d.lighthouse} on ${formatDate(d.tested)}${
+      runs.length === 1 && runs[0].mode === 'desktop' ? ', desktop profile.' : ': simulated mid-range phone on a throttled 4G connection, and desktop.'
+    } Live results vary with apps, content and traffic.`}</p>
   )}
 </div>
 
@@ -70,6 +76,7 @@ const who = label ?? new URL(d.url).hostname.replace(/^www\./, '');
   :global([data-theme='dark']) .speed { --good: #5fd39a; --good-bg: #12301f; --avg: #ffb35c; --avg-bg: #3a2810; --poor: #ff8a80; --poor-bg: #3c1714; }
   .runs { display: grid; gap: var(--s-6); }
   @media (min-width: 48rem) { .runs { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 48rem) { .runs.single { grid-template-columns: minmax(0, 36rem); } }
   .v-scores .runs { gap: var(--s-4); }
   .run { display: grid; gap: var(--s-3); align-content: start; min-width: 0; }
   .mode { font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--c-ink-3); }
