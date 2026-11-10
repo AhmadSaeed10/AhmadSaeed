@@ -7,7 +7,6 @@ Everything below is visible on the site as a dashed placeholder or flagged in a 
 - [ ] **Domain**: set `SITE_URL` in Vercel. Currently defaults to `https://ahmadsaeed.com`.
 - [ ] **Contact form**: create a Web3Forms (or Formspree) key and set `PUBLIC_FORM_KEY`. Until then the form tells visitors to email you.
 - [ ] **GTM**: set `PUBLIC_GTM_ID` and set up the custom event triggers listed in the README.
-- [ ] **Updated About photo** (the longer-beard one): send it as a file attachment. It came through only as an inline preview, which can't be saved.
 - [x] **Professional photo**: `src/assets/about/ahmad-saeed.webp`. To change it, overwrite that file (square works best) and update `photoAlt` in `src/content/pages/about.md`.
 - [ ] **CV PDF**: `public/Ahmad_Saeed_CV.pdf` is currently printed from `/resume`. Replace it with your designed CV if you have one.
 

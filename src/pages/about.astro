@@ -23,7 +23,7 @@ const photoUrl = photo ? new URL(photo.src, Astro.site).href : undefined;
     </div>
     {d.photo && (
       <figure class="photo">
-        <Picture src={d.photo} alt={d.photoAlt ?? ''} formats={['avif', 'webp']} widths={[400, 720, 1000, 1254]} sizes="(min-width: 60rem) 26rem, 100vw" loading="eager" fetchpriority="high" />
+        <Picture src={d.photo} alt={d.photoAlt ?? ''} formats={['avif', 'webp']} widths={[400, 720, 1024]} sizes="(min-width: 60rem) 26rem, 100vw" loading="eager" fetchpriority="high" />
       </figure>
     )}
   </section>
