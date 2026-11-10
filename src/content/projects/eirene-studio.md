@@ -20,8 +20,8 @@ approach:
     text: Built a free shipping progress bar into the cart drawer, so shoppers can see how close they are to free delivery.
 outcome: "TODO: add result"
 tools: [Shopify, Liquid]
-cover: ../../assets/placeholders/eirene-cover.png
-coverAlt: "Placeholder for the Eirene Studio homepage screenshot"
+cover: ../../assets/projects/eirene-studio.webp
+coverAlt: "Eirene Studio storefront mockup: desktop homepage with a Back to School Edit hero, brand stats, stockist logos and the Spring Summer collection, alongside mobile screens for the Boy and Girl collections, Fairytale Shoes and the brand story."
 gallery:
   - src: ../../assets/placeholders/eirene-detail-1.png
     alt: "Placeholder for the Eirene Studio cart drawer with free shipping progress bar"

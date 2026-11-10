@@ -25,8 +25,8 @@ approach:
     text: Added a dedicated section for influencer-led content on the storefront.
 outcome: "TODO: add result"
 tools: [Shopify, Liquid, Atelier theme]
-cover: ../../assets/placeholders/wewear-cover.png
-coverAlt: "Placeholder for the WeWear Pakistan homepage screenshot"
+cover: ../../assets/projects/wewear.webp
+coverAlt: "WeWear storefront mockup: desktop homepage with the hero, fabric platform cards and chapter series, alongside mobile screens for a Cottonello story, a product listing, a 90's Baggy Fit product page and the WeWear Circle community section."
 gallery:
   - src: ../../assets/placeholders/wewear-detail-1.png
     alt: "Placeholder for a WeWear Pakistan product or collection page screenshot"

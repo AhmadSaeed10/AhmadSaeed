@@ -30,7 +30,7 @@ const jsonLd = [personSchema(origin), serviceSchema(origin, [...core, ...seconda
     <div class="container">
       <SectionHead index="01" id="work-title" {...s.work} />
       <div class="work-grid">
-        {featured.map((p, i) => <ProjectCard project={p} index={i} />)}
+        {featured.map((p, i) => <ProjectCard project={p} index={i} wide={i === 0 && featured.length % 2 === 1} />)}
       </div>
       <MoreWork items={more} />
     </div>
@@ -86,7 +86,10 @@ const jsonLd = [personSchema(origin), serviceSchema(origin, [...core, ...seconda
 
 <style>
   .work-grid { display: grid; gap: var(--s-8) var(--s-6); }
-  @media (min-width: 52rem) { .work-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 52rem) {
+    .work-grid { grid-template-columns: 1fr 1fr; }
+    .work-grid > :global(.wide) { grid-column: 1 / -1; }
+  }
   @media (min-width: 60rem) {
     #experience .rail, #contact .rail { grid-column: 1 / span 4; }
     #experience .body, #contact .body { grid-column: 6 / -1; }

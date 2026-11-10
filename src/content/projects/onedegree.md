@@ -23,8 +23,8 @@ approach:
     text: Worked on site speed as part of the build.
 outcome: "TODO: add result, for example PageSpeed scores before and after"
 tools: [Shopify, Liquid, Alchemy theme]
-cover: ../../assets/placeholders/onedegree-cover.png
-coverAlt: "Placeholder for the OneDegree Pakistan homepage screenshot"
+cover: ../../assets/projects/onedegree.webp
+coverAlt: "OneDegree storefront mockup in a dark theme: desktop homepage with a running hero, best sellers and trending categories, alongside mobile screens for a padel shoe product page, trending categories, shop men and women, and customer reviews."
 gallery:
   - src: ../../assets/placeholders/onedegree-detail-1.png
     alt: "Placeholder for a OneDegree Pakistan collection page screenshot"

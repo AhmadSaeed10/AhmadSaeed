@@ -25,8 +25,8 @@ approach:
     text: Built a custom section to show customer testimonials.
 outcome: "TODO: add result"
 tools: [Shopify, Liquid, Prestige theme, Selleasy, BaadMay]
-cover: ../../assets/placeholders/hushpuppies-cover.png
-coverAlt: "Placeholder for the Hushpuppies Pakistan homepage screenshot"
+cover: ../../assets/projects/hushpuppies.webp
+coverAlt: "Hushpuppies Pakistan storefront mockup: desktop homepage with a sandal hero and men, women and kids product tabs, alongside mobile screens for a collection grid, New in Women, a product page with BaadMay instalments, and category shortcuts."
 gallery:
   - src: ../../assets/placeholders/hushpuppies-detail-1.png
     alt: "Placeholder for a Hushpuppies Pakistan product page screenshot"

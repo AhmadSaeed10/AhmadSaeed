@@ -1,20 +1,20 @@
 ---
 import { Picture } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
-interface Props { project: CollectionEntry<'projects'>; index: number; eager?: boolean }
-const { project, index, eager = false } = Astro.props;
+interface Props { project: CollectionEntry<'projects'>; index: number; eager?: boolean; wide?: boolean }
+const { project, index, eager = false, wide = false } = Astro.props;
 const d = project.data;
 const href = `/work/${project.id}`;
 ---
-<article class="card reveal">
+<article class:list={['card reveal', { wide }]}>
   <div class="media">
     {d.cover && (
       <Picture
         src={d.cover}
         alt=""
         formats={['avif', 'webp']}
-        widths={[480, 800, 1200]}
-        sizes="(min-width: 60rem) 34rem, 100vw"
+        widths={[480, 800, 1200, 1536]}
+        sizes={wide ? '(min-width: 76rem) 46rem, (min-width: 60rem) 60vw, 100vw' : '(min-width: 76rem) 37rem, (min-width: 52rem) 48vw, 100vw'}
         loading={eager ? 'eager' : 'lazy'}
         decoding="async"
       />
@@ -30,7 +30,7 @@ const href = `/work/${project.id}`;
 
 <style>
   .card { position: relative; display: grid; gap: var(--s-5); align-content: start; }
-  .media { display: block; overflow: hidden; border-radius: var(--radius); border: 1px solid var(--c-rule); background: var(--c-surface-2); aspect-ratio: 16 / 10; }
+  .media { display: block; overflow: hidden; border-radius: var(--radius); border: 1px solid var(--c-rule); background: var(--c-surface-2); aspect-ratio: 3 / 2; }
   .media :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-slow) var(--ease); }
   .card:hover .media :global(img) { transform: scale(1.02); }
   .text { display: grid; gap: var(--s-3); }
@@ -42,6 +42,10 @@ const href = `/work/${project.id}`;
   h3 a::after { content: ''; position: absolute; inset: 0; }
   .card:hover h3 a { color: var(--c-accent); }
   .summary { color: var(--c-ink-2); }
+  @media (min-width: 60rem) {
+    .wide { grid-template-columns: 1.6fr 1fr; gap: var(--s-7); align-items: center; }
+    .wide h3 { font-size: var(--fs-xl); }
+  }
   .link-arrow { min-height: auto; }
   .card:hover .arrow { transform: translateX(3px); }
   .arrow { display: inline-block; transition: transform var(--dur-fast) var(--ease); }

@@ -1,6 +1,6 @@
 // Generates neutral, clearly labelled placeholder images in src/assets/placeholders.
 // Run with: node scripts/make-placeholders.mjs
-// Replace the generated files with real screenshots (same file name) when you have them.
+// Project covers live in src/assets/projects. Replace the generated files with real screenshots (same file name) when you have them.
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
@@ -43,9 +43,9 @@ const projects = {
   hushpuppies: 'Hushpuppies Pakistan',
   onedegree: 'OneDegree Pakistan',
   eirene: 'Eirene Studio',
+  cookiedrama: 'CookieDrama',
 };
 for (const [slug, name] of Object.entries(projects)) {
-  await make(`${slug}-cover.png`, name, 'TODO: homepage screenshot, desktop, 1600 x 1000');
   await make(`${slug}-detail-1.png`, name, 'TODO: product or collection page screenshot');
   await make(`${slug}-detail-2.png`, name, 'TODO: mobile or feature detail screenshot');
 }
