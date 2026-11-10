@@ -70,6 +70,8 @@ scripts/                Placeholder and CV PDF generators
 5. Add `results` as `{ value, label }` pairs when you have numbers you can share.
 6. Run `npm run check` to validate the schema.
 
+Set `category: web` for a non-Shopify website (for example an Astro build). It then appears in the "Built with Astro" section on the home page instead of Selected work, and can link a write-up with `writeup: { label, url }`. The numbered "How I build them" steps come from `workflow` in `src/content/pages/home.md`.
+
 For a smaller project, leave `featured` out: it appears in the "More client work" list without its own page.
 
 ### Images
@@ -95,7 +97,8 @@ GTM loads after the page is idle, so it never blocks rendering. Events are pushe
 | `contact_form_submit` | Successful form submission | `form_id`, `topic`, `page_path` |
 | `cv_download` | "Download PDF" on `/resume` | `label`, `link_url` |
 | `linkedin_click` | Any LinkedIn link | `label`, `link_url` |
-| `outbound_click` | "Visit site" links | `label`, `link_url` |
+| `contra_click` | Any Contra profile link | `label`, `link_url` |
+| `outbound_click` | "Visit site" links and the Contra build post | `label`, `link_url` |
 | `case_study_view` | Case study page load | `case_study`, `page_path` |
 
 In GTM, create a **Custom Event** trigger for each event name and a GA4 Event tag that forwards the parameters as data layer variables. To track a new element, add `data-track="event_name"` and optionally `data-track-label="..."` to it.

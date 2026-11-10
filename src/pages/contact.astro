@@ -25,6 +25,7 @@ const d = page.data;
       <dl class="facts">
         <div><dt>Email</dt><dd><a href={`mailto:${site.contact.email}`} data-track="cta_click" data-track-label="contact_page_email">{site.contact.email}</a></dd></div>
         <div><dt>LinkedIn</dt><dd><a href={site.contact.linkedin} rel="noopener noreferrer" target="_blank" data-track="linkedin_click" data-track-label="contact_page">{site.contact.linkedinLabel}<span class="visually-hidden"> (opens in a new tab)</span></a></dd></div>
+        <div><dt>Contra</dt><dd><a href={site.contact.contra} rel="noopener noreferrer" target="_blank" data-track="contra_click" data-track-label="contact_page">{site.contact.contraLabel}<span class="visually-hidden"> (opens in a new tab)</span></a></dd></div>
         {phone && <div><dt>Phone</dt><dd><a href={`tel:${phone.replace(/\s/g, '')}`}>{phone}</a></dd></div>}
         <div><dt>Location</dt><dd>{site.contact.location} ({site.contact.timezone})</dd></div>
         <div><dt>Hours</dt><dd>{site.contact.overlap}</dd></div>

@@ -90,7 +90,8 @@ const jsonLd = [serviceSchema(Astro.site!, [...core, ...secondary].map((x) => x.
   .ticks li::before { content: ''; position: absolute; left: 0.25rem; top: 1.15rem; width: 0.7rem; height: 0.35rem; border-left: 2px solid var(--c-accent); border-bottom: 2px solid var(--c-accent); transform: rotate(-45deg); }
   .for { color: var(--c-ink-2); margin-bottom: var(--s-5); padding-top: var(--s-3); border-top: 1px solid var(--c-ink); }
   .secondary { list-style: none; padding: 0; margin-top: var(--s-6); display: grid; gap: var(--s-5); }
-  @media (min-width: 52rem) { .secondary { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 40rem) { .secondary { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 72rem) { .secondary { grid-template-columns: repeat(4, 1fr); } }
   .secondary li { border-top: 1px solid var(--c-ink); padding-top: var(--s-4); }
   .secondary h3 { font-size: var(--fs-md); }
   .secondary p { color: var(--c-ink-2); margin-top: var(--s-2); font-size: var(--fs-sm); }

@@ -21,6 +21,7 @@ const edu = about.data.education;
         <li>{site.contact.location} ({site.contact.timezone})</li>
         <li><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></li>
         <li><a href={site.contact.linkedin} rel="noopener noreferrer" target="_blank" data-track="linkedin_click" data-track-label="resume">{site.contact.linkedinLabel}<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+        <li><a href={site.contact.contra} rel="noopener noreferrer" target="_blank" data-track="contra_click" data-track-label="resume">{site.contact.contraLabel}<span class="visually-hidden"> (opens in a new tab)</span></a></li>
         {phone && <li>{phone}</li>}
         <li>{site.contact.workRights}</li>
       </ul>

@@ -1,0 +1,84 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import AstroLogo from './AstroLogo.astro';
+import ProjectCard from './ProjectCard.astro';
+
+interface Props {
+  index: string;
+  label: string;
+  heading: string;
+  intro?: string;
+  projects: CollectionEntry<'projects'>[];
+  workflow?: { title: string; text: string }[];
+}
+const { index, label, heading, intro, projects, workflow = [] } = Astro.props;
+const writeup = projects.find((p) => p.data.writeup)?.data.writeup;
+---
+<section id="astro" class="section astro" aria-labelledby="astro-title">
+  <div class="container">
+    <div class="head">
+      <p class="label"><span class="idx">{index}</span>{label}</p>
+      <div class="title-row">
+        <span class="mark"><AstroLogo size={44} title="Astro" /></span>
+        <h2 id="astro-title" class="title">{heading}</h2>
+      </div>
+      {intro && <p class="intro">{intro}</p>}
+    </div>
+
+    <div class="grid">
+      {projects.map((p, i) => <ProjectCard project={p} index={i} />)}
+    </div>
+
+    {workflow.length > 0 && (
+      <div class="workflow">
+        <h3 class="label">How I build them</h3>
+        <ol>
+          {workflow.map((step, i) => (
+            <li class="reveal">
+              <span class="n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <h4>{step.title}</h4>
+              <p>{step.text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    )}
+
+    {writeup && (
+      <p class="writeup">
+        <a href={writeup.url} rel="noopener noreferrer" target="_blank" class="link-arrow" data-track="outbound_click" data-track-label="contra_astro_post">
+          Read the build post on Contra<span class="visually-hidden"> (opens in a new tab)</span> <span aria-hidden="true">&nearr;</span>
+        </a>
+      </p>
+    )}
+  </div>
+</section>
+
+<style>
+  .head { display: grid; gap: var(--s-4); margin-bottom: var(--s-7); max-width: 52rem; }
+  .idx { color: var(--c-accent); margin-right: var(--s-3); }
+  .title-row { display: flex; align-items: center; gap: var(--s-5); }
+  .mark {
+    flex: none; display: inline-grid; place-items: center;
+    width: 4.5rem; height: 4.5rem; border-radius: var(--radius);
+    border: 1px solid var(--c-rule); background: var(--c-surface); color: var(--c-ink);
+  }
+  .title { font-size: var(--fs-2xl); line-height: 1.1; }
+  .intro { font-size: var(--fs-md); color: var(--c-ink-2); max-width: var(--measure); }
+  .grid { display: grid; gap: var(--s-8) var(--s-6); }
+  @media (min-width: 52rem) { .grid { grid-template-columns: 1fr 1fr; } }
+  .workflow { margin-top: var(--s-9); }
+  .workflow > .label { margin-bottom: var(--s-4); }
+  .workflow ol { list-style: none; padding: 0; display: grid; gap: var(--s-6); border-top: 1px solid var(--c-ink); padding-top: var(--s-5); }
+  @media (min-width: 40rem) { .workflow ol { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 72rem) { .workflow ol { grid-template-columns: repeat(4, 1fr); } }
+  .workflow li { display: grid; gap: var(--s-2); align-content: start; }
+  .n { color: var(--c-accent); font-weight: 600; font-size: var(--fs-sm); }
+  .workflow h4 { font-family: var(--font-text); font-size: var(--fs-base); font-weight: 600; letter-spacing: 0; }
+  .workflow p { color: var(--c-ink-2); font-size: var(--fs-sm); }
+  .writeup { margin-top: var(--s-6); }
+  @media (max-width: 30rem) {
+    .title-row { flex-direction: column; align-items: flex-start; gap: var(--s-4); }
+    .mark { width: 3.5rem; height: 3.5rem; }
+  }
+</style>

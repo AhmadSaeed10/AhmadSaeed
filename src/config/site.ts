@@ -30,6 +30,8 @@ export const site = {
     email: 'ahmadchamp1997@gmail.com',
     linkedin: 'https://www.linkedin.com/in/ahmadsaeed10',
     linkedinLabel: 'linkedin.com/in/ahmadsaeed10',
+    contra: 'https://contra.com/ahmad_saeed_wq41r3sc',
+    contraLabel: 'contra.com/ahmad_saeed_wq41r3sc',
     location: 'Lahore, Pakistan',
     timezone: 'PKT, UTC+5',
     overlap: 'Overlap available with European and Oceania working hours',

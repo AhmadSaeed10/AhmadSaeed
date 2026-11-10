@@ -24,6 +24,12 @@ For each of WeWear, Hushpuppies, OneDegree, Eirene Studio and CookieDrama (`src/
 - [ ] Eirene Studio: confirm which theme it uses
 - [ ] Dagny.pk: add the project date
 
+## Astro builds (The Growth Lab, SigmaPrinto)
+
+- [ ] `challenge` for The Growth Lab, and results for both (for example PageSpeed before and after the WordPress move, enquiries, search impressions). The rest of the copy comes from your Contra post.
+- [ ] Confirm the role wording "Logo, brand, design and Astro build" for both.
+- [ ] Optional: add detail screenshots as a `gallery`, like the Shopify case studies.
+
 ## Confirm the drafted copy
 
 - [ ] **Experience dates**: CreatExc (both roles), Savvy Programmers, Tetralogicx and ZmaSta overlap on the CV. Each file in `src/content/experience/` has a `# CONFIRM` comment.

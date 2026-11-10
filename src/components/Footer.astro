@@ -22,6 +22,7 @@ const year = new Date().getFullYear();
       <ul>
         <li><a href={`mailto:${site.contact.email}`} data-track="cta_click" data-track-label="footer_email">{site.contact.email}</a></li>
         <li><a href={site.contact.linkedin} rel="noopener noreferrer" target="_blank" data-track="linkedin_click" data-track-label="footer">LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+        <li><a href={site.contact.contra} rel="noopener noreferrer" target="_blank" data-track="contra_click" data-track-label="footer">Contra<span class="visually-hidden"> (opens in a new tab)</span></a></li>
         {phone && <li><a href={`tel:${phone.replace(/\s/g, '')}`}>{phone}</a></li>}
       </ul>
     </div>

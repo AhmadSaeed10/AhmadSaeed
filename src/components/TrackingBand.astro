@@ -1,14 +1,14 @@
 ---
 import { getTrackingWork } from '@/lib/content';
 import { site } from '@/config/site';
-interface Props { label: string; heading: string; intro?: string }
-const { label, heading, intro } = Astro.props;
+interface Props { index?: string; label: string; heading: string; intro?: string }
+const { index = '03', label, heading, intro } = Astro.props;
 const { clients, pitches } = await getTrackingWork();
 ---
 <section id="tracking" class="band" aria-labelledby="tracking-title">
   <div class="container">
     <div>
-      <p class="label head-label"><span class="idx">03</span>{label}</p>
+      <p class="label head-label"><span class="idx">{index}</span>{label}</p>
       <h2 id="tracking-title" class="title">{heading}</h2>
       {intro && <p class="intro">{intro}</p>}
       <div class="cols">
