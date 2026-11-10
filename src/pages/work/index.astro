@@ -1,0 +1,120 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionHead from '@/components/SectionHead.astro';
+import ProjectCard from '@/components/ProjectCard.astro';
+import MoreWork from '@/components/MoreWork.astro';
+import TrackingBand from '@/components/TrackingBand.astro';
+import AstroLogo from '@/components/AstroLogo.astro';
+import { getPage, getFeaturedProjects, getMoreWork } from '@/lib/content';
+
+const page = await getPage('work');
+const d = page.data;
+const s = d.sections!;
+const [shopify, web, more] = await Promise.all([getFeaturedProjects('shopify'), getFeaturedProjects('web'), getMoreWork()]);
+
+const stats = [
+  { value: String(shopify.length + web.length), label: 'full case studies' },
+  { value: String(shopify.length + more.length), label: 'Shopify stores built or run' },
+  { value: String(web.length), label: 'Astro websites launched' },
+  { value: '5+ years', label: 'on Shopify' },
+];
+const jump = [
+  { href: '#shopify', label: s.shopify.label, count: shopify.length },
+  { href: '#astro', label: s.astro.label, count: web.length },
+  { href: '#more', label: s.more.label, count: more.length },
+  { href: '#tracking', label: s.tracking.label },
+];
+---
+<BaseLayout title={d.seoTitle} description={d.seoDescription} ogKey="work">
+  <header class="container intro">
+    <p class="label">{d.eyebrow}</p>
+    <h1>{d.heading}</h1>
+    {d.lede && <p class="lede">{d.lede}</p>}
+    <dl class="stats">
+      {stats.map((x) => <div><dt>{x.value}</dt><dd>{x.label}</dd></div>)}
+    </dl>
+    <nav aria-label="Sections on this page" class="jump">
+      <ol>
+        {jump.map((j) => (
+          <li><a href={j.href}>{j.label}{j.count !== undefined && <span class="count">{j.count}</span>}</a></li>
+        ))}
+      </ol>
+    </nav>
+    <p class="also"><a href="/case-studies" class="link-arrow" data-track="cta_click" data-track-label="work_case_studies">Every case study in detail <span aria-hidden="true">&rarr;</span></a></p>
+  </header>
+
+  <section id="shopify" class="section" aria-labelledby="shopify-title">
+    <div class="container">
+      <SectionHead index="01" id="shopify-title" {...s.shopify} />
+      <div class="work-grid">
+        {shopify.map((p, i) => <ProjectCard project={p} index={i} wide={i === 0 && shopify.length % 2 === 1} />)}
+      </div>
+    </div>
+  </section>
+
+  <section id="astro" class="section" aria-labelledby="astro-title">
+    <div class="container">
+      <div class="astro-head">
+        <span class="mark"><AstroLogo size={36} title="Astro" /></span>
+        <SectionHead index="02" id="astro-title" {...s.astro} />
+      </div>
+      <div class="work-grid">
+        {web.map((p, i) => <ProjectCard project={p} index={i} wide={i === 0 && web.length % 2 === 1} />)}
+      </div>
+    </div>
+  </section>
+
+  <section id="more" class="section" aria-labelledby="more-title">
+    <div class="container">
+      <SectionHead index="03" id="more-title" {...s.more} />
+      <MoreWork items={more} hideTitle />
+    </div>
+  </section>
+
+  <TrackingBand index="04" {...s.tracking} />
+
+  <section class="section cta" aria-labelledby="work-cta" data-hide-sticky>
+    <div class="container">
+      <h2 id="work-cta">Have a store or site that should be doing more?</h2>
+      <p>Tell me about it, and I'll reply with questions or a next step.</p>
+      <div class="ctas">
+        <a href="/contact" class="btn btn-primary btn-lg" data-track="cta_click" data-track-label="work_page_work_with_me">Work with me <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        <a href="/case-studies" class="btn btn-secondary btn-lg" data-track="cta_click" data-track-label="work_page_case_studies">Read the case studies</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .intro { padding-block: var(--s-8) var(--s-7); display: grid; gap: var(--s-5); }
+  h1 { font-size: var(--fs-2xl); line-height: 1.05; max-width: 18em; letter-spacing: -0.025em; }
+  .lede { font-size: var(--fs-md); color: var(--c-ink-2); max-width: var(--measure); }
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-5); margin-top: var(--s-5); padding-top: var(--s-5); border-top: 1px solid var(--c-ink); }
+  @media (min-width: 52rem) { .stats { grid-template-columns: repeat(4, 1fr); } }
+  .stats div { display: grid; gap: var(--s-1); }
+  .stats dt { font-family: var(--font-display); font-size: var(--fs-xl); line-height: 1; }
+  .stats dd { color: var(--c-ink-3); font-size: var(--fs-sm); }
+  .jump ol { display: flex; flex-wrap: wrap; gap: var(--s-2); list-style: none; padding: 0; }
+  .jump a {
+    display: inline-flex; align-items: center; gap: var(--s-2); min-height: var(--tap); padding: 0 var(--s-4);
+    border: 1px solid var(--c-rule-strong); border-radius: var(--radius-pill); text-decoration: none; font-size: var(--fs-sm); font-weight: 500;
+  }
+  .jump a:hover { border-color: var(--c-ink); color: var(--c-ink); }
+  .count { font-size: var(--fs-xs); font-weight: 600; color: var(--c-accent); font-variant-numeric: tabular-nums; }
+  .work-grid { display: grid; gap: var(--s-8) var(--s-6); }
+  @media (min-width: 52rem) {
+    .work-grid { grid-template-columns: 1fr 1fr; }
+    .work-grid > :global(.wide) { grid-column: 1 / -1; }
+  }
+  .astro-head { display: flex; align-items: flex-start; gap: var(--s-5); }
+  .mark {
+    flex: none; display: inline-grid; place-items: center; width: 4rem; height: 4rem; margin-top: var(--s-6);
+    border-radius: var(--radius); border: 1px solid var(--c-rule); background: var(--c-surface); color: var(--c-ink);
+  }
+  @media (max-width: 30rem) { .astro-head { flex-direction: column; gap: 0; } .mark { margin-top: 0; } }
+  .cta { background: var(--c-surface-2); }
+  .cta .container { display: grid; gap: var(--s-4); justify-items: start; }
+  .cta h2 { font-size: var(--fs-xl); max-width: 20em; }
+  .cta p { color: var(--c-ink-2); }
+  .ctas { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-3); }
+</style>

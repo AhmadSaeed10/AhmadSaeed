@@ -28,7 +28,7 @@ const title = `${d.client} case study: ${d.title} | Ahmad Saeed`;
   <article class="case" data-case-study={project.id}>
     <header class="container intro">
       <nav aria-label="Breadcrumb" class="crumbs">
-        <ol><li><a href="/#work">Work</a></li><li aria-current="page">{d.client}</li></ol>
+        <ol><li><a href="/work">Work</a></li><li><a href="/case-studies">Case studies</a></li><li aria-current="page">{d.client}</li></ol>
       </nav>
       <p class="label client-label">{d.platform === 'Astro' && <AstroLogo size={18} />}{d.client}</p>
       <h1>{d.title}</h1>

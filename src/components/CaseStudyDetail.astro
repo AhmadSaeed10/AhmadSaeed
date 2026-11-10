@@ -1,0 +1,117 @@
+---
+import { Picture } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import Todo from './Todo.astro';
+import AstroLogo from './AstroLogo.astro';
+import { hostname, isTodo } from '@/lib/format';
+
+interface Props { project: CollectionEntry<'projects'>; index: number }
+const { project, index } = Astro.props;
+const d = project.data;
+const href = `/work/${project.id}`;
+const num = String(index + 1).padStart(2, '0');
+---
+<article id={project.id} class="cs" aria-labelledby={`${project.id}-title`}>
+  <div class="media">
+    {d.cover && (
+      <a href={href} tabindex="-1" aria-hidden="true" class="cover">
+        <Picture src={d.cover} alt="" formats={['avif', 'webp']} widths={[480, 800, 1200]} sizes="(min-width: 64rem) 30rem, 100vw" loading="lazy" />
+      </a>
+    )}
+  </div>
+
+  <div class="body">
+    <p class="eyebrow">
+      <span class="num">{num}</span>
+      {d.platform === 'Astro' && <AstroLogo size={16} />}
+      {d.client}
+    </p>
+    <h3 id={`${project.id}-title`}><a href={href}>{d.title}</a></h3>
+    <p class="summary">{d.summary}</p>
+
+    <dl class="meta">
+      <div><dt>Role</dt><dd>{d.role}</dd></div>
+      <div><dt>Timeline</dt><dd>{d.timeline}</dd></div>
+      <div><dt>Platform</dt><dd>{d.platform}</dd></div>
+      {d.theme && <div><dt>Theme</dt><Todo as="dd" value={d.theme} /></div>}
+      <div><dt>Scope</dt><dd>{d.scope}</dd></div>
+      {d.tools.length > 0 && <div class="wide"><dt>Tools</dt><dd>{d.tools.join(', ')}</dd></div>}
+    </dl>
+
+    <div class="block">
+      <h4>Challenge</h4>
+      <Todo as="p" value={d.challenge} />
+    </div>
+
+    {d.approach.length > 0 && (
+      <div class="block">
+        <h4>What I did</h4>
+        <ol class="steps">
+          {d.approach.map((step) => <li><strong>{step.title}.</strong> {step.text}</li>)}
+        </ol>
+      </div>
+    )}
+
+    <div class="block">
+      <h4>Outcome</h4>
+      {d.results.length > 0 && (
+        <dl class="results">{d.results.map((r) => <div><dt>{r.value}</dt><dd>{r.label}</dd></div>)}</dl>
+      )}
+      {isTodo(d.outcome) ? <p><span class="todo">{d.outcome || 'TODO: add result'}</span></p> : <p>{d.outcome}</p>}
+    </div>
+  </div>
+
+  <div class="actions">
+    <div class="links">
+    <a href={href} class="btn btn-primary" data-track="cta_click" data-track-label={`case_studies_open_${project.id}`}>Full case study <span class="arrow" aria-hidden="true">&rarr;</span></a>
+    {d.url && (
+      <a href={d.url} rel="noopener noreferrer" target="_blank" class="btn btn-secondary" data-track="outbound_click" data-track-label={`case_studies_visit_${hostname(d.url)}`}>
+        Visit site<span class="visually-hidden">: {hostname(d.url)} (opens in a new tab)</span> <span aria-hidden="true">&nearr;</span>
+      </a>
+    )}
+  </div>
+  {d.writeup && (
+    <a href={d.writeup.url} rel="noopener noreferrer" target="_blank" class="link-arrow" data-track="outbound_click" data-track-label={`case_studies_writeup_${project.id}`}>
+      {d.writeup.label}<span class="visually-hidden"> (opens in a new tab)</span> <span aria-hidden="true">&nearr;</span>
+    </a>
+  )}
+  </div>
+</article>
+
+<style>
+  .cs { display: grid; gap: var(--s-6); padding-block: var(--s-8); border-top: 1px solid var(--c-ink); grid-template-areas: 'media' 'body' 'actions'; }
+  .media { grid-area: media; }
+  .body { grid-area: body; }
+  .actions { grid-area: actions; display: grid; gap: var(--s-4); justify-items: start; }
+  /* Desktop: cover with its actions underneath in the left column, details on the right. */
+  @media (min-width: 64rem) {
+    .cs { grid-template-columns: 30rem 1fr; grid-template-rows: auto 1fr; grid-template-areas: 'media body' 'actions body'; column-gap: var(--s-8); row-gap: var(--s-4); }
+    .media, .actions { align-self: start; }
+  }
+  .cover { display: block; width: 100%; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--c-rule); aspect-ratio: 3 / 2; background: var(--c-surface-2); }
+  .cover :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-slow) var(--ease); }
+  .cover:hover :global(img) { transform: scale(1.02); }
+  .links { display: flex; flex-wrap: wrap; gap: var(--s-3); }
+  .body { display: grid; gap: var(--s-5); align-content: start; min-width: 0; }
+  .eyebrow { display: flex; align-items: center; gap: var(--s-2); font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--c-ink-3); }
+  .eyebrow :global(.astro-logo) { color: var(--c-ink); }
+  .num { color: var(--c-accent); margin-right: var(--s-1); }
+  h3 { font-size: var(--fs-xl); line-height: 1.15; max-width: 22em; }
+  h3 a { text-decoration: none; }
+  h3 a:hover { color: var(--c-accent); }
+  .summary { font-size: var(--fs-md); color: var(--c-ink-2); max-width: var(--measure); }
+  .meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4) var(--s-5); padding: var(--s-5); background: var(--c-surface-2); border-radius: var(--radius); }
+  @media (min-width: 48rem) { .meta { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .meta .wide { grid-column: 1 / -1; }
+  .meta dt { font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--c-ink-3); }
+  .meta :global(dd) { font-size: var(--fs-sm); margin-top: 2px; }
+  .block { display: grid; gap: var(--s-2); max-width: 44rem; }
+  h4 { font-family: var(--font-text); font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--c-ink); }
+  .block > :global(p) { color: var(--c-ink-2); }
+  .steps { padding-left: 1.25rem; display: grid; gap: var(--s-2); color: var(--c-ink-2); }
+  .steps li::marker { color: var(--c-accent); font-weight: 600; }
+  .steps strong { color: var(--c-ink); font-weight: 600; }
+  .results { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: var(--s-4); }
+  .results dt { font-family: var(--font-display); font-size: var(--fs-xl); line-height: 1; }
+  .results dd { color: var(--c-ink-3); font-size: var(--fs-sm); }
+</style>

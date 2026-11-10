@@ -53,6 +53,18 @@ public/                 Favicon and the CV PDF
 scripts/                Placeholder and CV PDF generators
 ```
 
+### Pages
+
+| Route | What it shows |
+|---|---|
+| `/` | Home: hero, selected work, Astro builds, services, tracking, skills, experience, testimonials, appearances, contact |
+| `/work` | Every project: Shopify case studies, Astro websites, more client work and tracking work, with summary counts |
+| `/case-studies` | Every full case study in detail: role, timeline, platform, theme, scope, tools, challenge, what I did, outcome |
+| `/work/[slug]` | A single case study with screenshots |
+| `/services`, `/about`, `/contact`, `/resume`, `/404` | As named |
+
+New projects appear on `/work` and `/case-studies` automatically. Copy for both pages lives in `src/content/pages/work.md` and `case-studies.md`.
+
 ### Feature flags (`src/config/site.ts`)
 
 | Flag | Default | Effect |

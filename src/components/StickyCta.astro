@@ -22,7 +22,7 @@ const { href = site.primaryCta.href } = Astro.props;
   .sticky-cta[data-hidden] { transform: translateY(110%); visibility: hidden; }
   :global(html[data-menu-open]) .sticky-cta { display: none; }
   :global(body:has(.sticky-cta)) { padding-bottom: 5rem; }
-  @media (min-width: 52rem) {
+  @media (min-width: 60rem) {
     .sticky-cta { display: none; }
     :global(body:has(.sticky-cta)) { padding-bottom: 0; }
   }
