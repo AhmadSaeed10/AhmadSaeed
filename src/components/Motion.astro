@@ -1,0 +1,108 @@
+---
+/**
+ * Scroll motion for every page, as one small inline script at the end of <body>.
+ * 1. Section reveal: content blocks fade and rise in as they enter the viewport, staggered within a group.
+ * 2. Line reveal: divider lines (any 1px border-top in main or the footer) draw left to right
+ *    once they reach the middle of the screen, or when the page bottom is reached.
+ * Anything already on screen at load is shown at once, so first paint and LCP are not delayed.
+ * Skipped entirely with prefers-reduced-motion, and without JavaScript nothing is hidden.
+ */
+---
+<script is:inline>
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var root = document.documentElement;
+  var main = document.querySelector('main');
+  if (!main) return;
+
+  // Containers whose children should reveal one by one instead of as a single block.
+  var GROUPS = '.work-grid, .grid, .services, .groups, .quotes, .principles, .gallery, .secondary, .layout, .content, .cols, .workflow ol, .steps, .timeline ol, .list, .more ul, .proof, .facts, .feature';
+  var targets = new Set();
+  main.querySelectorAll('.container > *, article > header > *').forEach(function (el) { targets.add(el); });
+  // Expand grouped containers into their children.
+  var expanded = new Set();
+  targets.forEach(function (el) {
+    if (el.matches(GROUPS)) { Array.prototype.forEach.call(el.children, function (c) { expanded.add(c); }); }
+    else { expanded.add(el); }
+  });
+  main.querySelectorAll(GROUPS).forEach(function (g) {
+    Array.prototype.forEach.call(g.children, function (c) { expanded.add(c); });
+  });
+
+  root.classList.add('motion');
+  var vh = innerHeight;
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      // Skipped past (anchor jump): show at once so scrolling back up never finds blank space.
+      else if (e.boundingClientRect.bottom < 0) { e.target.classList.add('in', 'now'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+
+  expanded.forEach(function (el) {
+    if (el.matches('script, style, .visually-hidden') || el.closest('.hero')) return;
+    var i = Array.prototype.indexOf.call(el.parentElement.children, el);
+    el.style.setProperty('--rv-delay', (Math.min(i, 4) * 90) + 'ms');
+    el.classList.add('rv');
+    if (el.getBoundingClientRect().top < vh) { el.classList.add('in', 'now'); requestAnimationFrame(function () { el.classList.remove('now'); }); }
+    else io.observe(el);
+  });
+
+  // Lines: find every visible 1px top border in main and the footer.
+  var probe = document.createElement('i');
+  probe.style.cssText = 'position:absolute;visibility:hidden';
+  document.body.appendChild(probe);
+  var tokenFor = {};
+  ['--c-ink', '--c-rule', '--c-on-band', '--c-rule-strong'].forEach(function (t) {
+    probe.style.color = 'var(' + t + ')';
+    tokenFor[getComputedStyle(probe).color] = t;
+  });
+  probe.remove();
+
+  var lines = [];
+  var scope = Array.prototype.slice.call(main.querySelectorAll('*')).concat([main], Array.prototype.slice.call(document.querySelectorAll('.site-footer, .site-footer *')));
+  scope.forEach(function (el) {
+    var cs = getComputedStyle(el);
+    if (cs.borderTopStyle !== 'solid' || parseFloat(cs.borderTopWidth) < 1 || parseFloat(cs.borderTopWidth) > 2) return;
+    // Divider rules only: skip boxes with side borders (chips, buttons, cards, inputs).
+    if (parseFloat(cs.borderLeftWidth) > 0 || parseFloat(cs.borderRightWidth) > 0) return;
+    if (el.offsetWidth === 0) return;
+    if (getComputedStyle(el, '::before').content !== 'none') return;
+    if (cs.position !== 'static' && cs.position !== 'relative') return;
+    var token = tokenFor[cs.borderTopColor];
+    el.style.setProperty('--ln-color', token ? 'var(' + token + ')' : cs.borderTopColor);
+    el.classList.add('ln');
+    lines.push(el);
+  });
+
+  var pending = lines.slice();
+  function check() {
+    var mid = innerHeight * 0.5;
+    var atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 4;
+    pending = pending.filter(function (el) {
+      if (atBottom || el.getBoundingClientRect().top < mid) { el.classList.add('drawn'); return false; }
+      return true;
+    });
+    if (!pending.length) removeEventListener('scroll', onScroll);
+  }
+  // Lines already above the middle at load are drawn without animation.
+  pending = pending.filter(function (el) {
+    if (el.getBoundingClientRect().top < innerHeight * 0.5) {
+      el.classList.add('drawn', 'now');
+      requestAnimationFrame(function () { el.classList.remove('now'); });
+      return false;
+    }
+    return true;
+  });
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () { ticking = false; check(); });
+  }
+  addEventListener('scroll', onScroll, { passive: true });
+  check();
+})();
+</script>

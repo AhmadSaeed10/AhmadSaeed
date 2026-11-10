@@ -1,14 +1,30 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { brandIconsFor } from '@/lib/brandIcons';
 interface Props { groups: CollectionEntry<'skills'>[] }
 const { groups } = Astro.props;
 ---
 <div class="groups">
   {groups.map(({ data }) => (
-    <section class="group reveal" aria-label={data.group}>
+    <section class="group" aria-label={data.group}>
       <h3 class="label">{data.group}</h3>
       <ul>
-        {data.items.map((item) => <li>{item}</li>)}
+        {data.items.map((item) => {
+          const icons = brandIconsFor(item);
+          const brand = icons.find((i) => i.hex)?.hex;
+          return (
+            <li class:list={[{ 'has-icon': icons.length > 0 }]} style={brand ? `--brand: ${brand}` : undefined}>
+              {icons.length > 0 && (
+                <span class="icons" aria-hidden="true">
+                  {icons.map((i) => (
+                    <svg viewBox={`0 0 ${i.width} ${i.height}`} width="16" height="16" fill="currentColor" focusable="false" set:html={i.body} />
+                  ))}
+                </span>
+              )}
+              {item}
+            </li>
+          );
+        })}
       </ul>
       {data.note && <p class="note">{data.note}</p>}
     </section>
@@ -23,8 +39,15 @@ const { groups } = Astro.props;
   .label { margin-bottom: var(--s-4); color: var(--c-ink); }
   ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-2); }
   li {
+    display: inline-flex; align-items: center; gap: 0.45rem;
     padding: 0.3rem 0.7rem; border: 1px solid var(--c-rule); border-radius: var(--radius-pill);
     font-size: var(--fs-sm); color: var(--c-ink-2); background: var(--c-surface);
+    transition: border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
   }
+  li.has-icon { padding-left: 0.55rem; }
+  .icons { display: inline-flex; gap: 0.3rem; color: var(--c-ink); transition: color var(--dur-fast) var(--ease); }
+  .icons svg { display: block; flex: none; }
+  li.has-icon:hover { border-color: var(--brand, var(--c-ink-3)); color: var(--c-ink); }
+  li.has-icon:hover .icons { color: var(--brand, var(--c-ink)); }
   .note { margin-top: var(--s-4); font-size: var(--fs-sm); color: var(--c-ink-3); }
 </style>

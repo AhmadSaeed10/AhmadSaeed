@@ -87,6 +87,20 @@ Detail-screenshot placeholders live in `src/assets/placeholders/`. Either overwr
 - **Recommended:** replace it with your designed CV, keeping the same file name.
 - **Or generate it from the site:** the `/resume` page has print styles. Run `npm run build && npm run preview`, then in another terminal run `npm i -D playwright && npx playwright install chromium && npm run cv`. You can also open `/resume` in Chrome and use Print, Save as PDF.
 
+## Motion
+
+`src/components/Motion.astro` is a small inline script that runs on every page:
+
+- **Section reveal:** blocks inside each section fade and rise in as they enter the viewport, staggered within grids and lists.
+- **Line reveal:** 1px divider rules draw from left to right when they reach the middle of the screen.
+- Anything already on screen at load shows immediately, so first paint is never delayed.
+- It is switched off for `prefers-reduced-motion`, and without JavaScript nothing is hidden.
+- To reveal a new grid item by item, add its selector to `GROUPS` in the script.
+
+## Skill logos
+
+Skill chips show brand logos from Simple Icons (CC0, via `@iconify-json/simple-icons`). The mapping from skill text to logo is in `src/lib/brandIcons.ts`. Logos are monochrome and switch to the brand colour on hover. Klaviyo is not in any open icon set, so it shows as text.
+
 ## Analytics
 
 GTM loads after the page is idle, so it never blocks rendering. Events are pushed to `window.dataLayer`:

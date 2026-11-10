@@ -7,6 +7,7 @@ Everything below is visible on the site as a dashed placeholder or flagged in a 
 - [ ] **Domain**: set `SITE_URL` in Vercel. Currently defaults to `https://ahmadsaeed.com`.
 - [ ] **Contact form**: create a Web3Forms (or Formspree) key and set `PUBLIC_FORM_KEY`. Until then the form tells visitors to email you.
 - [ ] **GTM**: set `PUBLIC_GTM_ID` and set up the custom event triggers listed in the README.
+- [ ] **Updated About photo** (the longer-beard one): send it as a file attachment. It came through only as an inline preview, which can't be saved.
 - [x] **Professional photo**: `src/assets/about/ahmad-saeed.webp`. To change it, overwrite that file (square works best) and update `photoAlt` in `src/content/pages/about.md`.
 - [ ] **CV PDF**: `public/Ahmad_Saeed_CV.pdf` is currently printed from `/resume`. Replace it with your designed CV if you have one.
 
@@ -50,6 +51,8 @@ For each of WeWear, Hushpuppies, OneDegree, Eirene Studio and CookieDrama (`src/
 - [ ] To name WPP Media clients: add a `"name"` field to each file in `src/content/tracking/` (for example `"name": "Client name"`), then set `anonymiseClients: false` in `src/config/site.ts`. Real names are deliberately not stored in this repository until you have permission, so they cannot leak through a public repo.
 
 ## Optional
+
+- [ ] Klaviyo logo for the skills chip: not in any open icon set. If you have an SVG of their logomark from their press kit, add it to `src/lib/brandIcons.ts`.
 
 - [ ] `showPhone: true` plus `CONTACT_PHONE` if you want the phone number on the site.
 - [ ] Reference sites or a logo mark if you want the wordmark and favicon refined.
