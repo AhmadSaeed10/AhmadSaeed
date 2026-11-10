@@ -9,6 +9,8 @@ type Card = { eyebrow: string; title: string; footer: string };
 const base: Record<string, Card> = {
   home: { eyebrow: 'Shopify Expert and E-Commerce Consultant', title: 'Shopify storefronts that load fast, convert, and are easy for teams to run.', footer: 'Senior UX/UI Designer' },
   about: { eyebrow: 'About', title: 'A Shopify specialist who started as a designer.', footer: '5+ years on Shopify' },
+  work: { eyebrow: 'Work', title: 'Shopify storefronts, Astro websites and the data behind them.', footer: 'Shopify and Astro' },
+  'case-studies': { eyebrow: 'Case studies', title: 'The details behind each project.', footer: 'Role, scope, tools, outcome' },
   services: { eyebrow: 'Services', title: 'Store builds, store management, tracking and CRO.', footer: 'Request a quote' },
   contact: { eyebrow: 'Contact', title: 'Tell me about your store.', footer: 'Open to remote contracts' },
   resume: { eyebrow: 'Resume', title: 'Experience, skills and education.', footer: 'PDF download available' },

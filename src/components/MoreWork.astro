@@ -1,11 +1,11 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { hostname } from '@/lib/format';
-interface Props { items: CollectionEntry<'projects'>[] }
-const { items } = Astro.props;
+interface Props { items: CollectionEntry<'projects'>[]; hideTitle?: boolean }
+const { items, hideTitle = false } = Astro.props;
 ---
-<div class="more">
-  <h3 class="label">More client work</h3>
+<div class:list={['more', { flush: hideTitle }]}>
+  {!hideTitle && <h3 class="label">More client work</h3>}
   <ul>
     {items.map(({ data: d }) => (
       <li class="row">
@@ -24,6 +24,7 @@ const { items } = Astro.props;
 
 <style>
   .more { margin-top: var(--s-9); }
+  .more.flush { margin-top: 0; }
   .label { font-family: var(--font-text); margin-bottom: var(--s-4); }
   ul { list-style: none; padding: 0; border-top: 1px solid var(--c-ink); }
   .row {

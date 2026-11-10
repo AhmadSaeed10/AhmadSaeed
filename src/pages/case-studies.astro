@@ -1,0 +1,86 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CaseStudyDetail from '@/components/CaseStudyDetail.astro';
+import { getPage, getFeaturedProjects } from '@/lib/content';
+
+const page = await getPage('case-studies');
+const d = page.data;
+const [shopify, web] = await Promise.all([getFeaturedProjects('shopify'), getFeaturedProjects('web')]);
+const all = [...shopify, ...web];
+const groups = [
+  { id: 'shopify-case-studies', label: 'Shopify storefronts', items: shopify, offset: 0 },
+  { id: 'astro-case-studies', label: 'Astro websites', items: web, offset: shopify.length },
+];
+const jsonLd = [{
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Case studies by Ahmad Saeed',
+  itemListElement: all.map((p, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: new URL(`/work/${p.id}`, Astro.site).href,
+    name: `${p.data.client}: ${p.data.title}`,
+  })),
+}];
+---
+<BaseLayout title={d.seoTitle} description={d.seoDescription} ogKey="case-studies" jsonLd={jsonLd}>
+  <header class="container intro">
+    <p class="label">{d.eyebrow}</p>
+    <h1>{d.heading}</h1>
+    {d.lede && <p class="lede">{d.lede}</p>}
+    <nav aria-label="Case studies on this page" class="toc">
+      {groups.map((g) => (
+        <div class="toc-group">
+          <p class="label">{g.label}</p>
+          <ol>
+            {g.items.map((p, i) => (
+              <li><a href={`#${p.id}`}><span class="n" aria-hidden="true">{String(g.offset + i + 1).padStart(2, '0')}</span>{p.data.client}</a></li>
+            ))}
+          </ol>
+        </div>
+      ))}
+    </nav>
+  </header>
+
+  {groups.map((g) => (
+    <section id={g.id} class="section" aria-labelledby={`${g.id}-title`}>
+      <div class="container">
+        <h2 id={`${g.id}-title`} class="group-title">{g.label}</h2>
+        {g.items.map((p, i) => <CaseStudyDetail project={p} index={g.offset + i} />)}
+      </div>
+    </section>
+  ))}
+
+  <section class="section cta" aria-labelledby="cs-cta" data-hide-sticky>
+    <div class="container">
+      <h2 id="cs-cta">Planning something similar?</h2>
+      <p>Tell me about your store or site and what you want it to do better.</p>
+      <div class="ctas">
+        <a href="/contact" class="btn btn-primary btn-lg" data-track="cta_click" data-track-label="case_studies_work_with_me">Work with me <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        <a href="/work" class="btn btn-secondary btn-lg" data-track="cta_click" data-track-label="case_studies_all_work">See all work</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .intro { padding-block: var(--s-8) var(--s-7); display: grid; gap: var(--s-5); }
+  h1 { font-size: var(--fs-2xl); line-height: 1.05; max-width: 18em; letter-spacing: -0.025em; }
+  .lede { font-size: var(--fs-md); color: var(--c-ink-2); max-width: var(--measure); }
+  .toc { display: grid; gap: var(--s-5); margin-top: var(--s-4); }
+  @media (min-width: 52rem) { .toc { grid-template-columns: 2fr 1fr; gap: var(--s-7); } }
+  .toc-group .label { margin-bottom: var(--s-3); }
+  .toc ol { display: flex; flex-wrap: wrap; gap: var(--s-2); list-style: none; padding: 0; }
+  .toc a {
+    display: inline-flex; align-items: center; gap: var(--s-2); min-height: var(--tap); padding: 0 var(--s-4);
+    border: 1px solid var(--c-rule-strong); border-radius: var(--radius-pill); text-decoration: none; font-size: var(--fs-sm); font-weight: 500;
+  }
+  .toc a:hover { border-color: var(--c-ink); color: var(--c-ink); }
+  .n { font-size: var(--fs-xs); font-weight: 600; color: var(--c-accent); }
+  .group-title { font-size: var(--fs-xl); margin-bottom: var(--s-6); }
+  .cta { background: var(--c-surface-2); }
+  .cta .container { display: grid; gap: var(--s-4); justify-items: start; }
+  .cta h2 { font-size: var(--fs-xl); }
+  .cta p { color: var(--c-ink-2); }
+  .ctas { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-3); }
+</style>

@@ -41,7 +41,8 @@ export const site = {
   cvFile: '/Ahmad_Saeed_CV.pdf',
 
   nav: [
-    { label: 'Work', href: '/#work' },
+    { label: 'Work', href: '/work' },
+    { label: 'Case studies', href: '/case-studies' },
     { label: 'Services', href: '/services' },
     { label: 'About', href: '/about' },
     { label: 'Resume', href: '/resume' },

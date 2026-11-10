@@ -38,6 +38,10 @@ const jsonLd = [personSchema(origin, photo ? new URL(photo.src, origin).href : u
         {featured.map((p, i) => <ProjectCard project={p} index={i} wide={i === 0 && featured.length % 2 === 1} />)}
       </div>
       <MoreWork items={more} />
+      <div class="work-links">
+        <a href="/work" class="btn btn-primary btn-lg" data-track="cta_click" data-track-label="home_all_work">See all work <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        <a href="/case-studies" class="btn btn-secondary btn-lg" data-track="cta_click" data-track-label="home_case_studies">Case studies in detail</a>
+      </div>
     </div>
   </section>
 
@@ -114,6 +118,7 @@ const jsonLd = [personSchema(origin, photo ? new URL(photo.src, origin).href : u
   .rail :global(.head) { margin-bottom: var(--s-5); }
   .rail :global(.title) { font-size: var(--fs-xl); }
   .contact { background: var(--c-surface-2); }
+  .work-links { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-7); }
   .facts { display: grid; gap: var(--s-4); margin-top: var(--s-5); }
   .facts dt { font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--c-ink-3); }
   .facts a { display: inline-flex; align-items: center; min-height: var(--tap); }
